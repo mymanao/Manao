@@ -1,0 +1,371 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Thai+Looped&family=Outfit&display=swap");
+
+html {
+  padding: 0.5em;
+  margin: 0;
+  max-width: 500px;
+}
+
+body {
+  overflow: hidden;
+}
+
+#log {
+  display: flex;
+  flex-direction: column-reverse;
+  row-gap: 1em;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+}
+
+.chatbox-container {
+  display: flex;
+  flex-direction: column;
+  font-family: "Outfit", "Noto Sans Thai Looped", sans-serif;
+  position: relative;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+
+  padding: var(--chat-padding, 0.75em);
+  border-radius: var(--chat-border-radius, 16px);
+  border-left: var(--chat-border-width, 10px) solid;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  column-gap: 0.25em;
+  width: 100%;
+  font-size: 1em;
+  font-weight: 700;
+  margin-bottom: 0.25em;
+}
+
+.username {
+  font-weight: bold;
+}
+
+.badges {
+  display: flex;
+  align-items: center;
+  column-gap: 0.25em;
+}
+
+.badges img {
+  width: 1.2em;
+  height: 1.2em;
+  vertical-align: middle;
+}
+
+.message {
+  word-wrap: break-word;
+  word-break: break-word;
+  line-height: 1.4;
+
+  color: var(--chat-text-color, white);
+  font-size: var(--chat-font-size, 1rem);
+  font-weight: var(--chat-font-weight, 400);
+  letter-spacing: var(--chat-letter-spacing, 0);
+  text-shadow: var(--chat-text-shadow, 0 0 10px rgba(0, 0, 0, 0.75));
+}
+
+.message img {
+  width: 1.5em;
+  height: 1.5em;
+  vertical-align: middle;
+  margin: 0 0.1em;
+}
+
+.align-left {
+  align-self: flex-start;
+  max-width: 80%;
+  text-align: left;
+  border-right: none;
+  border-bottom: none;
+  border-left: var(--chat-border-width, 10px) solid;
+}
+
+.align-center {
+  align-self: center;
+  max-width: 80%;
+  text-align: center;
+  border-left: none;
+  border-right: none;
+  border-bottom: var(--chat-border-width, 10px) solid;
+}
+
+.align-right {
+  align-self: flex-end;
+  max-width: 80%;
+  text-align: right;
+  border-left: none;
+  border-bottom: none;
+  border-right: var(--chat-border-width, 10px) solid;
+}
+
+.slideInRight {
+  animation: slideInRight 0.75s ease forwards;
+}
+.slideInLeft {
+  animation: slideInLeft 0.75s ease forwards;
+}
+.slideInUp {
+  animation: slideInUp 0.75s ease forwards;
+}
+.slideInDown {
+  animation: slideInDown 0.75s ease forwards;
+}
+.fadeIn {
+  animation: fadeIn 0.75s ease forwards;
+}
+.fadeInUp {
+  animation: fadeInUp 0.75s ease forwards;
+}
+.fadeInDown {
+  animation: fadeInDown 0.75s ease forwards;
+}
+.bounceInRight {
+  animation: bounceInRight 0.75s ease forwards;
+}
+.bounceInLeft {
+  animation: bounceInLeft 0.75s ease forwards;
+}
+
+.slideOutRight {
+  animation: slideOutRight 0.75s ease forwards;
+}
+.slideOutLeft {
+  animation: slideOutLeft 0.75s ease forwards;
+}
+.slideOutUp {
+  animation: slideOutUp 0.75s ease forwards;
+}
+.slideOutDown {
+  animation: slideOutDown 0.75s ease forwards;
+}
+.fadeOut {
+  animation: fadeOut 0.75s ease forwards;
+}
+.fadeOutUp {
+  animation: fadeOutUp 0.75s ease forwards;
+}
+.fadeOutDown {
+  animation: fadeOutDown 0.75s ease forwards;
+}
+.bounceOutRight {
+  animation: bounceOutRight 0.75s ease forwards;
+}
+.bounceOutLeft {
+  animation: bounceOutLeft 0.75s ease forwards;
+}
+
+@keyframes slideInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInDown {
+  0% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounceInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(100%) scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(-10px) scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes bounceInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%) scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(10px) scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes slideOutRight {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+@keyframes slideOutLeft {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes slideOutUp {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes slideOutDown {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeOutUp {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+}
+
+@keyframes fadeOutDown {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+}
+
+@keyframes bounceOutRight {
+  0% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(-10px) scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(100%) scale(0.8);
+  }
+}
+
+@keyframes bounceOutLeft {
+  0% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(10px) scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-100%) scale(0.8);
+  }
+}
