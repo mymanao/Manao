@@ -109,4 +109,22 @@ export async function registerRewardsAPI(app: Elysia) {
       return { success: false, error: (error as Error).message };
     }
   });
+
+  app.post("/api/rewards/:rewardId/toggle", async ({ params, body }) => {
+    const { rewardId } = params as unknown as { rewardId: string };
+    const { isEnabled } = body as { isEnabled: boolean };
+
+    try {
+      const updatedReward = await apiClient.channelPoints.updateCustomReward(
+        TWITCH.BROADCASTER.ID,
+        rewardId,
+        {
+          isEnabled,
+        },
+      );
+      return { success: true, reward: updatedReward };
+    } catch (error) {
+      return { success: false, error: (error as Error).message };
+    }
+  });
 }
