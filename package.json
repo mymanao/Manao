@@ -7,6 +7,7 @@
   "scripts": {
     "start": "bun run index.ts",
     "format": "biome format --write .",
+    "setup": "bun run ./tools/setup",
     "lint": "biome lint",
     "build:css": "tailwindcss -i server/public/css/tailwind.css -o server/public/css/dist/tailwind.css --minify"
   },
