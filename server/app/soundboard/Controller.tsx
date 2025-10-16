@@ -47,7 +47,7 @@ export function SoundboardController() {
 
       <div class="text-center">
         <a
-          href="/soundplayer"
+          href="/soundboard/player"
           target="_blank"
           class="btn btn-link"
           rel="noopener"
