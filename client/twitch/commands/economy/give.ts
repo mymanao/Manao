@@ -74,7 +74,7 @@ export default {
     initAccount(targetID);
 
     subtractBalance(meta.userID, amount);
-    addBalance(meta.userID, amount);
+    addBalance(targetID, amount);
 
     await client.chat.say(
       meta.channel,
