@@ -160,11 +160,6 @@ NODE_ENV= # Either "development" or "production" but for now it doesn't make any
 bun start
 ```
 
-### Quick installation
-
-1. Download the latest installer from the [releases page](https://github.com/wrong-lang/manao/releases).
-2. Run `installer.bat` file (Windows) or `installer.sh` file (Linux/MacOS) to install the project.
-
 ## 👋 Contributing
 
 If you want to contribute to the project, please read the [CONTRIBUTING.md](/.github/CONTRIBUTING.md) file.
