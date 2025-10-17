@@ -11,7 +11,7 @@
   <div style="display: flex; flex-wrap: wrap; justify-items: center; justify-content: center">
 <a href="https://wakatime.com/badge/user/5cb7cd14-ac7e-4fc0-9f81-6036760cb6a3/project/018dddd9-a419-43b0-95cd-8348fafaccad"><img src="https://wakatime.com/badge/user/5cb7cd14-ac7e-4fc0-9f81-6036760cb6a3/project/018dddd9-a419-43b0-95cd-8348fafaccad.svg" alt="wakatime"></a>
 <a href="https://github.com/wrong-lang/manao/pulse"><img src="https://img.shields.io/github/commit-activity/m/badges/shields" /></a>
-    <img src="https://licensebuttons.net/l/by-nc/4.0/88x31.png" />   
+    <img src="https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png" />   
     <img src="https://img.shields.io/github/languages/top/wrong-lang/manao" />
     <a href="https://discord.gg/vkW7YMyYaf"><img src="https://img.shields.io/discord/964718161624715304" /></a>
     <a href="/.github/CODE_OF_CONDUCT.md"><img src="https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg" /></a>
