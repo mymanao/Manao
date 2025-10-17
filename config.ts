@@ -57,3 +57,8 @@ export const TWITCH = {
     "bits:read",
   ],
 };
+
+export const DISCORD = {
+  ENABLED: Bun.env.USE_DISCORD === "true",
+  BOT_TOKEN: getEnvVar("DISCORD_BOT_TOKEN"),
+};

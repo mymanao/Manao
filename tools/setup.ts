@@ -106,7 +106,8 @@ async function startConfig(): Promise<void> {
         "To continue, please login to your BROADCASTER Twitch account (the primary account for streaming).",
       promptLoginBot:
         "To continue, please login to your BOT Twitch account (the secondary account for the bot).",
-      overlayToken: "Overlay token (leave blank to randomize):",
+      useDiscord: "Would you like to enable Discord integration? (Y/n):",
+      enterToken: "Enter your Discord Bot Token:",
       configComplete: "✅ Configuration complete! .env file created.",
     },
     th: {
@@ -127,7 +128,8 @@ async function startConfig(): Promise<void> {
         "เพื่อดำเนินการต่อ โปรดเข้าสู่ระบบบัญชี Twitch ของคุณที่ใช้ในการสตรีม (บัญชีหลักที่ใช้สตรีม)",
       promptLoginBot:
         "เพื่อดำเนินการต่อ โปรดเข้าสู่ระบบบัญชีบอต Twitch ของคุณ (บัญชีรองที่ใช้สำหรับบอต)",
-      overlayToken: "Overlay token (เว้นว่างไว้เพื่อสุ่ม):",
+      useDiscord: "ต้องการเปิดใช้งานบอต Discord ด้วยหรือไม่ (Y/n):",
+      enterToken: "ใส่โทเคนของบอต:",
       configComplete: "✅ การกำหนดค่าครบถ้วน! สร้างไฟล์ .env เรียบร้อยแล้ว",
     },
   };
@@ -203,10 +205,24 @@ async function startConfig(): Promise<void> {
   const bcTokens = await fetchTokens(cliPath);
   const bcInfo = await fetchUserInfo(cliPath, bcTokens.accessToken);
 
+  const useDiscord = await confirm({
+    message: `${lang[currentlang as keyof typeof lang].useDiscord}`,
+  });
+
+  const token = useDiscord
+    ? await input({
+        message: lang[currentlang as keyof typeof lang].enterToken,
+      })
+    : "";
+
   // Create .env content
   const envContent = `
-TWITCH_CLIENT_ID=${clientID}
-TWITCH_CLIENT_SECRET=${clientSecret}
+
+# ========================
+#       TWITCH BOT
+# ========================
+
+USE_TWITCH=true
 
 TWITCH_BOT_ACCESS_TOKEN=${botTokens.accessToken}
 TWITCH_BOT_REFRESH_TOKEN=${botTokens.refreshToken}
@@ -217,6 +233,19 @@ BROADCASTER_REFRESH_TOKEN=${bcTokens.refreshToken}
 TWITCH_BOT_ID=${botInfo.userID}
 BROADCASTER_CHANNEL=${bcInfo.login ?? ""}
 BROADCASTER_ID=${bcInfo.userID}
+
+TWITCH_CLIENT_ID=${clientID}
+TWITCH_CLIENT_SECRET=${clientSecret}
+
+# ========================
+#       DISCORD BOT
+# ========================
+
+USE_DISCORD=${useDiscord ? "true" : "false"}
+DISCORD_BOT_TOKEN=${token}
+SERVER_ID=
+
+NODE_ENV=
 `.trim();
 
   await writeFile(join(process.cwd(), ".env"), envContent, "utf8");
