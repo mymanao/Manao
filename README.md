@@ -10,12 +10,12 @@
   </p>
   <div style="display: flex; flex-wrap: wrap; justify-items: center; justify-content: center">
 <a href="https://wakatime.com/badge/user/5cb7cd14-ac7e-4fc0-9f81-6036760cb6a3/project/018dddd9-a419-43b0-95cd-8348fafaccad"><img src="https://wakatime.com/badge/user/5cb7cd14-ac7e-4fc0-9f81-6036760cb6a3/project/018dddd9-a419-43b0-95cd-8348fafaccad.svg" alt="wakatime"></a>
-<a href="https://github.com/wrong-lang/manao/pulse"><img src="https://img.shields.io/github/commit-activity/m/badges/shields" /></a>
-    <img src="https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png" />   
+<a href="https://github.com/wrong-lang/manao/pulse"><img src="https://img.shields.io/github/commit-activity/m/wrong-lang/manao" /></a>
+    <img src="https://img.shields.io/github/license/wrong-lang/manao" />   
     <img src="https://img.shields.io/github/languages/top/wrong-lang/manao" />
     <a href="https://discord.gg/vkW7YMyYaf"><img src="https://img.shields.io/discord/964718161624715304" /></a>
     <a href="/.github/CODE_OF_CONDUCT.md"><img src="https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg" /></a>
-    <img src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=plastic" />
+    <img src="https://img.shields.io/github/package-json/v/wrong-lang/manao" />
   </div>
 </p>
 
@@ -152,7 +152,7 @@ However, if you have any questions, feel free to ask in the [Discord server](htt
 
 ## 📜 License
 
-This project is licensed under the [CC BY-NC-SA 4.0](/LICENSE). For more info, refer to [CreativeCommons Website](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)
+This project is licensed under the [GNU General Public License version 3](/LICENSE). For more info, refer to [GNU Official Website](https://www.gnu.org/licenses/gpl-3.0.en.html)
 
 ## 🙋‍♂️ FAQ
 
