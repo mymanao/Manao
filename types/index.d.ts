@@ -54,15 +54,12 @@ export interface CommandMeta {
   currency: string;
 }
 
-export type CommandContext = {
-  chatClient: ChatClient;
-  apiClient: ApiClient;
-  channel: string;
-  user: string;
-  userID: string;
-  channelID: string;
-  lang: "en" | "th";
-};
+export interface CustomReply {
+  keywordType: "includes" | "equals";
+  responseType: "random" | "sequence";
+  keywords: string[];
+  responses: string[];
+}
 
 export interface UserBadge {
   title?: string;

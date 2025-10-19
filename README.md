@@ -22,6 +22,7 @@
 ## Table of Contents
 
 - [About](#-about)
+- [Wiki](#-wiki)
 - [Features](#-features)
 - [Guides](#-guides)
 - [Contributing](#-contributing)
@@ -30,11 +31,16 @@
 
 ## 🤔 About
 
-This project includes a Twitch chatbot and some overlays used in my Twitch channel (tinarskii). Inspired
-by [thananon/twitch_tools](https://github.com/thananon/twitch_tools)
-and [lucidkarn/luciabot](https://github.com/lucidkarn/luciabot).
+This project originally includes a Twitch chatbot and some overlays used in my Twitch channel (tinarskii).
+Inspired by [thananon/twitch_tools](https://github.com/thananon/twitch_tools) and [lucidkarn/luciabot](https://github.com/lucidkarn/luciabot).
 The project is written in TypeScript and uses Bun instead of Node.js, many features may be unavailable or not working as
 expected if you are not using Bun.
+
+## 📖 Wiki
+
+The project has a dedicated wiki for guides and documentation. 
+Read more at the [ManaoWiki](https://github.com/wrong-lang/manao/wiki/)
+Available in English and Thai.
 
 ## 📍 Features
 
@@ -92,16 +98,28 @@ expected if you are not using Bun.
 
 ### Entertainment 
 
-> **For an updated guide, see [Linking Channel Points to Soundboard](https://github.com/wrong-lang/manao/wiki/linking-channel-points-to-soundboard).**
+> **For an updated guide, 
+> see [Linking Channel Points to Soundboard](https://github.com/wrong-lang/manao/wiki/linking-channel-points-to-soundboard)
+> and [Adding Custom Replies](https://github.com/wrong-lang/manao/wiki/adding-custom-replies)**
 
-You can now add a new channel point rewards to play sounds on stream using the rewards manager.
-Add yours now!
-(Version 2.1.0 or higher): http://localhost:3000/soundboard/channel-points. 
+**Redeem to play sound**
+
+You can now add a new channel point rewards to play sounds on stream using the rewards manager. Add yours now!
+(Version 2.2.0 or higher): http://localhost:3000/manager/channel-points. 
+
 But if you want to control the soundboard yourself, go to the soundboard controller:
 http://localhost:3000/soundboard/controller.
+
 Otherwise, you can use the soundboard player overlay: 
 http://localhost:3000/soundboard/player.
+
 (Click "Hide" button to hide the entire page and become audio player only).
+
+**Customized chat replies**
+
+The bot can now reply to user messages other than commands from specified keywords,
+This feature is for ManaoBot v2.2.0 or higher. You can manage custom replies at:
+http://localhost:3000/manager/replies
 
 
 ## 📘 Guides

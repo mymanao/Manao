@@ -28,7 +28,18 @@ export function Navbar() {
             class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
           >
             <li>
-              <a href="/commands">Commands</a>
+              <p>Managers</p>
+              <ul class="p-2">
+                <li>
+                  <a href="/manager/commands">Commands</a>
+                </li>
+                <li>
+                  <a href="/manager/channel-points">Channel Points</a>
+                </li>
+                <li>
+                  <a href="/manager/replies">Replies</a>
+                </li>
+              </ul>
             </li>
             <li>
               <p>Overlays</p>
@@ -67,7 +78,20 @@ export function Navbar() {
       <div class="navbar-center hidden lg:flex">
         <ul class="menu menu-horizontal px-1">
           <li>
-            <a href="/commands">Commands</a>
+            <details>
+              <summary>Managers</summary>
+              <ul class="z-[99999] p-2 shadow-md">
+                <li>
+                  <a href="/manager/commands">Commands</a>
+                </li>
+                <li>
+                  <a href="/manager/channel-points">Channel Points</a>
+                </li>
+                <li>
+                  <a href="/manager/replies">Replies</a>
+                </li>
+              </ul>
+            </details>
           </li>
           <li>
             <details>

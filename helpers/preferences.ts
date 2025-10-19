@@ -1,6 +1,7 @@
 import type {
   CommandArg,
   CustomMessages,
+  CustomReply,
   LocalizedCommandArg,
   SongData,
 } from "@/types";
@@ -146,6 +147,19 @@ export function getCustomMessages(): CustomMessages {
   } catch {
     throw new Error("Failed to parse CustomMessages");
   }
+}
+
+export function getCustomReplies(): CustomReply[] {
+  const raw = getConfig("customReplies", "[]");
+  try {
+    return JSON.parse(raw) as CustomReply[];
+  } catch {
+    throw new Error("Failed to parse CustomReplies");
+  }
+}
+
+export function setCustomReplies(replies: CustomReply[]): void {
+  setConfig("customReplies", JSON.stringify(replies));
 }
 
 export function getDefaultSong(): SongData[] {

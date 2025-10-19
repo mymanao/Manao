@@ -1,8 +1,9 @@
 import { findCommand } from "@helpers/command";
 import { addCommand, deleteCommand } from "@helpers/database";
+import { getCustomReplies, setCustomReplies } from "@helpers/preferences.ts";
 import { customCommands } from "@twitch/services/chat";
 import type { Elysia } from "elysia";
-import type { Command } from "@/types";
+import type { Command, CustomReply } from "@/types";
 
 export function registerCustomCommandAPI(app: Elysia) {
   app.get("/api/custom-commands", () => {
@@ -75,4 +76,14 @@ export function registerCustomCommandAPI(app: Elysia) {
       return { success: true };
     },
   );
+
+  app.get("/api/custom-replies", () => {
+    return getCustomReplies();
+  });
+
+  app.post("/api/custom-replies", ({ body }) => {
+    const replies = body as CustomReply[];
+    setCustomReplies(replies);
+    return { success: true };
+  });
 }

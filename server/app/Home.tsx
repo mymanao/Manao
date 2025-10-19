@@ -223,7 +223,7 @@ export function Home() {
                         <code>/command?token=xxx</code>
                       </td>
                       <td>
-                        <a href="/commands" class="btn btn-xs">
+                        <a href="/manager/Commands" class="btn btn-xs">
                           Open
                         </a>
                       </td>
