@@ -34,6 +34,8 @@ export class GambleCommand {
     amountInput: string | undefined,
     interaction: CommandInteraction,
   ): Promise<void> {
+    const lang = getLang();
+
     await interaction.deferReply({
       flags: MessageFlagsBitField.Flags.Ephemeral,
     });
@@ -46,13 +48,12 @@ export class GambleCommand {
           templateEmbed({
             type: "error",
             title: "Error",
-            description: "Link Twitch account using `/link` command.",
+            description: t("discord.link.errorUserNotLinked", lang),
           }),
         ],
       });
       return;
     }
-    const lang = getLang();
     const currency = getCurrency();
     const amountStr = amountInput ?? "1";
 

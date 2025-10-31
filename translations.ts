@@ -104,8 +104,11 @@ export const translations = {
     },
     discord: {
       link: {
+        errorUserNotLinked: "Link Twitch account using `/link` command first.",
+
         title: "Link your Twitch account",
-        description: "Run !link <code> in Twitch chat to link your account.",
+        description:
+          "Run !link follow by the code in Twitch chat to link your account.",
         fieldName: "Code",
       },
       ping: {
@@ -225,6 +228,8 @@ export const translations = {
     },
     discord: {
       link: {
+        errorUserNotLinked: "เชื่อมต่อบัญชีกับทวิชโดยใช้คำสั่ง `/link` ก่อน",
+
         title: "เชื่อมต่อบัญชีกับทวิช",
         description: "พิมพ์คำสั่ง !link แล้วตามด้วยรหัสในแชททวิชเพื่อเชื่อมต่อบัญชี",
         fieldName: "รหัส",
