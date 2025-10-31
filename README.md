@@ -24,7 +24,6 @@
 - [About](#-about)
 - [Wiki](#-wiki)
 - [Features](#-features)
-- [Guides](#-guides)
 - [Contributing](#-contributing)
 - [License](#-license)
 - [FAQ](#-faq)
@@ -39,8 +38,8 @@ expected if you are not using Bun.
 ## 📖 Wiki
 
 The project has a dedicated wiki for guides and documentation. 
-Read more at the [ManaoWiki](https://github.com/wrong-lang/manao/wiki/)
-Available in English and Thai.
+Read more at the [ManaoWiki](https://manaobot.netlify.app/)
+Available in English and Thai. The source code of ManaoWiki is available at [wrong-lang/manao-wiki](https://github.com/wrong-lang/manao-wiki)
 
 ## 📍 Features
 
@@ -99,8 +98,8 @@ Available in English and Thai.
 ### Entertainment 
 
 > **For an updated guide, 
-> see [Linking Channel Points to Soundboard](https://github.com/wrong-lang/manao/wiki/linking-channel-points-to-soundboard)
-> and [Adding Custom Replies](https://github.com/wrong-lang/manao/wiki/adding-custom-replies)**
+> see [Linking Channel Points to Soundboard](https://manaobot.netlify.app/en/guides/06-linking-channel-points-to-soundboard/)
+> and [Adding Custom Replies](https://manaobot.netlify.app/en/guides/07-adding-custom-replies/)**
 
 **Redeem to play sound**
 
@@ -121,30 +120,6 @@ The bot can now reply to user messages other than commands from specified keywor
 This feature is for ManaoBot v2.2.0 or higher. You can manage custom replies at:
 http://localhost:3000/manager/replies
 
-
-## 📘 Guides
-
-Read more at the [ManaoWiki](https://github.com/wrong-lang/manao/wiki/)
-
-### English Guides
-1. [Retrieving Client ID and Secret from Twitch](https://github.com/wrong-lang/manao/wiki/Retrieving-Client-ID-and-Secret-from-Twitch)
-2. [Project Installation](https://github.com/wrong-lang/manao/wiki/Project-Installation)
-3. [Setting up Manao](https://github.com/wrong-lang/manao/wiki/Setting-up-Manao)
-4. [Using ManaoWeb](https://github.com/wrong-lang/manao/wiki/Using-ManaoWeb)
-5. [Adding Overlays in OBS](https://github.com/wrong-lang/manao/wiki/adding-overlays-in-obs)
-6. [Linking Channel Points to Soundboard](https://github.com/wrong-lang/manao/wiki/linking-channel-points-to-soundboard)
-7. [Writing Your First Custom Command](https://github.com/wrong-lang/manao/wiki/writing-your-first-custom-command)
-
-### Thai Guides
-1. [รับไคล์แอนต์ไอดีและซีเครทจากทวิช](https://github.com/wrong-lang/manao/wiki/%E0%B8%A3%E0%B8%B1%E0%B8%9A%E0%B9%84%E0%B8%84%E0%B8%A5%E0%B9%8C%E0%B9%81%E0%B8%AD%E0%B8%99%E0%B8%95%E0%B9%8C%E0%B9%84%E0%B8%AD%E0%B8%94%E0%B8%B5%E0%B9%81%E0%B8%A5%E0%B8%B0%E0%B8%8B%E0%B8%B5%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%97%E0%B8%88%E0%B8%B2%E0%B8%81%E0%B8%97%E0%B8%A7%E0%B8%B4%E0%B8%8A)
-2. [ติดตั้งโปรเจกต์](https://github.com/wrong-lang/manao/wiki/%E0%B8%95%E0%B8%B4%E0%B8%94%E0%B8%95%E0%B8%B1%E0%B9%89%E0%B8%87%E0%B9%82%E0%B8%9B%E0%B8%A3%E0%B9%80%E0%B8%88%E0%B8%81%E0%B8%95%E0%B9%8C)
-3. [ตั้งค่ามะนาว](https://github.com/wrong-lang/manao/wiki/%E0%B8%95%E0%B8%B1%E0%B9%89%E0%B8%87%E0%B8%84%E0%B9%88%E0%B8%B2%E0%B8%A1%E0%B8%B0%E0%B8%99%E0%B8%B2%E0%B8%A7)
-4. [เริ่มใช้งานมะนาวเว็บ](https://github.com/wrong-lang/manao/wiki/%E0%B9%80%E0%B8%A3%E0%B8%B4%E0%B9%88%E0%B8%A1%E0%B9%83%E0%B8%8A%E0%B9%89%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%A1%E0%B8%B0%E0%B8%99%E0%B8%B2%E0%B8%A7%E0%B9%80%E0%B8%A7%E0%B9%87%E0%B8%9A)
-5. [เพิ่มโอเวอร์เลย์ใน OBS](https://github.com/wrong-lang/manao/wiki/%E0%B9%80%E0%B8%9E%E0%B8%B4%E0%B9%88%E0%B8%A1%E0%B9%82%E0%B8%AD%E0%B9%80%E0%B8%A7%E0%B8%AD%E0%B8%A3%E0%B9%8C%E0%B9%80%E0%B8%A5%E0%B8%A2%E0%B9%8C%E0%B9%83%E0%B8%99-OBS)
-6. [ลิงก์แต้มช่องกับซาวด์บอร์ด](https://github.com/wrong-lang/manao/wiki/%E0%B8%A5%E0%B8%B4%E0%B8%87%E0%B8%81%E0%B9%8C%E0%B9%81%E0%B8%95%E0%B9%89%E0%B8%A1%E0%B8%8A%E0%B9%88%E0%B8%AD%E0%B8%87%E0%B8%81%E0%B8%B1%E0%B8%9A%E0%B8%8B%E0%B8%B2%E0%B8%A7%E0%B8%94%E0%B9%8C%E0%B8%9A%E0%B8%AD%E0%B8%A3%E0%B9%8C%E0%B8%94)
-7. [เขียนคำสั่งแรก](https://github.com/wrong-lang/manao/wiki/%E0%B9%80%E0%B8%82%E0%B8%B5%E0%B8%A2%E0%B8%99%E0%B8%84%E0%B8%B3%E0%B8%AA%E0%B8%B1%E0%B9%88%E0%B8%87%E0%B9%81%E0%B8%A3%E0%B8%81)
-
-
 ## 👋 Contributing
 
 If you want to contribute to the project, please read the [CONTRIBUTING.md](/.github/CONTRIBUTING.md) file.
@@ -158,7 +133,7 @@ This project is licensed under the [GNU General Public License version 3](/LICEN
 
 ### How do I get my Twitch API credentials?
 
-> **For an updated guide, see [Retrieving Client ID and Secret from Twitch](https://github.com/wrong-lang/manao/wiki/Retrieving-Client-ID-and-Secret-from-Twitch)**
+> **For an updated guide, see [Retrieving Client ID and Secret from Twitch](https://manaobot.netlify.app/en/guides/01-retrieve-client-id-and-secrets-from-twitch/)**
 
 
 You can get your Twitch API credentials by creating a **new application** (not extensions) in
@@ -186,7 +161,7 @@ For further assistance about installing Bun, you may ask in the [Bun official Di
 
 ### How do I add the overlays to my stream?
 
-> **For an updated guide, see [Adding Overlays in OBS](https://github.com/wrong-lang/manao/wiki/adding-overlays-in-obs)**
+> **For an updated guide, see [Adding Overlays in OBS](https://manaobot.netlify.app/en/guides/05-adding-overlays-in-obs/)**
 > 
 You can add the overlays to your stream by adding a new browser source in your streaming software (OBS, Streamlabs, etc.).
 You can copy the URL of the overlay you want to add and paste it in the URL field of the browser source.

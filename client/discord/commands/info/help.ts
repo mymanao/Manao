@@ -28,7 +28,7 @@ import {
 export class HelpCommand {
   @Slash({ description: "Show all available commands" })
   async all(interaction: CommandInteraction) {
-    const lang = getLang(interaction.user.id);
+    const lang = getLang();
 
     const commands = MetadataStorage.instance.applicationCommandSlashesFlat.map(
       (cmd: DApplicationCommand & ICategory) => {
