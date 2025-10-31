@@ -127,6 +127,10 @@ export const translations = {
         helpOptionsField: "Options",
         helpNoOptions: "None",
       },
+      leaderboard: {
+        title: "Top Richest Users",
+        noUserFound: "No users found.",
+      },
     },
   },
   th: {
@@ -249,6 +253,10 @@ export const translations = {
         helpCategoryField: "หมวดหมู่",
         helpOptionsField: "ตัวเลือก",
         helpNoOptions: "ไม่มี",
+      },
+      leaderboard: {
+        title: "อันดับผู้ใช้ที่รวยที่สุด",
+        noUserFound: "ไม่พบผู้ใช้",
       },
     },
   },

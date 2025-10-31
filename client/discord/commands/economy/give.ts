@@ -42,6 +42,7 @@ export class GiveCommand {
     amountInput: string,
     interaction: CommandInteraction,
   ): Promise<void> {
+    const lang = getLang();
     await interaction.deferReply({
       flags: MessageFlagsBitField.Flags.Ephemeral,
     });
@@ -55,7 +56,7 @@ export class GiveCommand {
           templateEmbed({
             type: "error",
             title: "Error",
-            description: "Link your Twitch account using `/link` first.",
+            description: t("discord.link.errorUserNotLinked", lang),
           }),
         ],
       });
@@ -71,7 +72,7 @@ export class GiveCommand {
           templateEmbed({
             type: "error",
             title: "Error",
-            description: "",
+            description: t("discord.link.errorTargetNotLinked", lang),
           }),
         ],
       });
@@ -80,7 +81,7 @@ export class GiveCommand {
 
     const amount = Math.trunc(parseInt(amountInput, 10));
     if (Number.isNaN(amount) || amount < 0) {
-      await interaction.editReply(t("economy.errorInvalidAmount", getLang()));
+      await interaction.editReply(t("economy.errorInvalidAmount", lang));
       return;
     }
 
@@ -89,9 +90,7 @@ export class GiveCommand {
 
     const senderBalance = getBalance(senderTwitchID);
     if (amount > senderBalance) {
-      await interaction.editReply(
-        t("economy.errorInsufficientFunds", getLang()),
-      );
+      await interaction.editReply(t("economy.errorInsufficientFunds", lang));
       return;
     }
 
@@ -103,7 +102,7 @@ export class GiveCommand {
     await interaction.editReply(
       t(
         "economy.transactionSuccess",
-        getLang(),
+        lang,
         amount,
         currency,
         targetUser.username,
