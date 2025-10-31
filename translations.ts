@@ -102,6 +102,27 @@ export const translations = {
 
       executeReload: "Successfully started reloading commands",
     },
+    discord: {
+      link: {
+        title: "Link your Twitch account",
+        description: "Run !link <code> in Twitch chat to link your account.",
+        fieldName: "Code",
+      },
+      ping: {
+        latency: "Latency is: {} ms",
+      },
+      help: {
+        helpPageTitle: "(Page {} of {}) Category: {}",
+        helpFooter:
+          "You can send `/help command` followed by a command name to get more information about it.",
+        helpBackToAll:
+          "You can send `/help all` to get a list of all commands.",
+        helpDescriptionField: "Description",
+        helpCategoryField: "Category",
+        helpOptionsField: "Options",
+        helpNoOptions: "None",
+      },
+    },
   },
   th: {
     song: {
@@ -201,6 +222,26 @@ export const translations = {
       errorCommandNotFound: 'ไม่พบคำสั่ง {} คุณหมายถึง "{}" หรือเปล่า?',
 
       executeReload: "เริ่มต้นกระบวนการรีโหลดคำสั่งแล้ว",
+    },
+    discord: {
+      link: {
+        title: "เชื่อมต่อบัญชีกับทวิช",
+        description: "พิมพ์คำสั่ง !link แล้วตามด้วยรหัสในแชททวิชเพื่อเชื่อมต่อบัญชี",
+        fieldName: "รหัส",
+      },
+      ping: {
+        latency: "ความหน่วงอยู่ที่: {} มิลลิวินาที",
+      },
+      help: {
+        helpPageTitle: "(หน้า {} จาก {}) หมวด: {}",
+        helpFooter:
+          "สามารถพิมพ์ `/help command` แล้วตามด้วยชื่อคำสั่งเพื่อดูรายละเอียดเพิ่มเติมได้",
+        helpBackToAll: "สามารถพิมพ์ `/help all` เพื่อดูรายการคำสั่งทั้งหมดได้",
+        helpDescriptionField: "คำอธิบาย",
+        helpCategoryField: "หมวดหมู่",
+        helpOptionsField: "ตัวเลือก",
+        helpNoOptions: "ไม่มี",
+      },
     },
   },
 };

@@ -1,7 +1,11 @@
 import { Category } from "@discordx/utilities";
 import { templateEmbed } from "@helpers/embed.ts";
+import { t } from "@helpers/i18n";
+import { getLang } from "@helpers/preferences.ts";
 import { type CommandInteraction, MessageFlagsBitField } from "discord.js";
 import { Discord, Slash } from "discordx";
+
+const lang = getLang();
 
 export const pendingLinks = new Map<
   string,
@@ -9,7 +13,7 @@ export const pendingLinks = new Map<
 >();
 
 @Discord()
-@Category("Account")
+@Category("Preferences")
 export class LinkCommand {
   @Slash({ name: "link", description: "Link your Twitch account" })
   async link(interaction: CommandInteraction): Promise<void> {
@@ -22,15 +26,15 @@ export class LinkCommand {
       embeds: [
         templateEmbed({
           type: "default",
-          title: "Link Your Twitch Account",
+          title: t("discord.link.title", lang),
           fields: [
             {
-              name: "Code",
+              name: t("discord.link.fieldName", lang),
               value: code,
               inline: true,
             },
           ],
-          description: "Run !link <code> in Twitch chat to link your account.",
+          description: t("discord.link.description", lang),
           interaction: interaction,
         }),
       ],

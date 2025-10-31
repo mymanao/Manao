@@ -1,5 +1,7 @@
 import { Category } from "@discordx/utilities";
 import { templateEmbed } from "@helpers/embed.ts";
+import { t } from "@helpers/i18n.ts";
+import { getLang } from "@helpers/preferences.ts";
 import type { CommandInteraction } from "discord.js";
 import { Discord, Slash } from "discordx";
 
@@ -15,7 +17,11 @@ export class PingCommand {
         templateEmbed({
           type: "success",
           title: "Pong!",
-          description: `Latency is ${Date.now() - interaction.createdTimestamp}ms.`,
+          description: t(
+            "discord.ping.latency",
+            getLang(),
+            (Date.now() - interaction.createdTimestamp).toString(),
+          ),
           interaction: interaction,
         }),
       ],

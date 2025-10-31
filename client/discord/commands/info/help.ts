@@ -1,6 +1,9 @@
+import { bot } from "@discord/index";
 import { Pagination } from "@discordx/pagination";
 import { Category, type ICategory } from "@discordx/utilities";
 import { templateEmbed } from "@helpers/embed.ts";
+import { t } from "@helpers/i18n";
+import { getLang } from "@helpers/preferences";
 import {
   ApplicationCommandOptionType,
   type CommandInteraction,
@@ -14,7 +17,6 @@ import {
   SlashGroup,
   SlashOption,
 } from "discordx";
-import { bot } from "../../index";
 
 @Discord()
 @Category("Info")
@@ -26,6 +28,8 @@ import { bot } from "../../index";
 export class HelpCommand {
   @Slash({ description: "Show all available commands" })
   async all(interaction: CommandInteraction) {
+    const lang = getLang(interaction.user.id);
+
     const commands = MetadataStorage.instance.applicationCommandSlashesFlat.map(
       (cmd: DApplicationCommand & ICategory) => {
         return {
@@ -35,14 +39,21 @@ export class HelpCommand {
         };
       },
     );
+
     const categories = new Set(commands.map((c) => c.category || ""));
     const pages = Array.from(categories).map((category, idx) => {
       const categoryCommands = commands.filter((c) => c.category === category);
       const embed = templateEmbed({
         type: "default",
-        title: `(Page ${idx + 1}/${categories.size}) Category: ${category as string}`,
+        title: t(
+          "discord.help.helpPageTitle",
+          lang,
+          idx + 1,
+          categories.size,
+          category,
+        ),
         footer: {
-          text: "You can send `/help command` follow with command name to get more information about it.",
+          text: t("discord.help.helpFooter", lang),
           iconURL: interaction.user.displayAvatarURL(),
         },
         thumbnail: bot.user?.displayAvatarURL(),
@@ -52,6 +63,7 @@ export class HelpCommand {
       categoryCommands.forEach((c) => {
         embed.addFields({ name: `/${c.name}`, value: c.description });
       });
+
       return { embeds: [embed] };
     });
 
@@ -70,12 +82,15 @@ export class HelpCommand {
     command: string,
     interaction: CommandInteraction,
   ): Promise<void> {
+    const lang = getLang();
+
     const cmd = MetadataStorage.instance.applicationCommandSlashesFlat.find(
       (c: DApplicationCommand & ICategory) => c.name === command,
     ) as DApplicationCommand & ICategory;
+
     if (!cmd) {
       await interaction.reply({
-        content: `Command \`${command}\` not found.`,
+        content: t("info.errorCommandNotFound", lang, command),
         flags: MessageFlagsBitField.Flags.Ephemeral,
       });
       return;
@@ -85,26 +100,26 @@ export class HelpCommand {
       type: "default",
       title: cmd.name.toUpperCase(),
       footer: {
-        text: "You can send `/help all` to get a list of all commands.",
+        text: t("discord.help.helpBackToAll", lang),
         iconURL: interaction.user.displayAvatarURL(),
       },
       fields: [
         {
-          name: "Description",
+          name: t("discord.help.helpDescriptionField", lang),
           value: cmd.description,
           inline: false,
         },
         {
-          name: "Category",
+          name: t("discord.help.helpCategoryField", lang),
           value: String(cmd.category),
           inline: false,
         },
         {
-          name: "Options",
+          name: t("discord.help.helpOptionsField", lang),
           value:
             cmd.options
               ?.map((o) => `\`${o.name}\` - ${o.description}`)
-              .join("\n") || "None",
+              .join("\n") || t("discord.help.helpNoOptions", lang),
           inline: false,
         },
       ],
