@@ -28,6 +28,8 @@ export const translations = {
       errorCommandNotFound: "Command not found: {}",
 
       version: "Manaobot v{} using Twurple v{} running on Bun v{}",
+      versionDiscord:
+        "ManaoBot v{} using Discord.js v{}, Discordx v{}, running on Bun v{}",
       seconds: "{} seconds",
       minutes: "{} minutes",
       hours: "{} hours",
