@@ -1,7 +1,7 @@
 import { bot } from "@discord/index";
 import { Pagination } from "@discordx/pagination";
 import { Category, type ICategory } from "@discordx/utilities";
-import { templateEmbed } from "@helpers/embed.ts";
+import { templateEmbed } from "@helpers/discord/embed.ts";
 import { t } from "@helpers/i18n";
 import { getLang } from "@helpers/preferences";
 import {

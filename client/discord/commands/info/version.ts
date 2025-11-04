@@ -1,3 +1,4 @@
+import { Category } from "@discordx/utilities";
 import { t } from "@helpers/i18n";
 import { getLang } from "@helpers/preferences";
 import {
@@ -10,6 +11,7 @@ import { version as discordxVersion } from "discordx/package.json";
 import { version as MANAO_VERSION } from "@/package.json";
 
 @Discord()
+@Category("Info")
 export class VersionCommand {
   @Slash({
     name: "version",

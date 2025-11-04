@@ -45,7 +45,7 @@ Available in English and Thai. The source code of ManaoWiki is available at [wro
 
 ### Chat bot
 
-> **For a more comprehensive list, check the [ManaoWiki](https://github.com/wrong-lang/manao/wiki).**
+> **For a more comprehensive list, check the [ManaoWiki](https://manaobot.netlify.app/).**
 
 - Moderation
     1. `Announce` - Announce a message to the chat

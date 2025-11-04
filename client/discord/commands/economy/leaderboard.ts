@@ -1,6 +1,6 @@
 import { Category } from "@discordx/utilities";
 import { db } from "@helpers/database";
-import { templateEmbed } from "@helpers/embed";
+import { templateEmbed } from "@helpers/discord/embed.ts";
 import { t } from "@helpers/i18n";
 import { getCurrency, getLang } from "@helpers/preferences";
 import type { CommandInteraction } from "discord.js";

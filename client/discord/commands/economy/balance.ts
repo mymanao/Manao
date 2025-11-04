@@ -1,6 +1,6 @@
 import { Category } from "@discordx/utilities";
 import { getBalance, getTwitchID, initAccount } from "@helpers/database";
-import { templateEmbed } from "@helpers/embed.ts";
+import { templateEmbed } from "@helpers/discord/embed.ts";
 import { t } from "@helpers/i18n";
 import { getCurrency, getLang } from "@helpers/preferences";
 import { type CommandInteraction, MessageFlagsBitField } from "discord.js";
