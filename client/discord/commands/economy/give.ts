@@ -43,9 +43,7 @@ export class GiveCommand {
     interaction: CommandInteraction,
   ): Promise<void> {
     const lang = getLang();
-    await interaction.deferReply({
-      flags: MessageFlagsBitField.Flags.Ephemeral,
-    });
+    await interaction.deferReply();
 
     const senderDiscordID = interaction.user.id;
     const senderTwitchID = getTwitchID(senderDiscordID);

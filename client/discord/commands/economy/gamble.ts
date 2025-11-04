@@ -36,9 +36,7 @@ export class GambleCommand {
   ): Promise<void> {
     const lang = getLang();
 
-    await interaction.deferReply({
-      flags: MessageFlagsBitField.Flags.Ephemeral,
-    });
+    await interaction.deferReply();
 
     const user = interaction.user;
     const userID = getTwitchID(user.id);
