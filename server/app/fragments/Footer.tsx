@@ -19,7 +19,7 @@ export function Footer() {
 
         <div class="border-base-300 flex w-full flex-col items-center justify-center gap-4 border-t border-b py-4 sm:flex-row">
           <a
-            href="https://github.com/tinarskii/manao/wiki"
+            href="https://manaobot.netlify.app/"
             class="link link-hover hover:text-primary flex w-full items-center justify-center gap-2 py-2 transition-all sm:w-auto"
           >
             <i class="fa-solid fa-book"></i>

@@ -119,9 +119,6 @@ export function Navbar() {
                 <li>
                   <a href="/soundboard/player">Player</a>
                 </li>
-                <li>
-                  <a href="/soundboard/channel-points">Rewards</a>
-                </li>
               </ul>
             </details>
           </li>
