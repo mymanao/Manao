@@ -8,29 +8,26 @@ let filter: RegExp | null = null;
 
 export function initializeConnection(url: string, send: (msg: string) => void) {
   if (socket) socket.disconnect();
-
-  socket = io(url);
+  const parsed = new URL(url);
+  const sessionId = parsed.searchParams.get("session");
+  socket = io(parsed.origin, {
+    transports: ["websocket"],
+    query: { session: sessionId }
+  });
 
   socket.on("connect", () => {
-    try {
-      const parsed = new URL(url);
-      const sessionId = parsed.searchParams.get("session");
 
-      if (sessionId) {
-        socket?.emit("session:join", {
-          sessionId,
-          role: "manao",
-        });
-        logger.info(`[Event] Connected in session mode: \${sessionId}`);
-      } else {
-        logger.info("[Event] Connected in neutral mode");
-      }
-
-      send("Event initiated!");
-    } catch (err) {
-      logger.error(`[Event] Failed to parse URL: \${err}`);
-      send("Error: Invalid URL provided");
+    if (sessionId) {
+      socket?.emit("session:join", {
+        sessionId,
+        role: "manao",
+      });
+      logger.info(`[Event] Connected in session mode: ${sessionId}`);
+    } else {
+      logger.info("[Event] Connected in neutral mode");
     }
+
+    send("Event initiated!");
   });
 
   socket.on("disconnect", () => {
