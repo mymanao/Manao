@@ -64,6 +64,12 @@ export const translations = {
       errorCannotAnnounce: "An error occurred while trying to announce",
       errorCannotShoutout: "Shoutout failed",
       errorUserNotFound: "User not found: {}",
+      errorInvalidAction:
+        "Invalid action! (connect, disconnect)",
+      errorEventAlreadyConnected:
+        "Event is already connected, to disconnect, use the !event disconnect command",
+      errorUrlRequired: "Please provide a URL to connect to",
+      errorEventNotConnected: "No event is currently connected",
 
       streamTitleChanged: "Stream title changed to: {}",
       shoutoutSuccess: "Everyone go follow @{}!",
@@ -200,6 +206,11 @@ export const translations = {
       errorCannotAnnounce: "เกิดข้อผิดพลาดขณะพยายามประกาศ",
       errorCannotShoutout: "ไม่สามารถ Shoutout ได้",
       errorUserNotFound: "ไม่พบผู้ใช้: {}",
+      errorInvalidAction: "คำสั่งไม่ถูกต้อง! (connect, disconnect)",
+      errorEventAlreadyConnected:
+        "อีเวนต์เชื่อมต่ออยู่แล้ว หากต้องการตัดการเชื่อมต่อ ให้ใช้คำสั่ง !event disconnect",
+      errorUrlRequired: "กรุณาใส่ URL ที่ต้องการเชื่อมต่อ",
+      errorEventNotConnected: "ไม่มีอีเวนต์ที่เชื่อมต่ออยู่ในขณะนี้",
 
       streamTitleChanged: "เปลี่ยนชื่อสตรีมเป็น: {}",
       shoutoutSuccess: "ทุกคนไปกดฟอลให้ @{} กันนะ!",
