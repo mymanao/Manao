@@ -21,7 +21,7 @@ export const bot = new Client({
     IntentsBitField.Flags.MessageContent,
   ],
 
-  silent: false,
+  silent: true,
 
   simpleCommand: {
     prefix: PREFIX,

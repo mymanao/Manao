@@ -1,26 +1,34 @@
-import { Category } from "@discordx/utilities";
-import { templateEmbed } from "@helpers/discord/embed.ts";
-import { t } from "@helpers/i18n";
-import { getLang } from "@helpers/preferences.ts";
-import { type CommandInteraction, MessageFlagsBitField } from "discord.js";
-import { Discord, Slash } from "discordx";
+import {Category} from "@discordx/utilities";
+import {templateEmbed} from "@helpers/discord/embed.ts";
+import {t} from "@helpers/i18n";
+import {getLang} from "@helpers/preferences.ts";
+import {type CommandInteraction, MessageFlagsBitField, type User} from "discord.js";
+import {Discord, Slash} from "discordx";
 
 const lang = getLang();
 
 export const pendingLinks = new Map<
   string,
-  { code: string; createdAt: number }
+  {
+    code: string;
+    createdAt: number;
+    user: User;
+    roles: string[];
+  }
 >();
 
 @Discord()
 @Category("Preferences")
 export class LinkCommand {
-  @Slash({ name: "link", description: "Link your Twitch account" })
+  @Slash({name: "link", description: "Generated a code for authentication"})
   async link(interaction: CommandInteraction): Promise<void> {
     const discordID = interaction.user.id;
     const code = Math.random().toString(36).substring(2, 8).toUpperCase();
 
-    pendingLinks.set(discordID, { code, createdAt: Date.now() });
+    pendingLinks.set(discordID, {
+      code, createdAt: Date.now(), user: interaction.user,
+      roles: interaction.member?.roles as unknown as string[]
+    });
 
     await interaction.reply({
       embeds: [

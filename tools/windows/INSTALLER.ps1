@@ -88,6 +88,10 @@ try {
     Write-Host "Failed to install dependencies."
 }
 
+# --- Set ManaoPath environment variable ---
+[Environment]::SetEnvironmentVariable("MANAO_PATH", $target, "Machine")
+Write-Host "Environment variable MANAO_PATH set to $target"
+
 # --- Finish ---
 Write-Host "Manao Twitch Bot installed successfully."
 Write-Host "Path: $InstallDir"

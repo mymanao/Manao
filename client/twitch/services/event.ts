@@ -29,7 +29,7 @@ export function initializeConnection(url: string, send: (msg: string) => void) {
       logger.info("[Event] Connected in neutral mode");
     }
 
-    send("Event initiated!");
+    send("Initialized event connection successfully!");
   });
 
   socket.on("disconnect", () => {

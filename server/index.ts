@@ -10,6 +10,7 @@ import { registerPageRoutes } from "@server/routes/page.ts";
 import { initializeSocketServer } from "@server/services/socket.io.ts";
 import { Elysia } from "elysia";
 import { DIR, PORT } from "@/config";
+import {registerLinkAPI} from "@server/api/link.ts";
 
 const app = new Elysia();
 
@@ -35,6 +36,7 @@ registerCommandsAPI(app);
 registerCustomCommandAPI(app);
 registerRewardsAPI(app);
 registerSoundboardAPI(app);
+registerLinkAPI(app);
 
 function startServer() {
   app.listen(

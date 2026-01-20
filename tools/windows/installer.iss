@@ -1,6 +1,6 @@
 [Setup]
 AppName=Manao
-AppVersion=3.0.0
+AppVersion=3.2.0
 DefaultDirName={localappdata}\ManaoBot
 DefaultGroupName=Manao
 OutputDir=dist
