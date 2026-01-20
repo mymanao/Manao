@@ -32,6 +32,6 @@ export function registerLinkAPI(app: Elysia) {
 
     const [discordID] = entry;
     pendingLinks.delete(discordID);
-    return { status: 200 };
+    return status(200);
   });
 }
