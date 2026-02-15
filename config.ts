@@ -62,3 +62,12 @@ export const DISCORD = {
   ENABLED: Bun.env.USE_DISCORD === "true",
   BOT_TOKEN: getEnvVar("DISCORD_BOT_TOKEN"),
 };
+
+export const KICK = {
+  ENABLED: Bun.env.USE_KICK === "true",
+  ID: getEnvVar("KICK_CLIENT_ID"),
+  SECRET: getEnvVar("KICK_CLIENT_SECRET"),
+  ACCESS_TOKEN: getEnvVar("KICK_ACCESS_TOKEN"),
+  REFRESH_TOKEN: getEnvVar("KICK_REFRESH_TOKEN"),
+  EXPIRES_AT: getEnvVar("KICK_EXPIRES_AT"),
+};

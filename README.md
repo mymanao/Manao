@@ -1,189 +1,154 @@
-<p align="center">
-  <a href="https://github.com/tinarskii/manao">
-    <img src="https://raw.githubusercontent.com/tinarskii/manao/main/docs/manao.svg" height="64px" width="auto" />
-    <h2 align="center">
-      Manao
-    </h2>
+<div align="center">
+  <a href="https://github.com/mymanao/manao">
+    <img src="https://raw.githubusercontent.com/mymanao/manao/main/docs/manao.svg" height="64px" width="auto" alt="Manao Logo" />
   </a>
-  <p align="center">
-    A collection of utilities and tools for Twitch streamers
-  </p>
-  <div style="display: flex; flex-wrap: wrap; justify-items: center; justify-content: center">
+  <h2>Manao</h2>
+  <p>A collection of utilities and tools for Twitch and Kick streamers.</p>
+
 <a href="https://hackatime-badge.hackclub.com/U096PDK4PL3/Manao"><img src="https://hackatime-badge.hackclub.com/U096PDK4PL3/Manao" alt="wakatime"></a>
-<a href="https://github.com/tinarskii/manao/pulse"><img src="https://img.shields.io/github/commit-activity/m/tinarskii/manao" /></a>
-    <img src="https://img.shields.io/github/license/tinarskii/manao" />   
-    <img src="https://img.shields.io/github/languages/top/tinarskii/manao" />
-    <a href="https://discord.gg/vkW7YMyYaf"><img src="https://img.shields.io/discord/964718161624715304" /></a>
-    <a href="/.github/CODE_OF_CONDUCT.md"><img src="https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg" /></a>
-    <img src="https://img.shields.io/github/package-json/v/tinarskii/manao" />
-  </div>
-</p>
+<a href="https://github.com/mymanao/manao/pulse"><img src="https://img.shields.io/github/commit-activity/m/mymanao/manao" alt="commits" /></a>
+<img src="https://img.shields.io/github/license/mymanao/manao" alt="license" />   
+<img src="https://img.shields.io/github/languages/top/mymanao/manao" alt="top language" />
+<a href="https://discord.gg/vkW7YMyYaf"><img src="https://img.shields.io/discord/964718161624715304" alt="discord" /></a>
+<a href="/.github/CODE_OF_CONDUCT.md"><img src="https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg" alt="CoC" /></a>
+<img src="https://img.shields.io/github/package-json/v/mymanao/manao" alt="version" />
+</div>
+
+---
 
 ## Table of Contents
 
-- [About](#-about)
-- [Wiki](#-wiki)
-- [Features](#-features)
-- [Contributing](#-contributing)
-- [License](#-license)
-- [FAQ](#-faq)
+- [🤔 About](#-about)
+- [📖 Wiki & Documentation](#-wiki--documentation)
+- [📍 Features](#-features)
+  - [Chat Commands](#chat-commands)
+  - [Overlays](#overlays)
+  - [Entertainment & Audio](#entertainment--audio)
+- [👋 Contributing & Community](#-contributing--community)
+- [📜 License](#-license)
+- [🙋‍♂️ FAQ & Troubleshooting](#-faq--troubleshooting)
+
+---
 
 ## 🤔 About
 
-This project originally includes a Twitch chatbot and some overlays used in my Twitch channel (tinarskii).
-Inspired by [thananon/twitch_tools](https://github.com/thananon/twitch_tools) and [lucidkarn/luciabot](https://github.com/lucidkarn/luciabot).
-The project is written in TypeScript and uses Bun instead of Node.js, many features may be unavailable or not working as
-expected if you are not using Bun.
+Manao Bot is an open-source, multi-platform chatbot built for Twitch and Kick streamers. It provides out-of-the-box multilingual support (English and Thai) and integrates standard streamer utilities into a single application, eliminating the need to bridge multiple third-party bots.
 
-## 📖 Wiki
+**Security & Architecture:** Manao is entirely self-hosted. Your Twitch API credentials and broadcast tokens remain on your local machine and are never routed through external proprietary servers.
 
-The project has a dedicated wiki for guides and documentation. 
-Read more at the [ManaoWiki](https://manaobot.netlify.app/)
-Available in English and Thai. The source code of ManaoWiki is available at [tinarskii/manao-wiki](https://github.com/tinarskii/manao-wiki)
+*Note: Manao operates with a Twitch-first architecture. Kick users can sync their accounts, but an active Twitch integration is structurally required and cannot be opted out of.*
+
+---
+
+## 📖 Wiki & Documentation
+
+For comprehensive setup guides and API references, please visit our dedicated documentation site. Both English and Thai translations are fully supported.
+
+* **Documentation Site:** [ManaoWiki](https://manaobot.netlify.app/)
+* **Wiki Source Code:** [mymanao/manao-wiki](https://github.com/mymanao/manao-wiki)
+
+---
 
 ## 📍 Features
 
-### Chat bot
+### Chat Commands
 
-> **For a more comprehensive list, check the [ManaoWiki](https://manaobot.netlify.app/).**
+Below is an overview of the core chatbot modules. For extended command flags and usage syntax, refer to the [ManaoWiki](https://manaobot.netlify.app/).
 
-- Moderation
-    1. `Announce` - Announce a message to the chat
-    2. `Game    ` - Change stream's game
-    3. `Shoutout` - Shoutout a user
-    4. `Stream  ` - Change stream's title
+| Category | Command | Description |
+| :--- | :--- | :--- |
+| **Moderation** | `Announce` | Broadcast an announcement to chat. |
+| | `Game` | Update the stream's current category/game. |
+| | `Shoutout` | Trigger a native Twitch shoutout. |
+| | `Stream` | Update the stream title. |
+| | `Event` | Connect to external webhooks/events. |
+| **Economy** | `Balance` | Check user wallet balance. |
+| | `Gamble` | Wager currency. |
+| | `Give` | Transfer currency to another user. |
+| | `Autobet` | Execute multiple automated wagers. |
+| | `Leaderboard`| Display top balances. |
+| | `Set` | (Admin) Modify a user's balance. |
+| **Social** | `Eat` | RNG food selection. |
+| | `Hate` / `Love`| RNG affinity calculators. |
+| | `Stomp` | Chat interaction command. |
+| **Info** | `Help` | Output the standard help dialog. |
+| | `Uptime` | Display current stream duration. |
+| | `Version` | Output current bot build/version. |
+| | `Link` | Bind a Twitch account to a Discord user. |
+| **Preferences**| `Nickname` | Set local alias (syncs with Chat Overlay). |
+| | `Currency` | Define the global currency string/emoji. |
+| | `Language` | Toggle standard bot response language. |
+| **Music** | `Song-*` | Standard queue management (`sq`, `sd`, `rm`, `sk`, `sr`, `np`). |
 
+### Overlays
 
-- Economy
-    1. `Balance     ` - Check your balance
-    2. `Gamble      ` - Gamble your money
-    3. `Give        ` - Give money to another user
-    4. `Autobet     ` - Automatically gamble multiple times 
-    5. `Leaderboard ` - Automatically gamble multiple times 
-    6. `Set         ` - Set user's balance
+Manao exposes local web endpoints meant to be ingested as Browser Sources in OBS, Streamlabs, or other broadcast software.
 
+Assuming default local hosting settings, add these URLs to your broadcast software:
 
-- Social
-    1. `Eat     ` - Chose a random food to eat
-    2. `Hate    ` - How much do you hate someone?
-    3. `Love    ` - How much do you love someone?
-    4. `Stomp   ` - Stomp on someone
+* **Chat Overlay:** `http://localhost:3000/overlays/chat` *(Integrates with the `Nickname` command)*
+* **Event Feed:** `http://localhost:3000/overlays/feed` *(Integrates with Economy commands)*
+* **Music Player:** `http://localhost:3000/overlays/music`
+* **Soundboard:** `http://localhost:3000/soundboard/player`
 
-- Info
-    1. `Help    ` - Show help message
-    2. `Uptime  ` - Show stream uptime
-    3. `Version ` - Show bot version
+### Entertainment & Audio
 
-- Preferences
-    1. `Nickname` - Change your nickname (Linked with the chat overlay)
-    2. `Currency` - Change global currency
-    3. `Language` - Change bot language
+*(Requires ManaoBot v2.2.0+)*
 
+* **Soundboard & Channel Points:** You can map Twitch Channel Point redemptions directly to local audio files. Manage your mappings via the [Local Rewards Manager](http://localhost:3000/manager/channel-points). To trigger audio manually, use the [Soundboard Controller](http://localhost:3000/soundboard/controller).
+* **Custom Chat Replies:** The bot can parse chat for specific RegEx/keywords and output pre-defined responses. Configure these triggers at the [Local Replies Manager](http://localhost:3000/manager/replies).
 
-- Music
-    1. `Song-Queue   (sq)` - Show the music queue
-    2. `Song-Default (sd)` - Set default songs when the queue is empty
-    3. `Song-Remove  (rm)` - Remove a song from the queue
-    4. `Song-Skip    (sk)` - Skip the current song
-    5. `Song-Request (sr)` - Add a song to the queue
-    6. `Song-Playing (np)` - Show the current song
+---
 
-### Overlay
+## 👋 Contributing & Community
 
-- `Chat Overlay` - Show chat messages on the stream (Nickname command linked)
-- `Event Feed  ` - Show recent events on the stream (Linked with economic commands)
-- `Music Player` - Play music on the stream (Click now-playing box to hide the video)
-- `Soundboard Player` - Play sound effects on the stream (Can be linked with channel points)
+We welcome contributions from the community! Whether it's adding a new feature, fixing a bug, or expanding our multilingual support, please review our [CONTRIBUTING.md](/.github/CONTRIBUTING.md) guidelines before opening a Pull Request.
 
-### Entertainment 
+If you have questions about the codebase or want to discuss a feature request, feel free to drop into our [Discord server](https://discord.gg/vkW7YMyYaf).
 
-> **For an updated guide, 
-> see [Linking Channel Points to Soundboard](https://manaobot.netlify.app/en/guides/06-linking-channel-points-to-soundboard/)
-> and [Adding Custom Replies](https://manaobot.netlify.app/en/guides/07-adding-custom-replies/)**
-
-**Redeem to play sound**
-
-You can now add a new channel point rewards to play sounds on stream using the rewards manager. Add yours now!
-(Version 2.2.0 or higher): http://localhost:3000/manager/channel-points. 
-
-But if you want to control the soundboard yourself, go to the soundboard controller:
-http://localhost:3000/soundboard/controller.
-
-Otherwise, you can use the soundboard player overlay: 
-http://localhost:3000/soundboard/player.
-
-(Click "Hide" button to hide the entire page and become audio player only).
-
-**Customized chat replies**
-
-The bot can now reply to user messages other than commands from specified keywords,
-This feature is for ManaoBot v2.2.0 or higher. You can manage custom replies at:
-http://localhost:3000/manager/replies
-
-## 👋 Contributing
-
-If you want to contribute to the project, please read the [CONTRIBUTING.md](/.github/CONTRIBUTING.md) file.
-However, if you have any questions, feel free to ask in the [Discord server](https://discord.gg/vkW7YMyYaf).
+---
 
 ## 📜 License
 
-This project is licensed under the [GNU General Public License version 3](/LICENSE). For more info, refer to [GNU Official Website](https://www.gnu.org/licenses/gpl-3.0.en.html)
+This repository is licensed under the [GNU General Public License v3.0](/LICENSE). For full legal details, refer to the [GNU Official Website](https://www.gnu.org/licenses/gpl-3.0.en.html).
 
-## 🙋‍♂️ FAQ
+---
 
-### How do I get my Twitch API credentials?
+## 🙋‍♂️ FAQ & Troubleshooting
 
-> **For an updated guide, see [Retrieving Client ID and Secret from Twitch](https://manaobot.netlify.app/en/guides/01-retrieve-client-id-and-secrets-from-twitch/)**
+### How do I configure my Twitch API credentials?
 
+You must generate OAuth tokens for Manao to interface with Twitch.
 
-You can get your Twitch API credentials by creating a **new application** (not extensions) in
-the [Twitch Developer Portal](https://dev.twitch.tv/). Set "OAuth Redirect URL" to `http://localhost:3000/`, set the category
-to "Chat Bot" and client type to "Confidential". After that, you will be redirected to the application page.
-Get your client ID and client secret from the application's dashboard, and add them to your `.env` file.
-After that, you can install [TwitchCLI](https://dev.twitch.tv/docs/cli/) and run the following command to get your
-access token:
+1. Create a **New Application** (not an extension) in the [Twitch Developer Portal](https://dev.twitch.tv/).
+2. Set the "OAuth Redirect URL" to `http://localhost:3000/`.
+3. Set Category to "Chat Bot" and Client Type to "Confidential".
+4. Copy your `Client ID` and `Client Secret` into your `.env` file.
+5. Install the [TwitchCLI](https://dev.twitch.tv/docs/cli/).
+6. Run the following command to generate your access token with the necessary scopes:
 
-```sh
+```bash
 twitch token -u -s "user:edit user:read:email chat:read chat:edit channel:moderate moderation:read moderator:manage:shoutouts moderator:manage:announcements channel:manage:moderators channel:manage:broadcast channel:read:vips channel:read:subscriptions channel:manage:vips channel:read:redemptions channel:manage:redemptions moderator:read:followers bits:read"
 ```
 
-You will receive a user access token and a refresh token, add them to your `.env` file.
-**Note:** You should run the following command 2 times, once for the bot account and once for the broadcaster account, make sure
-to logout of Twitch before running the command again. Put the access token and refresh token in the `.env` file accordingly.
+> **Security Note:** You must run this command *twice*—once while logged into your bot account, and once while logged into your broadcaster account. **Ensure you log out of Twitch in your browser between runs.** Append the resulting User Access Tokens and Refresh Tokens to your `.env` file accordingly.
 
-### I couldn't install Bun in my system
+### Is Bun supported on Windows?
 
-_~~Currently, Bun is only available for Linux and MacOS. If you are using Windows, you can use WSL or a virtual machine to
-run the project.~~_
-**Bun is now available for Windows**, you can follow the [official documentation](https://bun.sh/docs/installation/windows)
-for the installation.
-For further assistance about installing Bun, you may ask in the [Bun official Discord server](https://bun.sh/discord).
+Yes. While historically limited to Unix environments, **Bun is now natively supported on Windows.** You can follow the [Official Bun Windows Installation Guide](https://bun.sh/docs/installation/windows). If you run into environment-specific issues, check the [Bun Discord](https://bun.sh/discord).
 
-### How do I add the overlays to my stream?
+### How do I interact with the Music Player in OBS?
 
-> **For an updated guide, see [Adding Overlays in OBS](https://manaobot.netlify.app/en/guides/05-adding-overlays-in-obs/)**
-> 
-You can add the overlays to your stream by adding a new browser source in your streaming software (OBS, Streamlabs, etc.).
-You can copy the URL of the overlay you want to add and paste it in the URL field of the browser source.
-For music source, to interact with the player, find the "Interact" button. From there, you can set the YouTube Player 
-volume and interact with the music player. You can also pause the video, it won't interrupt with the music player functions.
-If you want to skip the song manually, drag the time slider to the end of the video.
+Add `http://localhost:3000/overlays/music` as a Browser Source. To skip songs manually or adjust the YouTube Player volume:
+1. Right-click the Browser Source in OBS and select **Interact**.
+2. Use the pop-up window to scrub the timeline, pause, or adjust volume. *(Note: Pausing the video here will not break the bot's internal queue logic).*
 
-The URLs of the overlays are as follows (assuming you are running the bot locally):
-- Chat Overlay: `http://localhost:3000/overlays/chat`
-- Event Feed: `http://localhost:3000/overlays/feed`
-- Music Player: `http://localhost:3000/overlays/music`
-- Soundboard Player: `http://localhost:3000/soundboard/player`
+### How do I change the bot's command prefix?
 
-### How do I change the bot's prefix?
+The default prefix is defined in the source configuration. Open `src/config.ts` in your editor, locate the `PREFIX` constant, and modify the string to your preferred character(s).
 
-You can change the bot's prefix by modifying the `PREFIX` variable in the `src/config.ts` file.
+### How do I report a security vulnerability or get direct help?
 
-### Will there be another language support?
+For general troubleshooting, feel free to ask in the [Discord server](https://discord.gg/vkW7YMyYaf) or open an issue on the GitHub tracker.
 
-No, not at the moment. However, if you want to help with translations, feel free to open a pull request.
-
-### I have a question that is not listed here / A problem with the bot
-
-Feel free to ask in the [Discord server](https://discord.gg/vkW7YMyYaf) or open an issue on GitHub.
-If it's a security issue, join the Discord server and send me friend request to DM me directly (@acsp - Tin).
+If you have discovered a security vulnerability, please do not open a public issue. Instead, join the Discord server and DM `@acsp` (Tin) directly.

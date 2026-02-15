@@ -32,6 +32,7 @@ export function initDatabase(): void {
     CREATE TABLE IF NOT EXISTS linked_accounts (
       discord_id TEXT PRIMARY KEY,
       twitch_id TEXT UNIQUE,
+      kick_id TEXT UNIQUE,
       linked_at INTEGER DEFAULT (strftime('%s','now'))
     );
 
@@ -58,6 +59,33 @@ export function getTwitchID(discordID: string): string {
     .prepare("SELECT twitch_id FROM linked_accounts WHERE discord_id = ?")
     .get(discordID);
   return (row as { twitch_id: string })?.twitch_id ?? "";
+}
+
+export function getTwitchIDFromKickID(kickID: string): string {
+  const row = db
+    .prepare("SELECT twitch_id FROM linked_accounts WHERE kick_id = ?")
+    .get(kickID);
+  return (row as { twitch_id: string })?.twitch_id ?? "";
+}
+
+export function getInfoFromKickID(kickID: string): UserData | undefined {
+  const linkedRow = db
+    .prepare("SELECT twitch_id FROM linked_accounts WHERE kick_id = ?")
+    .get(kickID);
+  const twitchID = (linkedRow as { twitch_id: string })?.twitch_id;
+  const userRow = db
+    .prepare("SELECT * FROM users WHERE user = ?")
+    .get(twitchID);
+  return userRow as UserData | undefined;
+}
+
+export function initAccountFromKick(kickID: string): void {
+  const linkedRow = db
+    .prepare("SELECT twitch_id FROM linked_accounts WHERE kick_id = ?")
+    .get(kickID);
+  const twitchID = (linkedRow as { twitch_id: string })?.twitch_id;
+  if (!twitchID) return;
+  initAccount(twitchID);
 }
 
 export function getNickname(userID: string | number): string | null {

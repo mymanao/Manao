@@ -55,7 +55,7 @@ export default {
     const targetID = targetUser.id;
     initAccount(targetID);
 
-    setBalance(meta.userID, amount);
+    setBalance(targetID, amount);
 
     await client.chat.say(
       meta.channel,

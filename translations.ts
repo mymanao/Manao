@@ -30,6 +30,7 @@ export const translations = {
       version: "Manaobot v{} using Twurple v{} running on Bun v{}",
       versionDiscord:
         "ManaoBot v{} using Discord.js v{}, Discordx v{}, running on Bun v{}",
+      versionKick: "ManaoBot v{} using Manao KickIt v{} running on Bun v{}",
       seconds: "{} seconds",
       minutes: "{} minutes",
       hours: "{} hours",
@@ -64,8 +65,7 @@ export const translations = {
       errorCannotAnnounce: "An error occurred while trying to announce",
       errorCannotShoutout: "Shoutout failed",
       errorUserNotFound: "User not found: {}",
-      errorInvalidAction:
-        "Invalid action! (connect, disconnect)",
+      errorInvalidAction: "Invalid action! (connect, disconnect)",
       errorEventAlreadyConnected:
         "Event is already connected, to disconnect, use the !event disconnect command",
       errorUrlRequired: "Please provide a URL to connect to",
@@ -173,6 +173,7 @@ export const translations = {
       version: "Manaobot v{} ใช้ Twurple v{} รันบน Bun v{}",
       versionDiscord:
         "ManaoBot v{} ใช้ Discord.js v{}, Discordx v{}, รันบน Bun v{}",
+      versionKick: "ManaoBot v{} ใช้ Manao KickIt v{} รันบน Bun v{}",
       seconds: "{} วินาที",
       minutes: "{} นาที",
       hours: "{} ชั่วโมง",
@@ -253,7 +254,8 @@ export const translations = {
         errorTargetNotLinked: "ผู้ใข้อีกคนยังไม่ได้เชื่อมต่อบัญชีกับทวิช",
 
         title: "เชื่อมต่อด้วยบัญชีดิสคอร์ด",
-        description: "เพื่อเชื่อมกับบอตทวิช Manao ให้พิมพ์คำสั่ง !link แล้วตามด้วยรหัสในแชททวิชเพื่อเชื่อมต่อบัญชี",
+        description:
+          "เพื่อเชื่อมกับบอตทวิช Manao ให้พิมพ์คำสั่ง !link แล้วตามด้วยรหัสในแชททวิชเพื่อเชื่อมต่อบัญชี",
         fieldName: "รหัส",
       },
       ping: {

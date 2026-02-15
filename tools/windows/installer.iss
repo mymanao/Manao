@@ -1,6 +1,6 @@
 [Setup]
 AppName=Manao
-AppVersion=3.2.0
+AppVersion=4.0.0
 DefaultDirName={localappdata}\ManaoBot
 DefaultGroupName=Manao
 OutputDir=dist
@@ -15,17 +15,18 @@ WizardSmallImageFile=..\..\docs\favicon.bmp
 
 [Files]
 Source: "INSTALLER.ps1"; DestDir: "{tmp}"; Flags: deleteafterinstall
+Source: "..\..\docs\favicon.ico"; DestDir: "{app}\manao\docs"
 
 
 [Icons]
-Name: "{group}\Manao Twitch Bot"; Filename: "{app}\manao\tools\windows\START_MANAOBOT.bat"
-Name: "{group}\Uninstall Manao Twitch Bot"; Filename: "{uninstallexe}"
+Name: "{group}\Manao Bot"; Filename: "{app}\manao\tools\windows\START_MANAO.bat"; IconFilename: "{app}\manao\docs\favicon.ico"
+Name: "{group}\Uninstall Manao Bot"; Filename: "{uninstallexe}"; IconFilename: "{app}\manao\docs\favicon.ico"
 
 
 [Run]
 Filename: "powershell.exe"; \
   Parameters: "-ExecutionPolicy Bypass -NoProfile -File ""{tmp}\INSTALLER.ps1"" -InstallDir ""{app}"""; \
-  StatusMsg: "Installing Manao Twitch Bot dependencies..."; \
+  StatusMsg: "Installing Manao Bot dependencies..."; \
   Flags: waituntilterminated
   
 Filename: "powershell.exe"; \

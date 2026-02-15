@@ -1,6 +1,6 @@
-import {io, Socket} from "socket.io-client";
-import type {MessageData} from "@/types";
-import {logger} from "@helpers/logger.ts";
+import { io, Socket } from "socket.io-client";
+import type { MessageData } from "@/types";
+import { logger } from "@helpers/logger.ts";
 
 let socket: Socket | null = null;
 let isStarted = false;
@@ -14,11 +14,10 @@ export function initializeConnection(url: string, send: (msg: string) => void) {
     transports: ["websocket"],
     query: { session: sessionId },
     upgrade: false,
-    reconnectionAttempts: 5
+    reconnectionAttempts: 5,
   });
 
   socket.on("connect", () => {
-
     if (sessionId) {
       socket?.emit("session:join", {
         sessionId,
@@ -61,10 +60,12 @@ export function disconnectConnection() {
   filter = null;
 }
 
-export function handleEventMessage(data: Pick<MessageData, "message" | "user" | "from">) {
+export function handleEventMessage(
+  data: Pick<MessageData, "message" | "user" | "from">,
+) {
   if (!isStarted || !socket) return;
   if (filter && !filter.test(data.message)) return;
-  socket.emit("event:input", {message: data.message, user: data.user});
+  socket.emit("event:input", { message: data.message, user: data.user });
 }
 
 export function isEventConnected(): boolean {

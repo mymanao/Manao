@@ -1,13 +1,15 @@
-import { pendingLinks } from "@discord/commands/preferences/link";
-import { db } from "@helpers/database";
-import { t } from "@helpers/i18n";
-import type { ClientServices, CommandMeta } from "@/types";
+import type { KickItContext } from "@manaobot/kickit/types";
+import { pendingLinks } from "@discord/commands/preferences/link.ts";
+import { t } from "@helpers/i18n.ts";
+import { db } from "@helpers/database.ts";
+import { getLang } from "@helpers/preferences.ts";
+import type { CommandMeta } from "@/types";
 
 export default {
   name: { en: "link", th: "เชื่อมบัญชี" },
   description: {
-    en: "Link your Twitch account to Discord",
-    th: "เชื่อมบัญชี Twitch กับ Discord",
+    en: "Link your Kick account to Discord",
+    th: "เชื่อมบัญชี Kick กับ Discord",
   },
   aliases: { en: ["connect"], th: ["เชื่อม"] },
   args: [
@@ -21,20 +23,19 @@ export default {
     },
   ],
   execute: async (
-    client: ClientServices,
+    context: KickItContext,
     meta: CommandMeta,
     _message: string,
-    args: Array<string>,
-  ) => {
+    args: string[],
+  ): Promise<void> => {
     const code = args[0]?.trim().toUpperCase();
     const entry = [...pendingLinks.entries()].find(
       ([, data]) => data.code === code && Date.now() - data.createdAt < 60000,
     );
 
     if (!entry) {
-      await client.chat.say(
-        meta.channel,
-        `@${meta.user} ${t("configuration.errorCodeInvalidOrExpired", meta.lang)}`,
+      await context.reply(
+        `@${meta.user} ${t("configuration.errorCodeInvalidOrExpired", getLang())}`,
       );
       return;
     }
@@ -42,16 +43,16 @@ export default {
     const [discordID] = entry;
 
     db.prepare(`
-        INSERT INTO linked_accounts (discord_id, twitch_id)
-        VALUES (?, ?)
-        ON CONFLICT(discord_id) DO UPDATE SET twitch_id = excluded.twitch_id
+        INSERT INTO linked_accounts (discord_id, kick_id)
+        VALUES (?, ?) ON CONFLICT(discord_id) DO
+        UPDATE SET
+            kick_id = excluded.kick_id
     `).run(discordID, meta.userID);
 
     pendingLinks.delete(discordID);
 
-    await client.chat.say(
-      meta.channel,
-      `@${meta.user} ${t("configuration.linkSuccess", meta.lang)}`,
+    await context.reply(
+      `@${meta.user} ${t("configuration.linkSuccess", getLang())}`,
     );
   },
 };

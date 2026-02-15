@@ -1,7 +1,7 @@
 {
-  "name": "manao-twitch-bot",
+  "name": "manao-bot",
   "module": "index.ts",
-  "version": "3.2.0",
+  "version": "4.0.0",
   "type": "module",
   "private": true,
   "scripts": {
@@ -9,6 +9,7 @@
     "format": "biome format --write .",
     "setup": "bun run ./tools/setup",
     "lint": "biome lint",
+    "optsetup": "bun run ./tools/optional_setup.ts",
     "build:css": "tailwindcss -i server/public/css/tailwind.css -o server/public/css/dist/tailwind.css --minify"
   },
   "devDependencies": {
@@ -24,9 +25,11 @@
     "@discordx/pagination": "^4.4.0",
     "@discordx/utilities": "^8.0.0",
     "@elysiajs/html": "^1.4.0",
-    "@elysiajs/static": "^1.4.0",
+    "@elysiajs/static": "^1.4.7",
     "@inquirer/prompts": "^7.8.6",
-    "@retconned/kick-js": "^0.5.4",
+    "@manaobot/kick": "^1.1.1",
+    "@manaobot/kickit": "^1.3.1",
+    "@ngrok/ngrok": "^1.7.0",
     "@twurple/api": "^7.4.0",
     "@twurple/auth": "^7.4.0",
     "@twurple/chat": "^7.4.0",
@@ -35,7 +38,7 @@
     "discord-api-types": "^0.38.31",
     "discord.js": "^14.24.2",
     "discordx": "^11.13.2",
-    "elysia": "^1.4.4",
+    "elysia": "1.4.18",
     "pino": "^9.12.0",
     "pino-pretty": "^13.1.1",
     "socket.io": "^4.8.1",

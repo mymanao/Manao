@@ -207,24 +207,13 @@ async function startConfig(): Promise<void> {
   const bcTokens = await fetchTokens(cliPath);
   const bcInfo = await fetchUserInfo(cliPath, bcTokens.accessToken);
 
-  const useDiscord = await confirm({
-    message: `${lang[currentlang as keyof typeof lang].useDiscord}`,
-  });
-
-  const token = useDiscord
-    ? await input({
-        message: lang[currentlang as keyof typeof lang].enterToken,
-      })
-    : "";
-
   // Create .env content
   const envContent = `
-
 # ========================
 #       TWITCH BOT
 # ========================
 
-USE_TWITCH=true
+USE_TWITCH=false
 
 TWITCH_BOT_ACCESS_TOKEN=${botTokens.accessToken}
 TWITCH_BOT_REFRESH_TOKEN=${botTokens.refreshToken}
@@ -233,21 +222,51 @@ BROADCASTER_ACCESS_TOKEN=${bcTokens.accessToken}
 BROADCASTER_REFRESH_TOKEN=${bcTokens.refreshToken}
 
 TWITCH_BOT_ID=${botInfo.userID}
-BROADCASTER_CHANNEL=${bcInfo.login ?? ""}
 BROADCASTER_ID=${bcInfo.userID}
+BROADCASTER_CHANNEL=${bcInfo.login ?? ""}
 
 TWITCH_CLIENT_ID=${clientID}
 TWITCH_CLIENT_SECRET=${clientSecret}
+
 
 # ========================
 #       DISCORD BOT
 # ========================
 
-USE_DISCORD=${useDiscord ? "true" : "false"}
-DISCORD_BOT_TOKEN=${token}
+USE_DISCORD=false
+
+DISCORD_BOT_TOKEN=
+DISCORD_CLIENT_ID=
 SERVER_ID=
 
-NODE_ENV=
+
+# ========================
+#         KICK BOT
+# ========================
+
+USE_KICK=false
+
+KICK_CLIENT_ID=
+KICK_CLIENT_SECRET=
+
+KICK_ACCESS_TOKEN=
+KICK_REFRESH_TOKEN=
+KICK_EXPIRES_AT=
+
+
+# ========================
+#         NGROK
+# ========================
+
+NGROK_AUTHTOKEN=
+NGROK_DOMAIN=
+
+
+# ========================
+#        ENVIRONMENT
+# ========================
+
+NODE_ENV=development
 `.trim();
 
   await writeFile(join(process.cwd(), ".env"), envContent, "utf8");

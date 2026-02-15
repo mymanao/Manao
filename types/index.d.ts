@@ -1,6 +1,7 @@
 import type { ApiClient } from "@twurple/api";
 import type { ChatClient } from "@twurple/chat";
 import type { Server as SocketIOServer } from "socket.io";
+import type { KickIt } from "@manaobot/kickit";
 
 export type Language = "en" | "th";
 export type UserType = "bot" | "broadcaster";

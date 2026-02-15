@@ -47,7 +47,7 @@ export function localizeCommandArgs(
 }
 
 export function getLang(): LangCode {
-  return getConfig("lang", "en") as LangCode;
+  return (getConfig("lang", "en") as LangCode) ?? "en";
 }
 
 export function updateLang(newLang: LangCode): void {

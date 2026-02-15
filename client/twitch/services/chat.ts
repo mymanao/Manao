@@ -9,7 +9,7 @@ import type { RefreshingAuthProvider } from "@twurple/auth";
 import { ChatClient } from "@twurple/chat";
 import { TWITCH } from "@/config.ts";
 import type { Command, SongRequestData } from "@/types";
-import {handleEventMessage} from "@twitch/services/event.ts";
+import { handleEventMessage } from "@twitch/services/event.ts";
 
 export const commands: Map<string, Command> = new Map();
 export const customCommands: Map<string, Command> = fetchCommand();
@@ -107,7 +107,7 @@ export async function initializeChatClient(
         from: channelName,
         message,
         user,
-      })
+      });
 
       const lowerMsg = message.toLowerCase();
 

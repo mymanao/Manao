@@ -44,9 +44,9 @@ $target = Join-Path $InstallDir "manao"
 # --- Clone repo ---
 try {
     if ($selectedVersion -eq "latest") {
-        git clone --depth 1 https://github.com/tinarskii/manao.git $target
+        git clone --depth 1 https://github.com/mymanao/manao.git $target
     } else {
-        git clone --branch $selectedVersion https://github.com/tinarskii/manao.git $target
+        git clone --branch $selectedVersion https://github.com/mymanao/manao.git $target
     }
     Write-Host "Repository cloned successfully."
 } catch {
