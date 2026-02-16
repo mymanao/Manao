@@ -1,0 +1,889 @@
+[
+  {
+    "key": "announce",
+    "name": {
+      "en": "announce",
+      "th": "ประกาศ"
+    },
+    "description": {
+      "en": "Announce a message to the channel",
+      "th": "ประกาศข้อความไปยังช่อง"
+    },
+    "aliases": {
+      "en": [
+        "a",
+        "an"
+      ],
+      "th": [
+        "ป",
+        "แจ้ง"
+      ]
+    },
+    "args": [
+      {
+        "name": {
+          "en": "message",
+          "th": "ข้อความ"
+        },
+        "required": true
+      }
+    ],
+    "category": "moderation",
+    "platforms": [
+      "twitch"
+    ]
+  },
+  {
+    "key": "autobet",
+    "name": {
+      "en": "autobet",
+      "th": "พนันอัตโนมัติ"
+    },
+    "description": {
+      "en": "Automatically gamble multiple times",
+      "th": "พนันอัตโนมัติหลายครั้ง"
+    },
+    "aliases": {
+      "en": [
+        "ab"
+      ],
+      "th": []
+    },
+    "args": [
+      {
+        "name": {
+          "en": "amount",
+          "th": "จำนวนเงิน"
+        },
+        "required": true
+      },
+      {
+        "name": {
+          "en": "times",
+          "th": "จำนวนครั้ง"
+        },
+        "required": true
+      }
+    ],
+    "category": "economy",
+    "platforms": [
+      "kick"
+    ]
+  },
+  {
+    "key": "balance",
+    "name": {
+      "en": "balance",
+      "th": "ยอดเงิน"
+    },
+    "description": {
+      "en": "Check your balance",
+      "th": "ตรวจสอบยอดเงินของคุณ"
+    },
+    "aliases": {
+      "en": [
+        "bal",
+        "money"
+      ],
+      "th": []
+    },
+    "args": [
+      {
+        "name": {
+          "en": "user",
+          "th": "ผู้ใช้"
+        },
+        "required": false
+      }
+    ],
+    "category": "economy",
+    "platforms": [
+      "twitch",
+      "kick"
+    ]
+  },
+  {
+    "key": "currency",
+    "name": {
+      "en": "currency",
+      "th": "สกุลเงิน"
+    },
+    "description": {
+      "en": "Change the channel's currency",
+      "th": "เปลี่ยนสกุลเงินของช่อง"
+    },
+    "aliases": {
+      "en": [],
+      "th": []
+    },
+    "args": [
+      {
+        "name": {
+          "en": "currency",
+          "th": "สกุลเงิน"
+        },
+        "required": false
+      }
+    ],
+    "category": "preferences",
+    "platforms": [
+      "twitch",
+      "kick"
+    ]
+  },
+  {
+    "key": "eat",
+    "name": {
+      "en": "eat",
+      "th": "กินอะไรดี"
+    },
+    "description": {
+      "en": "What do you want to eat?",
+      "th": "อยากกินอะไรดี?"
+    },
+    "aliases": {
+      "en": [],
+      "th": [
+        "กินอะไร",
+        "กินไร"
+      ]
+    },
+    "args": [],
+    "category": "social",
+    "platforms": [
+      "twitch",
+      "kick"
+    ]
+  },
+  {
+    "key": "event",
+    "name": {
+      "en": "event",
+      "th": "อีเวนต์"
+    },
+    "description": {
+      "en": "Initiate a new event",
+      "th": "เริ่มต้นอีเวนต์ใหม่"
+    },
+    "aliases": {
+      "en": [
+        "e",
+        "ev"
+      ],
+      "th": [
+        "อ"
+      ]
+    },
+    "args": [
+      {
+        "name": {
+          "en": "action",
+          "th": "คำสั่ง"
+        },
+        "required": true
+      },
+      {
+        "name": {
+          "en": "url",
+          "th": "url"
+        },
+        "required": false
+      }
+    ],
+    "category": "moderation",
+    "platforms": [
+      "twitch"
+    ]
+  },
+  {
+    "key": "gamble",
+    "name": {
+      "en": "gamble",
+      "th": "พนัน"
+    },
+    "description": {
+      "en": "For you, gambling addict",
+      "th": "สำหรับคนติดพนันอย่างคุณ"
+    },
+    "aliases": {
+      "en": [
+        "bet"
+      ],
+      "th": []
+    },
+    "args": [
+      {
+        "name": {
+          "en": "amount",
+          "th": "จำนวนเงิน"
+        },
+        "required": false
+      }
+    ],
+    "category": "economy",
+    "platforms": [
+      "twitch",
+      "kick"
+    ]
+  },
+  {
+    "key": "game",
+    "name": {
+      "en": "game",
+      "th": "เกม"
+    },
+    "description": {
+      "en": "Change the stream's game",
+      "th": "เปลี่ยนเกมของสตรีม"
+    },
+    "aliases": {
+      "en": [
+        "g"
+      ],
+      "th": []
+    },
+    "args": [
+      {
+        "name": {
+          "en": "game",
+          "th": "เกม"
+        },
+        "required": false
+      }
+    ],
+    "category": "moderation",
+    "platforms": [
+      "twitch"
+    ]
+  },
+  {
+    "key": "give",
+    "name": {
+      "en": "give",
+      "th": "ให้เงิน"
+    },
+    "description": {
+      "en": "Give money to someone else",
+      "th": "ให้เงินผู้อื่น"
+    },
+    "aliases": {
+      "en": [
+        "transfer"
+      ],
+      "th": []
+    },
+    "args": [
+      {
+        "name": {
+          "en": "user",
+          "th": "ผู้ใช้"
+        },
+        "required": true
+      },
+      {
+        "name": {
+          "en": "amount",
+          "th": "จำนวนเงิน"
+        },
+        "required": true
+      }
+    ],
+    "category": "economy",
+    "platforms": [
+      "twitch"
+    ]
+  },
+  {
+    "key": "hate",
+    "name": {
+      "en": "hate",
+      "th": "เกลียด"
+    },
+    "description": {
+      "en": "For whom do you hate?",
+      "th": "คุณเกลียดใคร?"
+    },
+    "aliases": {
+      "en": [],
+      "th": [
+        "เกลียด"
+      ]
+    },
+    "args": [
+      {
+        "name": {
+          "en": "user",
+          "th": "ผู้ใช้"
+        },
+        "required": false
+      }
+    ],
+    "category": "social",
+    "platforms": [
+      "twitch",
+      "kick"
+    ]
+  },
+  {
+    "key": "help",
+    "name": {
+      "en": "help",
+      "th": "ช่วยเหลือ"
+    },
+    "description": {
+      "en": "View all available commands",
+      "th": "ดูคำสั่งทั้งหมดที่ใช้ได้"
+    },
+    "aliases": {
+      "en": [
+        "h",
+        "commands",
+        "command"
+      ],
+      "th": [
+        "คำสั่ง"
+      ]
+    },
+    "args": [
+      {
+        "name": {
+          "en": "command",
+          "th": "คำสั่ง"
+        },
+        "required": false
+      }
+    ],
+    "category": "info",
+    "platforms": [
+      "twitch",
+      "kick"
+    ]
+  },
+  {
+    "key": "language",
+    "name": {
+      "en": "language",
+      "th": "ภาษา"
+    },
+    "description": {
+      "en": "Set your preferred language",
+      "th": "ตั้งค่าภาษาที่คุณต้องการ"
+    },
+    "aliases": {
+      "en": [
+        "lang"
+      ],
+      "th": []
+    },
+    "args": [
+      {
+        "name": {
+          "en": "language",
+          "th": "ภาษา"
+        },
+        "required": false
+      }
+    ],
+    "category": "preferences",
+    "platforms": [
+      "twitch",
+      "kick"
+    ]
+  },
+  {
+    "key": "leaderboard",
+    "name": {
+      "en": "leaderboard",
+      "th": "อันดับ"
+    },
+    "description": {
+      "en": "View the leaderboard",
+      "th": "ดูอันดับคะแนน"
+    },
+    "aliases": {
+      "en": [
+        "leader",
+        "ld",
+        "lb",
+        "top",
+        "baltop"
+      ],
+      "th": []
+    },
+    "args": [],
+    "category": "economy",
+    "platforms": [
+      "twitch"
+    ]
+  },
+  {
+    "key": "link",
+    "name": {
+      "en": "link",
+      "th": "เชื่อมบัญชี"
+    },
+    "description": {
+      "en": "Link your Kick account to Discord",
+      "th": "เชื่อมบัญชี Kick กับ Discord"
+    },
+    "aliases": {
+      "en": [
+        "connect"
+      ],
+      "th": [
+        "เชื่อม"
+      ]
+    },
+    "args": [
+      {
+        "name": {
+          "en": "code",
+          "th": "รหัสเชื่อมต่อ"
+        },
+        "required": true
+      }
+    ],
+    "category": "info",
+    "platforms": [
+      "kick"
+    ]
+  },
+  {
+    "key": "love",
+    "name": {
+      "en": "love",
+      "th": "รัก"
+    },
+    "description": {
+      "en": "How deep is your love?",
+      "th": "ความรักของคุณลึกแค่ไหน?"
+    },
+    "aliases": {
+      "en": [],
+      "th": []
+    },
+    "args": [
+      {
+        "name": {
+          "en": "user",
+          "th": "ผู้ใช้"
+        },
+        "required": false
+      }
+    ],
+    "category": "social",
+    "platforms": [
+      "twitch",
+      "kick"
+    ]
+  },
+  {
+    "key": "nickname",
+    "name": {
+      "en": "nickname",
+      "th": "ชื่อเล่น"
+    },
+    "description": {
+      "en": "Change or show your nickname",
+      "th": "เปลี่ยนหรือแสดงชื่อเล่นของคุณ"
+    },
+    "aliases": {
+      "en": [
+        "nick",
+        "name"
+      ],
+      "th": [
+        "ชื่อ"
+      ]
+    },
+    "args": [
+      {
+        "name": {
+          "en": "nickname",
+          "th": "ชื่อเล่น"
+        },
+        "required": false
+      }
+    ],
+    "category": "preferences",
+    "platforms": [
+      "twitch",
+      "kick"
+    ]
+  },
+  {
+    "key": "set",
+    "name": {
+      "en": "set",
+      "th": "ตั้งค่าเงิน"
+    },
+    "description": {
+      "en": "Set user's money",
+      "th": "ตั้งค่าเงินของผู้ใช้"
+    },
+    "aliases": {
+      "en": [
+        "s"
+      ],
+      "th": [
+        "ตั้งเงิน"
+      ]
+    },
+    "args": [
+      {
+        "name": {
+          "en": "user",
+          "th": "ผู้ใช้"
+        },
+        "required": true
+      },
+      {
+        "name": {
+          "en": "amount",
+          "th": "จำนวนเงิน"
+        },
+        "required": true
+      }
+    ],
+    "category": "economy",
+    "platforms": [
+      "twitch"
+    ]
+  },
+  {
+    "key": "shoutout",
+    "name": {
+      "en": "shoutout",
+      "th": "แนะนำ"
+    },
+    "description": {
+      "en": "Shoutout to someone!",
+      "th": "แนะนำใครสักคน!"
+    },
+    "aliases": {
+      "en": [
+        "so"
+      ],
+      "th": []
+    },
+    "args": [
+      {
+        "name": {
+          "en": "user",
+          "th": "ผู้ใช้"
+        },
+        "required": true
+      }
+    ],
+    "category": "moderation",
+    "platforms": [
+      "twitch"
+    ]
+  },
+  {
+    "key": "song-default",
+    "name": {
+      "en": "song-default",
+      "th": "เพลงเริ่มต้น"
+    },
+    "description": {
+      "en": "Set a default song(s)",
+      "th": "ตั้งเพลงเริ่มต้น"
+    },
+    "aliases": {
+      "en": [
+        "sd"
+      ],
+      "th": [
+        "เพลงเริ่ม"
+      ]
+    },
+    "args": [
+      {
+        "name": {
+          "en": "action",
+          "th": "คำสั่ง"
+        },
+        "required": true
+      },
+      {
+        "name": {
+          "en": "song(s)",
+          "th": "เพลง"
+        },
+        "required": true
+      }
+    ],
+    "category": "music",
+    "platforms": [
+      "twitch",
+      "kick"
+    ]
+  },
+  {
+    "key": "song-playing",
+    "name": {
+      "en": "song-playing",
+      "th": "เพลงปัจจุบัน"
+    },
+    "description": {
+      "en": "Display the currently playing song",
+      "th": "แสดงเพลงที่กำลังเล่นอยู่"
+    },
+    "aliases": {
+      "en": [
+        "playing",
+        "nowplaying",
+        "np"
+      ],
+      "th": [
+        "เพลงอะไร",
+        "เพลงไร"
+      ]
+    },
+    "args": [],
+    "category": "music",
+    "platforms": [
+      "twitch",
+      "kick"
+    ]
+  },
+  {
+    "key": "song-queue",
+    "name": {
+      "en": "song-queue",
+      "th": "คิวเพลง"
+    },
+    "description": {
+      "en": "Check song queue",
+      "th": "ตรวจสอบคิวเพลง"
+    },
+    "aliases": {
+      "en": [
+        "queue",
+        "sq"
+      ],
+      "th": [
+        "คิว"
+      ]
+    },
+    "args": [
+      {
+        "name": {
+          "en": "page",
+          "th": "หน้า"
+        },
+        "required": false
+      }
+    ],
+    "category": "music",
+    "platforms": [
+      "twitch",
+      "kick"
+    ]
+  },
+  {
+    "key": "song-remove",
+    "name": {
+      "en": "song-remove",
+      "th": "ลบเพลง"
+    },
+    "description": {
+      "en": "Remove a song",
+      "th": "ลบเพลงออกจากคิว"
+    },
+    "aliases": {
+      "en": [
+        "remove",
+        "rm"
+      ],
+      "th": [
+        "ลบ"
+      ]
+    },
+    "args": [
+      {
+        "name": {
+          "en": "index",
+          "th": "ลำดับ"
+        },
+        "required": true
+      }
+    ],
+    "category": "music",
+    "platforms": [
+      "twitch",
+      "kick"
+    ]
+  },
+  {
+    "key": "song-request",
+    "name": {
+      "en": "song-request",
+      "th": "ขอเพลง"
+    },
+    "description": {
+      "en": "Request a song",
+      "th": "ขอเพลงที่ต้องการ"
+    },
+    "aliases": {
+      "en": [
+        "sr"
+      ],
+      "th": [
+        "ข",
+        "ขอ"
+      ]
+    },
+    "args": [
+      {
+        "name": {
+          "en": "song",
+          "th": "เพลง"
+        },
+        "required": true
+      }
+    ],
+    "category": "music",
+    "platforms": [
+      "twitch",
+      "kick"
+    ]
+  },
+  {
+    "key": "song-skip",
+    "name": {
+      "en": "song-skip",
+      "th": "ข้ามเพลง"
+    },
+    "description": {
+      "en": "Skip a song",
+      "th": "ข้ามเพลงปัจจุบัน"
+    },
+    "aliases": {
+      "en": [
+        "skip",
+        "sk"
+      ],
+      "th": [
+        "ช้าม"
+      ]
+    },
+    "args": [],
+    "category": "music",
+    "platforms": [
+      "twitch",
+      "kick"
+    ]
+  },
+  {
+    "key": "stomp",
+    "name": {
+      "en": "stomp",
+      "th": "กระทืบ"
+    },
+    "description": {
+      "en": "Stomp on someone!",
+      "th": "กระทืบใครสักคน!"
+    },
+    "aliases": {
+      "en": [],
+      "th": [
+        "ถีบ"
+      ]
+    },
+    "args": [
+      {
+        "name": {
+          "en": "user",
+          "th": "ผู้ใช้"
+        },
+        "required": false
+      }
+    ],
+    "category": "social",
+    "platforms": [
+      "twitch",
+      "kick"
+    ]
+  },
+  {
+    "key": "stream",
+    "name": {
+      "en": "stream",
+      "th": "ชื่อสตรีม"
+    },
+    "description": {
+      "en": "Change the stream's name",
+      "th": "เปลี่ยนชื่อของสตรีม"
+    },
+    "aliases": {
+      "en": [
+        "s"
+      ],
+      "th": [
+        "สตรีม"
+      ]
+    },
+    "args": [
+      {
+        "name": {
+          "en": "name",
+          "th": "ชื่อใหม่"
+        },
+        "required": true
+      }
+    ],
+    "category": "moderation",
+    "platforms": [
+      "twitch"
+    ]
+  },
+  {
+    "key": "uptime",
+    "name": {
+      "en": "uptime",
+      "th": "เวลาสตรีม"
+    },
+    "description": {
+      "en": "Get the current uptime of the stream",
+      "th": "ตรวจสอบระยะเวลาที่สตรีมเปิดอยู่"
+    },
+    "aliases": {
+      "en": [],
+      "th": []
+    },
+    "args": [],
+    "category": "info",
+    "platforms": [
+      "twitch",
+      "kick"
+    ]
+  },
+  {
+    "key": "version",
+    "name": {
+      "en": "version",
+      "th": "เวอร์ชัน"
+    },
+    "description": {
+      "en": "Check bot's current version",
+      "th": "ตรวจสอบเวอร์ชันของบอท"
+    },
+    "aliases": {
+      "en": [
+        "v",
+        "ver"
+      ],
+      "th": [
+        "ว"
+      ]
+    },
+    "args": [],
+    "category": "info",
+    "platforms": [
+      "twitch",
+      "kick"
+    ]
+  }
+]
