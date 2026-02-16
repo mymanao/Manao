@@ -15,7 +15,6 @@ WizardSmallImageFile=..\..\docs\favicon.bmp
 
 [Files]
 Source: "INSTALLER.ps1"; DestDir: "{tmp}"; Flags: deleteafterinstall
-Source: "..\..\docs\favicon.ico"; DestDir: "{app}\manao\docs"
 
 
 [Icons]

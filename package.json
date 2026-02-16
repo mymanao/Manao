@@ -10,7 +10,8 @@
     "setup": "bun run ./tools/setup",
     "lint": "biome lint",
     "optsetup": "bun run ./tools/optional_setup.ts",
-    "build:css": "tailwindcss -i server/public/css/tailwind.css -o server/public/css/dist/tailwind.css --minify"
+    "build:css": "tailwindcss -i server/public/css/tailwind.css -o server/public/css/dist/tailwind.css --minify",
+    "getcommand": "bun run ./docs/gen-command.ts"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.2",
