@@ -10,6 +10,13 @@ import { Discord, Slash, SlashOption } from "discordx";
 @Discord()
 @Category("Social")
 export class LoveCommand {
+  static metadata = {
+    name: { en: "love", th: "" },
+    description: {
+      en: "How deep is your love?",
+      th: "",
+    }
+  }
   @Slash({
     description: "How deep is your love?",
   })

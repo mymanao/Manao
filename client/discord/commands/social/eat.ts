@@ -7,6 +7,13 @@ import { Discord, Slash } from "discordx";
 @Discord()
 @Category("Social")
 export class EatCommand {
+  static metadata = {
+    name: { en: "eat", th: "" },
+    description: {
+      en: "What do you want to eat?",
+      th: "",
+    }
+  }
   @Slash({
     description: "What do you want to eat?",
   })

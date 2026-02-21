@@ -11,6 +11,13 @@ import type { UserData } from "@/types";
 @Discord()
 @Category("Economy")
 export class LeaderboardCommand {
+  static metadata = {
+    name: { en: "leaderboard", th: "" },
+    description: {
+      en: "View the top richest users",
+      th: "",
+    },
+  }
   @Slash({
     name: "leaderboard",
     description: "View the top richest users",

@@ -10,6 +10,13 @@ import { Discord, Slash, SlashOption } from "discordx";
 @Discord()
 @Category("Social")
 export class HateCommand {
+  static metadata = {
+    name: { en: "hate", th: "" },
+    description: {
+      en: "For whom do you hate?",
+      th: "",
+    }
+  }
   @Slash({
     description: "For whom do you hate?",
   })

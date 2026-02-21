@@ -26,6 +26,22 @@ import {
 })
 @SlashGroup("help")
 export class HelpCommand {
+  static metadata = {
+    name: { en: "help", th: "" },
+    description: {
+      en: "Shows a list of all commands or info about a specific command.",
+      th: "",
+    },
+    args: [
+      {
+        name: { en: "command", th: "" },
+        description: {
+          en: "The command name to get info about",
+          th: "",
+        },
+      }
+    ]
+  }
   @Slash({ description: "Show all available commands" })
   async all(interaction: CommandInteraction) {
     const lang = getLang();

@@ -27,7 +27,7 @@
           "en": "message",
           "th": "ข้อความ"
         },
-        "desc": {
+        "description": {
           "en": "Message to announce",
           "th": "ข้อความที่ต้องการประกาศ"
         },
@@ -63,7 +63,7 @@
           "en": "amount",
           "th": "จำนวนเงิน"
         },
-        "desc": {
+        "description": {
           "en": "Amount of money per bet",
           "th": "จำนวนเงินต่อการพนัน"
         },
@@ -74,7 +74,7 @@
           "en": "times",
           "th": "จำนวนครั้ง"
         },
-        "desc": {
+        "description": {
           "en": "Number of times to auto-bet",
           "th": "จำนวนครั้งที่จะพนันอัตโนมัติ"
         },
@@ -111,7 +111,7 @@
           "en": "user",
           "th": "ผู้ใช้"
         },
-        "desc": {
+        "description": {
           "en": "User to check balance",
           "th": "ผู้ใช้ที่ต้องการตรวจสอบยอดเงิน"
         },
@@ -121,7 +121,8 @@
     "category": "economy",
     "platforms": [
       "twitch",
-      "kick"
+      "kick",
+      "discord"
     ]
   },
   {
@@ -146,7 +147,7 @@
           "en": "currency",
           "th": "สกุลเงิน"
         },
-        "desc": {
+        "description": {
           "en": "Currency to set",
           "th": "สกุลเงินที่ต้องการตั้งค่า"
         },
@@ -182,7 +183,8 @@
     "category": "social",
     "platforms": [
       "twitch",
-      "kick"
+      "kick",
+      "discord"
     ]
   },
   {
@@ -212,7 +214,7 @@
           "en": "action",
           "th": "คำสั่ง"
         },
-        "desc": {
+        "description": {
           "en": "Action to perform (connect, disconnect)",
           "th": "คำสั่งที่ต้องการ (connect, disconnect)"
         },
@@ -223,7 +225,7 @@
           "en": "url",
           "th": "url"
         },
-        "desc": {
+        "description": {
           "en": "URL to connect to",
           "th": "URL ที่ต้องการเชื่อมต่อ"
         },
@@ -259,7 +261,7 @@
           "en": "amount",
           "th": "จำนวนเงิน"
         },
-        "desc": {
+        "description": {
           "en": "Amount of money to gamble",
           "th": "จำนวนเงินที่ต้องการพนัน"
         },
@@ -269,7 +271,8 @@
     "category": "economy",
     "platforms": [
       "twitch",
-      "kick"
+      "kick",
+      "discord"
     ]
   },
   {
@@ -296,7 +299,7 @@
           "en": "game",
           "th": "เกม"
         },
-        "desc": {
+        "description": {
           "en": "The game you want to change to",
           "th": "เกมที่คุณต้องการเปลี่ยนไป"
         },
@@ -332,7 +335,7 @@
           "en": "user",
           "th": "ผู้ใช้"
         },
-        "desc": {
+        "description": {
           "en": "The user you want to give money",
           "th": "ผู้ใช้ที่คุณต้องการให้เงิน"
         },
@@ -343,7 +346,7 @@
           "en": "amount",
           "th": "จำนวนเงิน"
         },
-        "desc": {
+        "description": {
           "en": "The amount of money you want to give",
           "th": "จำนวนเงินที่คุณต้องการให้"
         },
@@ -352,7 +355,8 @@
     ],
     "category": "economy",
     "platforms": [
-      "twitch"
+      "twitch",
+      "discord"
     ]
   },
   {
@@ -379,7 +383,7 @@
           "en": "user",
           "th": "ผู้ใช้"
         },
-        "desc": {
+        "description": {
           "en": "The user you hate",
           "th": "ผู้ใช้ที่คุณเกลียด"
         },
@@ -389,7 +393,8 @@
     "category": "social",
     "platforms": [
       "twitch",
-      "kick"
+      "kick",
+      "discord"
     ]
   },
   {
@@ -420,7 +425,7 @@
           "en": "command",
           "th": "คำสั่ง"
         },
-        "desc": {
+        "description": {
           "en": "Command name",
           "th": "ชื่อคำสั่ง"
         },
@@ -430,7 +435,8 @@
     "category": "info",
     "platforms": [
       "twitch",
-      "kick"
+      "kick",
+      "discord"
     ]
   },
   {
@@ -457,7 +463,7 @@
           "en": "language",
           "th": "ภาษา"
         },
-        "desc": {
+        "description": {
           "en": "Language code (en/th)",
           "th": "รหัสภาษา (en/th)"
         },
@@ -495,7 +501,8 @@
     "args": [],
     "category": "economy",
     "platforms": [
-      "twitch"
+      "twitch",
+      "discord"
     ]
   },
   {
@@ -524,7 +531,7 @@
           "en": "code",
           "th": "รหัสเชื่อมต่อ"
         },
-        "desc": {
+        "description": {
           "en": "Enter the 6-digit link code from Discord",
           "th": "กรอกรหัส 6 หลักที่ได้จาก Discord"
         },
@@ -558,7 +565,7 @@
           "en": "user",
           "th": "ผู้ใช้"
         },
-        "desc": {
+        "description": {
           "en": "The user you love",
           "th": "ผู้ใช้ที่คุณรัก"
         },
@@ -568,7 +575,8 @@
     "category": "social",
     "platforms": [
       "twitch",
-      "kick"
+      "kick",
+      "discord"
     ]
   },
   {
@@ -598,7 +606,7 @@
           "en": "nickname",
           "th": "ชื่อเล่น"
         },
-        "desc": {
+        "description": {
           "en": "Your new nickname",
           "th": "ชื่อเล่นใหม่ของคุณ"
         },
@@ -609,6 +617,28 @@
     "platforms": [
       "twitch",
       "kick"
+    ]
+  },
+  {
+    "key": "ping",
+    "name": {
+      "en": "ping",
+      "th": ""
+    },
+    "description": {
+      "en": "Check the bot's responsiveness",
+      "th": ""
+    },
+    "aliases": {
+      "en": [],
+      "th": []
+    },
+    "modsOnly": false,
+    "broadcasterOnly": false,
+    "args": [],
+    "category": "info",
+    "platforms": [
+      "discord"
     ]
   },
   {
@@ -637,7 +667,7 @@
           "en": "user",
           "th": "ผู้ใช้"
         },
-        "desc": {
+        "description": {
           "en": "The user you want to set money",
           "th": "ผู้ใช้ที่คุณต้องการตั้งค่าเงิน"
         },
@@ -648,7 +678,7 @@
           "en": "amount",
           "th": "จำนวนเงิน"
         },
-        "desc": {
+        "description": {
           "en": "The amount of money you want to set",
           "th": "จำนวนเงินที่คุณต้องการตั้งค่า"
         },
@@ -684,7 +714,7 @@
           "en": "user",
           "th": "ผู้ใช้"
         },
-        "desc": {
+        "description": {
           "en": "The user you want to shoutout",
           "th": "ผู้ใช้ที่คุณต้องการแนะนำ"
         },
@@ -722,7 +752,7 @@
           "en": "action",
           "th": "คำสั่ง"
         },
-        "desc": {
+        "description": {
           "en": "The action to perform (should be: set, add)",
           "th": "คำสั่งที่ต้องการทำ (ควรเป็น: set, add)"
         },
@@ -733,7 +763,7 @@
           "en": "song(s)",
           "th": "เพลง"
         },
-        "desc": {
+        "description": {
           "en": "The song(s) you want to set as default, separated by commas (,)",
           "th": "เพลงที่คุณต้องการตั้งเป็นเพลงเริ่มต้น, คั่นด้วยเครื่องหมายคอมม่า (,)"
         },
@@ -803,7 +833,7 @@
           "en": "page",
           "th": "หน้า"
         },
-        "desc": {
+        "description": {
           "en": "Page number",
           "th": "หมายเลขหน้า"
         },
@@ -843,7 +873,7 @@
           "en": "index",
           "th": "ลำดับ"
         },
-        "desc": {
+        "description": {
           "en": "The index of the song to remove",
           "th": "ลำดับของเพลงที่ต้องการลบ"
         },
@@ -883,7 +913,7 @@
           "en": "song",
           "th": "เพลง"
         },
-        "desc": {
+        "description": {
           "en": "The song you want to request",
           "th": "เพลงที่คุณต้องการขอ"
         },
@@ -948,7 +978,7 @@
           "en": "user",
           "th": "ผู้ใช้"
         },
-        "desc": {
+        "description": {
           "en": "The user you want to stomp",
           "th": "ผู้ใช้ที่คุณต้องการกระทืบ"
         },
@@ -958,7 +988,8 @@
     "category": "social",
     "platforms": [
       "twitch",
-      "kick"
+      "kick",
+      "discord"
     ]
   },
   {
@@ -987,7 +1018,7 @@
           "en": "name",
           "th": "ชื่อใหม่"
         },
-        "desc": {
+        "description": {
           "en": "The name you want to change to",
           "th": "ชื่อที่คุณต้องการเปลี่ยน"
         },
@@ -1047,7 +1078,8 @@
     "category": "info",
     "platforms": [
       "twitch",
-      "kick"
+      "kick",
+      "discord"
     ]
   }
 ]

@@ -20,6 +20,20 @@ import { io } from "@/server";
 @Discord()
 @Category("Economy")
 export class GambleCommand {
+  static metadata = {
+    name: { en: "gamble", th: "" },
+    description: {
+      en: "Gamble your money with 50% chance to win",
+      th: "",
+    },
+    args: [{
+      name: { en: "amount", th: "" },
+      description: {
+        en: "Amount of money to gamble",
+        th: "",
+      },
+    }]
+  }
   @Slash({
     name: "gamble",
     description: "For you, gambling addict",
