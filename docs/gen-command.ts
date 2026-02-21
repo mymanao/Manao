@@ -3,39 +3,29 @@ import path from "path"
 import { pathToFileURL } from "url"
 
 export const categoryMap: Record<string, string> = {
-  // Moderation
   announce: "moderation",
   game: "moderation",
   shoutout: "moderation",
   stream: "moderation",
   event: "moderation",
-
-  // Economy
   balance: "economy",
   gamble: "economy",
   autobet: "economy",
   give: "economy",
   leaderboard: "economy",
   set: "economy",
-
-  // Social
   eat: "social",
   hate: "social",
   love: "social",
   stomp: "social",
-
-  // Info
   help: "info",
   uptime: "info",
   version: "info",
   link: "info",
-
-  // Preferences
   nickname: "preferences",
   currency: "preferences",
   language: "preferences",
-
-  // Music (song-* only)
+  ping: "info",
   "song-default": "music",
   "song-playing": "music",
   "song-queue": "music",
@@ -49,12 +39,12 @@ type Platform = "twitch" | "kick" | "discord"
 type CommandMeta = {
   name: { en: string; th: string }
   description: { en: string; th: string }
-  aliases?: { en?: string[]; th?: string[] },
+  aliases?: { en?: string[]; th?: string[] }
   modsOnly?: boolean
   broadcasterOnly?: boolean
   args?: {
-    name: { en: string; th: string },
-    description?: { en?: string; th?: string },
+    name: { en: string; th: string }
+    description?: { en?: string; th?: string }
     required?: boolean
   }[]
 }
@@ -63,12 +53,12 @@ type NormalizedCommand = {
   key: string
   name: { en: string; th: string }
   description: { en: string; th: string }
-  aliases: { en: string[]; th: string[] },
+  aliases: { en: string[]; th: string[] }
   modsOnly: boolean
   broadcasterOnly: boolean
   args: {
-    name: { en: string; th: string },
-    description?: { en?: string; th?: string },
+    name: { en: string; th: string }
+    description?: { en?: string; th?: string }
     required: boolean
   }[]
   category: string
@@ -77,7 +67,6 @@ type NormalizedCommand = {
 
 const ROOT = path.resolve("client")
 const OUTPUT = path.resolve("docs/data/commands.generated.json")
-
 const PLATFORM_ORDER: Platform[] = ["twitch", "kick", "discord"]
 const PLATFORMS: Platform[] = ["twitch", "kick", "discord"]
 
@@ -100,9 +89,27 @@ async function walk(dir: string): Promise<string[]> {
 async function loadCommand(file: string): Promise<CommandMeta | null> {
   try {
     const mod = await import(pathToFileURL(file).href)
-    return mod.default ?? null
+
+    if (mod.default && typeof mod.default === "object") {
+      return mod.default as CommandMeta
+    }
+
+    if (typeof mod.default === "function" && "metadata" in mod.default) {
+      return (mod.default as any).metadata as CommandMeta
+    }
+
+    for (const key of Object.keys(mod)) {
+      const exported = mod[key]
+      if (typeof exported === "function" && "metadata" in exported) {
+        return (exported as any).metadata as CommandMeta
+      }
+      if (typeof exported === "object" && exported?.name?.en) {
+        return exported as CommandMeta
+      }
+    }
+
+    return null
   } catch {
-    console.warn(`⚠️  Failed to load ${file}`)
     return null
   }
 }
@@ -114,6 +121,7 @@ async function main() {
     const baseDir = path.join(ROOT, platform, "commands")
 
     try {
+      await fs.access(baseDir)
       const files = await walk(baseDir)
 
       for (const file of files) {
@@ -124,9 +132,8 @@ async function main() {
         const category = categoryMap[key]
 
         if (!category) {
-          throw new Error(
-            `❌ Command "${key}" is missing category mapping`
-          )
+          console.warn(`❌ Command "${key}" (${platform}) missing category`)
+          continue
         }
 
         if (!map.has(key)) {
@@ -140,12 +147,11 @@ async function main() {
             },
             modsOnly: cmd.modsOnly ?? false,
             broadcasterOnly: cmd.broadcasterOnly ?? false,
-            args:
-              cmd.args?.map((a) => ({
-                name: a.name,
-                desc: a?.description,
-                required: a.required ?? false,
-              })) ?? [],
+            args: cmd.args?.map((a) => ({
+              name: a.name,
+              description: a.description,
+              required: a.required ?? false,
+            })) ?? [],
             category,
             platforms: [platform],
           })
@@ -156,8 +162,8 @@ async function main() {
           }
         }
       }
-    } catch (err) {
-      console.warn(`⚠️  Skip ${platform}: ${(err as Error).message}`)
+    } catch {
+      continue
     }
   }
 
@@ -165,8 +171,7 @@ async function main() {
     .map((cmd) => ({
       ...cmd,
       platforms: cmd.platforms.sort(
-        (a, b) =>
-          PLATFORM_ORDER.indexOf(a) - PLATFORM_ORDER.indexOf(b)
+        (a, b) => PLATFORM_ORDER.indexOf(a) - PLATFORM_ORDER.indexOf(b)
       ),
     }))
     .sort((a, b) => a.key.localeCompare(b.key))

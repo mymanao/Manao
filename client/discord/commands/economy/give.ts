@@ -1,26 +1,32 @@
-import { Category } from "@discordx/utilities";
-import {
-  addBalance,
-  getBalance,
-  getTwitchID,
-  initAccount,
-  subtractBalance,
-} from "@helpers/database";
-import { templateEmbed } from "@helpers/discord/embed.ts";
-import { t } from "@helpers/i18n";
-import { getCurrency, getLang } from "@helpers/preferences";
-import {
-  ApplicationCommandOptionType,
-  type CommandInteraction,
-  MessageFlagsBitField,
-  type User,
-} from "discord.js";
-import { Discord, Slash, SlashOption } from "discordx";
-import { io } from "@/server";
+import {Category} from "@discordx/utilities";
+import {addBalance, getBalance, getTwitchID, initAccount, subtractBalance,} from "@helpers/database";
+import {templateEmbed} from "@helpers/discord/embed.ts";
+import {t} from "@helpers/i18n";
+import {getCurrency, getLang} from "@helpers/preferences";
+import {ApplicationCommandOptionType, type CommandInteraction, type User,} from "discord.js";
+import {Discord, Slash, SlashOption} from "discordx";
+import {io} from "@/server";
 
 @Discord()
 @Category("Economy")
 export class GiveCommand {
+  static metadata = {
+    name: {en: "give", th: ""},
+    description: {
+      en: "Give money to someone else",
+      th: "",
+    },
+    args: [
+      {
+        name: {en: "user", th: ""},
+        description: {
+          en: "The user you want to give money",
+          th: "",
+        }
+      }
+    ],
+  }
+
   @Slash({
     name: "give",
     description: "Give money to someone else",

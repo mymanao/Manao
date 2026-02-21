@@ -1,5 +1,5 @@
 import type { KickItContext } from "@manaobot/kickit/types";
-import { pendingLinks } from "@discord/commands/preferences/link.ts";
+import { pendingLinks } from "@discord/commands/info/link.ts";
 import { t } from "@helpers/i18n.ts";
 import { db } from "@helpers/database.ts";
 import { getLang } from "@helpers/preferences.ts";

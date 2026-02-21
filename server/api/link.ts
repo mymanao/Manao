@@ -1,5 +1,5 @@
 import { Elysia } from "elysia";
-import { pendingLinks } from "@discord/commands/preferences/link.ts";
+import { pendingLinks } from "@discord/commands/info/link.ts";
 
 export function registerLinkAPI(app: Elysia) {
   app.get("/api/link/:code", ({ params, status }) => {

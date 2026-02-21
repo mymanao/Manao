@@ -9,6 +9,13 @@ import { Discord, Slash } from "discordx";
 @Discord()
 @Category("Economy")
 export class BalanceCommand {
+  static metadata = {
+    name: { en: "balance", th: "" },
+    description: {
+      en: "Check your balance",
+      th: "ตรวจสอบยอดเงิน",
+    },
+  }
   @Slash({
     name: "balance",
     description: "Check your balance",

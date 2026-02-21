@@ -8,6 +8,13 @@ import { Discord, Slash } from "discordx";
 @Discord()
 @Category("Info")
 export class PingCommand {
+  static metadata = {
+    name: { en: "ping", th: "" },
+    description: {
+      en: "Check the bot's responsiveness",
+      th: "",
+    },
+  }
   @Slash({
     description: "Check the bot's responsiveness",
   })

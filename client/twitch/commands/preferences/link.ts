@@ -1,4 +1,4 @@
-import { pendingLinks } from "@discord/commands/preferences/link";
+import { pendingLinks } from "@discord/commands/info/link.ts";
 import { db } from "@helpers/database";
 import { t } from "@helpers/i18n";
 import type { ClientServices, CommandMeta } from "@/types";

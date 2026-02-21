@@ -1,6 +1,6 @@
 import { Category } from "@discordx/utilities";
 import { templateEmbed } from "@helpers/discord/embed.ts";
-import { t } from "@helpers/i18n";
+import { t } from "@helpers/i18n.ts";
 import { getLang } from "@helpers/preferences.ts";
 import {
   type CommandInteraction,
@@ -22,8 +22,15 @@ export const pendingLinks = new Map<
 >();
 
 @Discord()
-@Category("Preferences")
+@Category("Info")
 export class LinkCommand {
+  static metadata = {
+    name: { en: "link", th: "" },
+    description: {
+      en: "Generate a code for authentication",
+      th: "",
+    }
+  }
   @Slash({ name: "link", description: "Generated a code for authentication" })
   async link(interaction: CommandInteraction): Promise<void> {
     const discordID = interaction.user.id;

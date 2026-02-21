@@ -12,6 +12,13 @@ import { Discord, Slash, SlashOption } from "discordx";
 @Discord()
 @Category("Social")
 export class StompCommand {
+  static metadata = {
+    name: { en: "stomp", th: "" },
+    description: {
+      en: "Stomp on someone!",
+      th: "",
+    }
+  }
   @Slash({
     description: "Stomp on someone!",
   })

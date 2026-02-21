@@ -13,6 +13,13 @@ import { version as MANAO_VERSION } from "@/package.json";
 @Discord()
 @Category("Info")
 export class VersionCommand {
+  static metadata = {
+    name: { en: "version", th: "" },
+    description: {
+      en: "Check bot's current version",
+      th: "",
+    },
+  }
   @Slash({
     name: "version",
     description: "Check bot's current version",
