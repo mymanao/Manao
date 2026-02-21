@@ -49,9 +49,12 @@ type Platform = "twitch" | "kick" | "discord"
 type CommandMeta = {
   name: { en: string; th: string }
   description: { en: string; th: string }
-  aliases?: { en?: string[]; th?: string[] }
+  aliases?: { en?: string[]; th?: string[] },
+  modsOnly?: boolean
+  broadcasterOnly?: boolean
   args?: {
-    name: { en: string; th: string }
+    name: { en: string; th: string },
+    description?: { en?: string; th?: string },
     required?: boolean
   }[]
 }
@@ -60,9 +63,12 @@ type NormalizedCommand = {
   key: string
   name: { en: string; th: string }
   description: { en: string; th: string }
-  aliases: { en: string[]; th: string[] }
+  aliases: { en: string[]; th: string[] },
+  modsOnly: boolean
+  broadcasterOnly: boolean
   args: {
-    name: { en: string; th: string }
+    name: { en: string; th: string },
+    description?: { en?: string; th?: string },
     required: boolean
   }[]
   category: string
@@ -117,13 +123,6 @@ async function main() {
         const key = cmd.name.en.toLowerCase()
         const category = categoryMap[key]
 
-        const isSong = key.startsWith("song-")
-        if (isSong && category !== "music") {
-          throw new Error(
-            `❌ Song command "${key}" must be in category "music"`
-          )
-        }
-
         if (!category) {
           throw new Error(
             `❌ Command "${key}" is missing category mapping`
@@ -139,9 +138,12 @@ async function main() {
               en: cmd.aliases?.en ?? [],
               th: cmd.aliases?.th ?? [],
             },
+            modsOnly: cmd.modsOnly ?? false,
+            broadcasterOnly: cmd.broadcasterOnly ?? false,
             args:
               cmd.args?.map((a) => ({
                 name: a.name,
+                desc: a?.description,
                 required: a.required ?? false,
               })) ?? [],
             category,

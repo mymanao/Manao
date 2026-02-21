@@ -19,11 +19,17 @@
         "แจ้ง"
       ]
     },
+    "modsOnly": true,
+    "broadcasterOnly": false,
     "args": [
       {
         "name": {
           "en": "message",
           "th": "ข้อความ"
+        },
+        "desc": {
+          "en": "Message to announce",
+          "th": "ข้อความที่ต้องการประกาศ"
         },
         "required": true
       }
@@ -49,11 +55,17 @@
       ],
       "th": []
     },
+    "modsOnly": false,
+    "broadcasterOnly": false,
     "args": [
       {
         "name": {
           "en": "amount",
           "th": "จำนวนเงิน"
+        },
+        "desc": {
+          "en": "Amount of money per bet",
+          "th": "จำนวนเงินต่อการพนัน"
         },
         "required": true
       },
@@ -61,6 +73,10 @@
         "name": {
           "en": "times",
           "th": "จำนวนครั้ง"
+        },
+        "desc": {
+          "en": "Number of times to auto-bet",
+          "th": "จำนวนครั้งที่จะพนันอัตโนมัติ"
         },
         "required": true
       }
@@ -87,11 +103,17 @@
       ],
       "th": []
     },
+    "modsOnly": false,
+    "broadcasterOnly": false,
     "args": [
       {
         "name": {
           "en": "user",
           "th": "ผู้ใช้"
+        },
+        "desc": {
+          "en": "User to check balance",
+          "th": "ผู้ใช้ที่ต้องการตรวจสอบยอดเงิน"
         },
         "required": false
       }
@@ -116,11 +138,17 @@
       "en": [],
       "th": []
     },
+    "modsOnly": false,
+    "broadcasterOnly": false,
     "args": [
       {
         "name": {
           "en": "currency",
           "th": "สกุลเงิน"
+        },
+        "desc": {
+          "en": "Currency to set",
+          "th": "สกุลเงินที่ต้องการตั้งค่า"
         },
         "required": false
       }
@@ -148,6 +176,8 @@
         "กินไร"
       ]
     },
+    "modsOnly": false,
+    "broadcasterOnly": false,
     "args": [],
     "category": "social",
     "platforms": [
@@ -174,11 +204,17 @@
         "อ"
       ]
     },
+    "modsOnly": true,
+    "broadcasterOnly": false,
     "args": [
       {
         "name": {
           "en": "action",
           "th": "คำสั่ง"
+        },
+        "desc": {
+          "en": "Action to perform (connect, disconnect)",
+          "th": "คำสั่งที่ต้องการ (connect, disconnect)"
         },
         "required": true
       },
@@ -186,6 +222,10 @@
         "name": {
           "en": "url",
           "th": "url"
+        },
+        "desc": {
+          "en": "URL to connect to",
+          "th": "URL ที่ต้องการเชื่อมต่อ"
         },
         "required": false
       }
@@ -211,11 +251,17 @@
       ],
       "th": []
     },
+    "modsOnly": false,
+    "broadcasterOnly": false,
     "args": [
       {
         "name": {
           "en": "amount",
           "th": "จำนวนเงิน"
+        },
+        "desc": {
+          "en": "Amount of money to gamble",
+          "th": "จำนวนเงินที่ต้องการพนัน"
         },
         "required": false
       }
@@ -242,11 +288,17 @@
       ],
       "th": []
     },
+    "modsOnly": true,
+    "broadcasterOnly": false,
     "args": [
       {
         "name": {
           "en": "game",
           "th": "เกม"
+        },
+        "desc": {
+          "en": "The game you want to change to",
+          "th": "เกมที่คุณต้องการเปลี่ยนไป"
         },
         "required": false
       }
@@ -272,11 +324,17 @@
       ],
       "th": []
     },
+    "modsOnly": false,
+    "broadcasterOnly": false,
     "args": [
       {
         "name": {
           "en": "user",
           "th": "ผู้ใช้"
+        },
+        "desc": {
+          "en": "The user you want to give money",
+          "th": "ผู้ใช้ที่คุณต้องการให้เงิน"
         },
         "required": true
       },
@@ -284,6 +342,10 @@
         "name": {
           "en": "amount",
           "th": "จำนวนเงิน"
+        },
+        "desc": {
+          "en": "The amount of money you want to give",
+          "th": "จำนวนเงินที่คุณต้องการให้"
         },
         "required": true
       }
@@ -309,11 +371,17 @@
         "เกลียด"
       ]
     },
+    "modsOnly": false,
+    "broadcasterOnly": false,
     "args": [
       {
         "name": {
           "en": "user",
           "th": "ผู้ใช้"
+        },
+        "desc": {
+          "en": "The user you hate",
+          "th": "ผู้ใช้ที่คุณเกลียด"
         },
         "required": false
       }
@@ -344,11 +412,17 @@
         "คำสั่ง"
       ]
     },
+    "modsOnly": false,
+    "broadcasterOnly": false,
     "args": [
       {
         "name": {
           "en": "command",
           "th": "คำสั่ง"
+        },
+        "desc": {
+          "en": "Command name",
+          "th": "ชื่อคำสั่ง"
         },
         "required": false
       }
@@ -375,11 +449,17 @@
       ],
       "th": []
     },
+    "modsOnly": false,
+    "broadcasterOnly": false,
     "args": [
       {
         "name": {
           "en": "language",
           "th": "ภาษา"
+        },
+        "desc": {
+          "en": "Language code (en/th)",
+          "th": "รหัสภาษา (en/th)"
         },
         "required": false
       }
@@ -410,6 +490,8 @@
       ],
       "th": []
     },
+    "modsOnly": false,
+    "broadcasterOnly": false,
     "args": [],
     "category": "economy",
     "platforms": [
@@ -434,11 +516,17 @@
         "เชื่อม"
       ]
     },
+    "modsOnly": false,
+    "broadcasterOnly": false,
     "args": [
       {
         "name": {
           "en": "code",
           "th": "รหัสเชื่อมต่อ"
+        },
+        "desc": {
+          "en": "Enter the 6-digit link code from Discord",
+          "th": "กรอกรหัส 6 หลักที่ได้จาก Discord"
         },
         "required": true
       }
@@ -462,11 +550,17 @@
       "en": [],
       "th": []
     },
+    "modsOnly": false,
+    "broadcasterOnly": false,
     "args": [
       {
         "name": {
           "en": "user",
           "th": "ผู้ใช้"
+        },
+        "desc": {
+          "en": "The user you love",
+          "th": "ผู้ใช้ที่คุณรัก"
         },
         "required": false
       }
@@ -496,11 +590,17 @@
         "ชื่อ"
       ]
     },
+    "modsOnly": false,
+    "broadcasterOnly": false,
     "args": [
       {
         "name": {
           "en": "nickname",
           "th": "ชื่อเล่น"
+        },
+        "desc": {
+          "en": "Your new nickname",
+          "th": "ชื่อเล่นใหม่ของคุณ"
         },
         "required": false
       }
@@ -529,11 +629,17 @@
         "ตั้งเงิน"
       ]
     },
+    "modsOnly": true,
+    "broadcasterOnly": false,
     "args": [
       {
         "name": {
           "en": "user",
           "th": "ผู้ใช้"
+        },
+        "desc": {
+          "en": "The user you want to set money",
+          "th": "ผู้ใช้ที่คุณต้องการตั้งค่าเงิน"
         },
         "required": true
       },
@@ -541,6 +647,10 @@
         "name": {
           "en": "amount",
           "th": "จำนวนเงิน"
+        },
+        "desc": {
+          "en": "The amount of money you want to set",
+          "th": "จำนวนเงินที่คุณต้องการตั้งค่า"
         },
         "required": true
       }
@@ -566,11 +676,17 @@
       ],
       "th": []
     },
+    "modsOnly": true,
+    "broadcasterOnly": false,
     "args": [
       {
         "name": {
           "en": "user",
           "th": "ผู้ใช้"
+        },
+        "desc": {
+          "en": "The user you want to shoutout",
+          "th": "ผู้ใช้ที่คุณต้องการแนะนำ"
         },
         "required": true
       }
@@ -598,11 +714,17 @@
         "เพลงเริ่ม"
       ]
     },
+    "modsOnly": false,
+    "broadcasterOnly": true,
     "args": [
       {
         "name": {
           "en": "action",
           "th": "คำสั่ง"
+        },
+        "desc": {
+          "en": "The action to perform (should be: set, add)",
+          "th": "คำสั่งที่ต้องการทำ (ควรเป็น: set, add)"
         },
         "required": true
       },
@@ -610,6 +732,10 @@
         "name": {
           "en": "song(s)",
           "th": "เพลง"
+        },
+        "desc": {
+          "en": "The song(s) you want to set as default, separated by commas (,)",
+          "th": "เพลงที่คุณต้องการตั้งเป็นเพลงเริ่มต้น, คั่นด้วยเครื่องหมายคอมม่า (,)"
         },
         "required": true
       }
@@ -641,6 +767,8 @@
         "เพลงไร"
       ]
     },
+    "modsOnly": false,
+    "broadcasterOnly": false,
     "args": [],
     "category": "music",
     "platforms": [
@@ -667,11 +795,17 @@
         "คิว"
       ]
     },
+    "modsOnly": false,
+    "broadcasterOnly": false,
     "args": [
       {
         "name": {
           "en": "page",
           "th": "หน้า"
+        },
+        "desc": {
+          "en": "Page number",
+          "th": "หมายเลขหน้า"
         },
         "required": false
       }
@@ -701,11 +835,17 @@
         "ลบ"
       ]
     },
+    "modsOnly": false,
+    "broadcasterOnly": false,
     "args": [
       {
         "name": {
           "en": "index",
           "th": "ลำดับ"
+        },
+        "desc": {
+          "en": "The index of the song to remove",
+          "th": "ลำดับของเพลงที่ต้องการลบ"
         },
         "required": true
       }
@@ -735,11 +875,17 @@
         "ขอ"
       ]
     },
+    "modsOnly": false,
+    "broadcasterOnly": false,
     "args": [
       {
         "name": {
           "en": "song",
           "th": "เพลง"
+        },
+        "desc": {
+          "en": "The song you want to request",
+          "th": "เพลงที่คุณต้องการขอ"
         },
         "required": true
       }
@@ -769,6 +915,8 @@
         "ช้าม"
       ]
     },
+    "modsOnly": false,
+    "broadcasterOnly": false,
     "args": [],
     "category": "music",
     "platforms": [
@@ -792,11 +940,17 @@
         "ถีบ"
       ]
     },
+    "modsOnly": false,
+    "broadcasterOnly": false,
     "args": [
       {
         "name": {
           "en": "user",
           "th": "ผู้ใช้"
+        },
+        "desc": {
+          "en": "The user you want to stomp",
+          "th": "ผู้ใช้ที่คุณต้องการกระทืบ"
         },
         "required": false
       }
@@ -825,11 +979,17 @@
         "สตรีม"
       ]
     },
+    "modsOnly": true,
+    "broadcasterOnly": false,
     "args": [
       {
         "name": {
           "en": "name",
           "th": "ชื่อใหม่"
+        },
+        "desc": {
+          "en": "The name you want to change to",
+          "th": "ชื่อที่คุณต้องการเปลี่ยน"
         },
         "required": true
       }
@@ -853,6 +1013,8 @@
       "en": [],
       "th": []
     },
+    "modsOnly": false,
+    "broadcasterOnly": false,
     "args": [],
     "category": "info",
     "platforms": [
@@ -879,6 +1041,8 @@
         "ว"
       ]
     },
+    "modsOnly": false,
+    "broadcasterOnly": false,
     "args": [],
     "category": "info",
     "platforms": [
