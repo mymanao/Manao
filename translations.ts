@@ -36,7 +36,7 @@ export const translations = {
       hours: "{} hours",
       uptime: "This stream has been online for {}",
       offline: "Stream is offline",
-      help: "📚 View all commands at https://tinyurl.com/manaobot — Type !help followed by a command to see its details.",
+      help: "📚 View all commands at https://manaobot.netlify.app/en/commands/ — Type !help followed by a command to see its details.",
     },
     configuration: {
       errorInvalidLanguage: "Invalid language. Available languages: {}",
@@ -169,7 +169,7 @@ export const translations = {
     info: {
       errorCommandNotFound: "ไม่พบคำสั่ง: {}",
 
-      help: "📚 ดูคำสั่งทั้งหมดได้ที่ https://tinyurl.com/manaobot — พิมพ์ !help ตามด้วยคำสั่ง เพื่อดูรายละเอียดของคำสั่งนั้น ๆ ครับ",
+      help: "📚 ดูคำสั่งทั้งหมดได้ที่ https://manaobot.netlify.app/th/commands/ — พิมพ์ !help ตามด้วยคำสั่ง เพื่อดูรายละเอียดของคำสั่งนั้น ๆ ครับ",
       version: "Manaobot v{} ใช้ Twurple v{} รันบน Bun v{}",
       versionDiscord:
         "ManaoBot v{} ใช้ Discord.js v{}, Discordx v{}, รันบน Bun v{}",
