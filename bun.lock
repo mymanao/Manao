@@ -11,8 +11,8 @@
         "@elysiajs/html": "^1.4.0",
         "@elysiajs/static": "^1.4.7",
         "@inquirer/prompts": "^7.8.6",
-        "@manaobot/kick": "^1.1.1",
-        "@manaobot/kickit": "^1.3.1",
+        "@manaobot/kick": "^1.1.3",
+        "@manaobot/kickit": "^1.3.4",
         "@ngrok/ngrok": "^1.7.0",
         "@twurple/api": "^7.4.0",
         "@twurple/auth": "^7.4.0",
@@ -161,9 +161,9 @@
 
     "@kitajs/ts-html-plugin": ["@kitajs/ts-html-plugin@4.1.2", "", { "dependencies": { "chalk": "^4.1.2", "tslib": "^2.8.1", "yargs": "^17.7.2" }, "peerDependencies": { "@kitajs/html": "^4.2.5", "typescript": "^5.6.2" }, "bin": { "ts-html-plugin": "dist/cli.js", "xss-scan": "dist/cli.js" } }, "sha512-XE9iIe93TELBdQSvNC3xxXOPDhkcK7on4Oi2HUKhln3jAc5hzn1o33uzjHCYhLeW36r/LXCT70beoXRCFcuTxQ=="],
 
-    "@manaobot/kick": ["@manaobot/kick@1.1.1", "", { "dependencies": { "consola": "^3.4.2" }, "peerDependencies": { "typescript": "^5" } }, "sha512-nvNUrmWkY8jaQrBxN7A+6WbwyZvRBcRLMddO1gtavn+/k4KQZKSVTuXecW/qnW4Vbh0KkA/jG8G6zrYM07Gmyg=="],
+    "@manaobot/kick": ["@manaobot/kick@1.1.3", "", { "dependencies": { "consola": "^3.4.2" }, "peerDependencies": { "typescript": "^5" } }, "sha512-C7CQiLCrzF6cOwGBMtp+mcPZ5XUbZj1BHaY53Qb1MFIxspmcjW27ik/2i5JXJNv/5tOCORe77qvIyA82HhyW6g=="],
 
-    "@manaobot/kickit": ["@manaobot/kickit@1.3.1", "", { "dependencies": { "@inquirer/prompts": "^8.2.0", "@manaobot/kick": "^1.1.1", "open": "^11.0.0" }, "bin": { "kickIt": "src/cli.ts" } }, "sha512-VZLJInhbHcVHO0KyK5O7Gc+Tnuf498T7cVe8pF03IzaFwdB8s+77WzDDgkCY0iUZ3jyQkj2gn8Cui5Q80KFztw=="],
+    "@manaobot/kickit": ["@manaobot/kickit@1.3.4", "", { "dependencies": { "@inquirer/prompts": "^8.2.0", "@manaobot/kick": "^1.1.3", "open": "^11.0.0" }, "bin": { "kickIt": "src/cli.ts" } }, "sha512-mNID+aiKxT5dOzIZMAHv9pRhGxsAeT4wmu3P78PlKpD2YLpSLLaNIyEpuAUr/folyF+k0u6tPUNc7ovM1yPvXg=="],
 
     "@ngrok/ngrok": ["@ngrok/ngrok@1.7.0", "", { "optionalDependencies": { "@ngrok/ngrok-android-arm64": "1.7.0", "@ngrok/ngrok-darwin-arm64": "1.7.0", "@ngrok/ngrok-darwin-universal": "1.7.0", "@ngrok/ngrok-darwin-x64": "1.7.0", "@ngrok/ngrok-freebsd-x64": "1.7.0", "@ngrok/ngrok-linux-arm-gnueabihf": "1.7.0", "@ngrok/ngrok-linux-arm64-gnu": "1.7.0", "@ngrok/ngrok-linux-arm64-musl": "1.7.0", "@ngrok/ngrok-linux-x64-gnu": "1.7.0", "@ngrok/ngrok-linux-x64-musl": "1.7.0", "@ngrok/ngrok-win32-arm64-msvc": "1.7.0", "@ngrok/ngrok-win32-ia32-msvc": "1.7.0", "@ngrok/ngrok-win32-x64-msvc": "1.7.0" } }, "sha512-P06o9TpxrJbiRbHQkiwy/rUrlXRupc+Z8KT4MiJfmcdWxvIdzjCaJOdnNkcOTs6DMyzIOefG5tvk/HLdtjqr0g=="],
 
