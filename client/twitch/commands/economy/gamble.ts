@@ -70,7 +70,7 @@ export default {
         type: "success",
         icon: "🎰",
         message: meta.user,
-        action: `+ ${amount * 1.75} ${meta.currency}`,
+        action: `+ ${amount * 2} ${meta.currency}`,
       });
     } else {
       subtractBalance(meta.userID, resultBalance);
