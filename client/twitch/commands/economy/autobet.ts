@@ -69,7 +69,7 @@ export default {
       if (currentBalance <= 0) break;
       if (amount > currentBalance) amount = currentBalance;
 
-      const win = Math.random() < 0.32;
+      const win = Math.random() < 0.5;
       const multiplier = win ? 2 : 1;
       const resultBalance = amount * multiplier;
 
