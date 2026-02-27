@@ -39,7 +39,7 @@ export default {
     });
 
     await context.reply(
-      `${meta.user} 👣 ${target} ${stompTimes} ${t("misc.times", meta.lang)}`
+      `${meta.user} 👣 ${target} ${stompTimes} ${t("misc.times", meta.lang)}`,
     );
   },
 };

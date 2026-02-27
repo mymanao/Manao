@@ -39,9 +39,9 @@ export class HelpCommand {
           en: "The command name to get info about",
           th: "",
         },
-      }
-    ]
-  }
+      },
+    ],
+  };
   @Slash({ description: "Show all available commands" })
   async all(interaction: CommandInteraction) {
     const lang = getLang();

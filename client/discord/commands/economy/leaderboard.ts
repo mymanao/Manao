@@ -17,7 +17,7 @@ export class LeaderboardCommand {
       en: "View the top richest users",
       th: "",
     },
-  }
+  };
   @Slash({
     name: "leaderboard",
     description: "View the top richest users",

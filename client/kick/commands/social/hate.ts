@@ -29,7 +29,7 @@ export default {
     const hatePercent = Math.floor(Math.random() * 101);
 
     await context.reply(
-      `${meta.user} 👿 ${args[0] || meta.user} ${hatePercent}%`
+      `${meta.user} 👿 ${args[0] || meta.user} ${hatePercent}%`,
     );
   },
 };

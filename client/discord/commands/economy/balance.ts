@@ -15,7 +15,7 @@ export class BalanceCommand {
       en: "Check your balance",
       th: "ตรวจสอบยอดเงิน",
     },
-  }
+  };
   @Slash({
     name: "balance",
     description: "Check your balance",

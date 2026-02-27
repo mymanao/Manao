@@ -1,9 +1,14 @@
-import {addKickBalance, getKickBalance, initKickAccount, subtractKickBalance,} from "@helpers/database";
-import {t} from "@helpers/i18n";
-import {getCurrency, getLang} from "@helpers/preferences";
-import type {KickItContext} from "@manaobot/kickit/types";
-import type {CommandMeta} from "@/types";
-import {io} from "@/server";
+import {
+  addKickBalance,
+  getKickBalance,
+  initKickAccount,
+  subtractKickBalance,
+} from "@helpers/database";
+import { t } from "@helpers/i18n";
+import { getCurrency, getLang } from "@helpers/preferences";
+import type { KickItContext } from "@manaobot/kickit/types";
+import type { CommandMeta } from "@/types";
+import { io } from "@/server";
 
 export default {
   name: { en: "gamble", th: "พนัน" },
@@ -65,14 +70,24 @@ export default {
       await context.reply(
         `@${meta.user} 🎉 ${t("economy.gambleWin", lang, resultAmount, currency, newBalance, currency)}`,
       );
-      io.emit?.("feed", { type: "success", icon: "🎰", message: meta.user, action: `+ ${amount} ${currency}` });
+      io.emit?.("feed", {
+        type: "success",
+        icon: "🎰",
+        message: meta.user,
+        action: `+ ${amount} ${currency}`,
+      });
     } else {
       subtractKickBalance(userID, amount);
       const newBalance = currentBalance - amount;
       await context.reply(
         `@${meta.user} ❌ ${t("economy.gambleLose", lang, amount, currency, newBalance, currency)}`,
       );
-      io.emit?.("feed", { type: "danger", icon: "🎰", message: meta.user, action: `- ${amount} ${currency}` });
+      io.emit?.("feed", {
+        type: "danger",
+        icon: "🎰",
+        message: meta.user,
+        action: `- ${amount} ${currency}`,
+      });
     }
   },
 };

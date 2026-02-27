@@ -47,7 +47,9 @@ export async function searchYoutubeVideo(
 
     const match = html.match(/var ytInitialData = ({.*?});<\/script>/);
     if (!match || !match[1]) {
-      console.warn("[Scraper] YouTube HTML structure may have changed — ytInitialData not found");
+      console.warn(
+        "[Scraper] YouTube HTML structure may have changed — ytInitialData not found",
+      );
       return null;
     }
 
@@ -57,7 +59,9 @@ export async function searchYoutubeVideo(
         ?.sectionListRenderer?.contents;
 
     if (!contents) {
-      console.warn("[Scraper] YouTube HTML structure may have changed — search results not found");
+      console.warn(
+        "[Scraper] YouTube HTML structure may have changed — search results not found",
+      );
       return null;
     }
 

@@ -15,8 +15,8 @@ export class HateCommand {
     description: {
       en: "For whom do you hate?",
       th: "",
-    }
-  }
+    },
+  };
   @Slash({
     description: "For whom do you hate?",
   })

@@ -19,7 +19,7 @@ export class VersionCommand {
       en: "Check bot's current version",
       th: "",
     },
-  }
+  };
   @Slash({
     name: "version",
     description: "Check bot's current version",

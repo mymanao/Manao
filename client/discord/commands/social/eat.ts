@@ -12,8 +12,8 @@ export class EatCommand {
     description: {
       en: "What do you want to eat?",
       th: "",
-    }
-  }
+    },
+  };
   @Slash({
     description: "What do you want to eat?",
   })

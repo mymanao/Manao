@@ -1,7 +1,7 @@
-import {Database} from "bun:sqlite";
-import {customCommands} from "@twitch/services/chat";
-import type {Command, UserData} from "@/types";
-import {logger} from "./logger";
+import { Database } from "bun:sqlite";
+import { customCommands } from "@twitch/services/chat";
+import type { Command, UserData } from "@/types";
+import { logger } from "./logger";
 
 export const db = new Database("./bot-data.sqlite", { create: true });
 
@@ -199,9 +199,13 @@ export function getKickBalance(kickID: string): number {
   const info = getInfoFromKickID(kickID);
   if (info) return info.money;
   // unlinked user: use kick_id directly as an account key
-  const row = db.prepare("SELECT money FROM users WHERE user = ?").get(`kick:${kickID}`) as {
-    money: number
-  } | undefined;
+  const row = db
+    .prepare("SELECT money FROM users WHERE user = ?")
+    .get(`kick:${kickID}`) as
+    | {
+        money: number;
+      }
+    | undefined;
   return row?.money ?? 0;
 }
 
@@ -221,7 +225,10 @@ export function addKickBalance(kickID: string, amount: number): void {
     addBalance(info.user, amount);
   } else {
     initKickAccount(kickID);
-    db.prepare("UPDATE users SET money = money + ? WHERE user = ?").run(amount, `kick:${kickID}`);
+    db.prepare("UPDATE users SET money = money + ? WHERE user = ?").run(
+      amount,
+      `kick:${kickID}`,
+    );
   }
 }
 
@@ -230,6 +237,9 @@ export function subtractKickBalance(kickID: string, amount: number): void {
   if (info) {
     subtractBalance(info.user, amount);
   } else {
-    db.prepare("UPDATE users SET money = money - ? WHERE user = ?").run(amount, `kick:${kickID}`);
+    db.prepare("UPDATE users SET money = money - ? WHERE user = ?").run(
+      amount,
+      `kick:${kickID}`,
+    );
   }
 }

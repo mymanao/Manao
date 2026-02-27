@@ -15,7 +15,7 @@ import { logger } from "@helpers/logger";
 import type { Command } from "@/types";
 import type { KickIt } from "@manaobot/kickit";
 import type { ChatMessageEvent } from "@manaobot/kick/types";
-import {PREFIX} from "@/config.ts";
+import { PREFIX } from "@/config.ts";
 
 export const commands: Map<string, Command> = new Map();
 export const customCommands: Map<string, Command> = fetchCommand();
@@ -112,10 +112,14 @@ export async function loadKickCommands(bot: KickIt) {
         addBalance(twitchID, Math.trunc(Math.random() * 4));
       } else {
         const key = `kick:${kickID}`;
-        const exists = db.prepare("SELECT 1 FROM users WHERE user = ?").get(key);
-        if (!exists) db.prepare("INSERT INTO users (user, money) VALUES (?, 0)").run(key);
+        const exists = db
+          .prepare("SELECT 1 FROM users WHERE user = ?")
+          .get(key);
+        if (!exists)
+          db.prepare("INSERT INTO users (user, money) VALUES (?, 0)").run(key);
         db.prepare("UPDATE users SET money = money + ? WHERE user = ?").run(
-          Math.trunc(Math.random() * 4), key
+          Math.trunc(Math.random() * 4),
+          key,
         );
       }
       const message = event.content.toLowerCase();

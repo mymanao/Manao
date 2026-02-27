@@ -14,7 +14,7 @@ export class PingCommand {
       en: "Check the bot's responsiveness",
       th: "",
     },
-  }
+  };
   @Slash({
     description: "Check the bot's responsiveness",
   })

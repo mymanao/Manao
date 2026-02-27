@@ -29,8 +29,8 @@ export class LinkCommand {
     description: {
       en: "Generate a code for authentication",
       th: "",
-    }
-  }
+    },
+  };
   @Slash({ name: "link", description: "Generated a code for authentication" })
   async link(interaction: CommandInteraction): Promise<void> {
     const discordID = interaction.user.id;

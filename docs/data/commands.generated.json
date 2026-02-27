@@ -10,14 +10,8 @@
       "th": "ประกาศข้อความไปยังช่อง"
     },
     "aliases": {
-      "en": [
-        "a",
-        "an"
-      ],
-      "th": [
-        "ป",
-        "แจ้ง"
-      ]
+      "en": ["a", "an"],
+      "th": ["ป", "แจ้ง"]
     },
     "modsOnly": true,
     "broadcasterOnly": false,
@@ -35,9 +29,7 @@
       }
     ],
     "category": "moderation",
-    "platforms": [
-      "twitch"
-    ]
+    "platforms": ["twitch"]
   },
   {
     "key": "autobet",
@@ -50,9 +42,7 @@
       "th": "พนันอัตโนมัติหลายครั้ง"
     },
     "aliases": {
-      "en": [
-        "ab"
-      ],
+      "en": ["ab"],
       "th": []
     },
     "modsOnly": false,
@@ -82,9 +72,7 @@
       }
     ],
     "category": "economy",
-    "platforms": [
-      "kick"
-    ]
+    "platforms": ["kick"]
   },
   {
     "key": "balance",
@@ -97,10 +85,7 @@
       "th": "ตรวจสอบยอดเงินของคุณ"
     },
     "aliases": {
-      "en": [
-        "bal",
-        "money"
-      ],
+      "en": ["bal", "money"],
       "th": []
     },
     "modsOnly": false,
@@ -119,11 +104,7 @@
       }
     ],
     "category": "economy",
-    "platforms": [
-      "twitch",
-      "kick",
-      "discord"
-    ]
+    "platforms": ["twitch", "kick", "discord"]
   },
   {
     "key": "currency",
@@ -155,10 +136,7 @@
       }
     ],
     "category": "preferences",
-    "platforms": [
-      "twitch",
-      "kick"
-    ]
+    "platforms": ["twitch", "kick"]
   },
   {
     "key": "eat",
@@ -172,20 +150,13 @@
     },
     "aliases": {
       "en": [],
-      "th": [
-        "กินอะไร",
-        "กินไร"
-      ]
+      "th": ["กินอะไร", "กินไร"]
     },
     "modsOnly": false,
     "broadcasterOnly": false,
     "args": [],
     "category": "social",
-    "platforms": [
-      "twitch",
-      "kick",
-      "discord"
-    ]
+    "platforms": ["twitch", "kick", "discord"]
   },
   {
     "key": "event",
@@ -198,13 +169,8 @@
       "th": "เริ่มต้นอีเวนต์ใหม่"
     },
     "aliases": {
-      "en": [
-        "e",
-        "ev"
-      ],
-      "th": [
-        "อ"
-      ]
+      "en": ["e", "ev"],
+      "th": ["อ"]
     },
     "modsOnly": true,
     "broadcasterOnly": false,
@@ -233,9 +199,7 @@
       }
     ],
     "category": "moderation",
-    "platforms": [
-      "twitch"
-    ]
+    "platforms": ["twitch"]
   },
   {
     "key": "gamble",
@@ -248,9 +212,7 @@
       "th": "สำหรับคนติดพนันอย่างคุณ"
     },
     "aliases": {
-      "en": [
-        "bet"
-      ],
+      "en": ["bet"],
       "th": []
     },
     "modsOnly": false,
@@ -269,11 +231,7 @@
       }
     ],
     "category": "economy",
-    "platforms": [
-      "twitch",
-      "kick",
-      "discord"
-    ]
+    "platforms": ["twitch", "kick", "discord"]
   },
   {
     "key": "game",
@@ -286,9 +244,7 @@
       "th": "เปลี่ยนเกมของสตรีม"
     },
     "aliases": {
-      "en": [
-        "g"
-      ],
+      "en": ["g"],
       "th": []
     },
     "modsOnly": true,
@@ -307,9 +263,7 @@
       }
     ],
     "category": "moderation",
-    "platforms": [
-      "twitch"
-    ]
+    "platforms": ["twitch"]
   },
   {
     "key": "give",
@@ -322,9 +276,7 @@
       "th": "ให้เงินผู้อื่น"
     },
     "aliases": {
-      "en": [
-        "transfer"
-      ],
+      "en": ["transfer"],
       "th": []
     },
     "modsOnly": false,
@@ -354,10 +306,7 @@
       }
     ],
     "category": "economy",
-    "platforms": [
-      "twitch",
-      "discord"
-    ]
+    "platforms": ["twitch", "discord"]
   },
   {
     "key": "hate",
@@ -371,9 +320,7 @@
     },
     "aliases": {
       "en": [],
-      "th": [
-        "เกลียด"
-      ]
+      "th": ["เกลียด"]
     },
     "modsOnly": false,
     "broadcasterOnly": false,
@@ -391,11 +338,7 @@
       }
     ],
     "category": "social",
-    "platforms": [
-      "twitch",
-      "kick",
-      "discord"
-    ]
+    "platforms": ["twitch", "kick", "discord"]
   },
   {
     "key": "help",
@@ -408,14 +351,8 @@
       "th": "ดูคำสั่งทั้งหมดที่ใช้ได้"
     },
     "aliases": {
-      "en": [
-        "h",
-        "commands",
-        "command"
-      ],
-      "th": [
-        "คำสั่ง"
-      ]
+      "en": ["h", "commands", "command"],
+      "th": ["คำสั่ง"]
     },
     "modsOnly": false,
     "broadcasterOnly": false,
@@ -433,11 +370,7 @@
       }
     ],
     "category": "info",
-    "platforms": [
-      "twitch",
-      "kick",
-      "discord"
-    ]
+    "platforms": ["twitch", "kick", "discord"]
   },
   {
     "key": "language",
@@ -450,9 +383,7 @@
       "th": "ตั้งค่าภาษาที่คุณต้องการ"
     },
     "aliases": {
-      "en": [
-        "lang"
-      ],
+      "en": ["lang"],
       "th": []
     },
     "modsOnly": false,
@@ -471,10 +402,7 @@
       }
     ],
     "category": "preferences",
-    "platforms": [
-      "twitch",
-      "kick"
-    ]
+    "platforms": ["twitch", "kick"]
   },
   {
     "key": "leaderboard",
@@ -487,23 +415,14 @@
       "th": "ดูอันดับคะแนน"
     },
     "aliases": {
-      "en": [
-        "leader",
-        "ld",
-        "lb",
-        "top",
-        "baltop"
-      ],
+      "en": ["leader", "ld", "lb", "top", "baltop"],
       "th": []
     },
     "modsOnly": false,
     "broadcasterOnly": false,
     "args": [],
     "category": "economy",
-    "platforms": [
-      "twitch",
-      "discord"
-    ]
+    "platforms": ["twitch", "discord"]
   },
   {
     "key": "link",
@@ -516,12 +435,8 @@
       "th": "เชื่อมบัญชี Kick กับ Discord"
     },
     "aliases": {
-      "en": [
-        "connect"
-      ],
-      "th": [
-        "เชื่อม"
-      ]
+      "en": ["connect"],
+      "th": ["เชื่อม"]
     },
     "modsOnly": false,
     "broadcasterOnly": false,
@@ -539,9 +454,7 @@
       }
     ],
     "category": "info",
-    "platforms": [
-      "kick"
-    ]
+    "platforms": ["kick"]
   },
   {
     "key": "love",
@@ -573,11 +486,7 @@
       }
     ],
     "category": "social",
-    "platforms": [
-      "twitch",
-      "kick",
-      "discord"
-    ]
+    "platforms": ["twitch", "kick", "discord"]
   },
   {
     "key": "nickname",
@@ -590,13 +499,8 @@
       "th": "เปลี่ยนหรือแสดงชื่อเล่นของคุณ"
     },
     "aliases": {
-      "en": [
-        "nick",
-        "name"
-      ],
-      "th": [
-        "ชื่อ"
-      ]
+      "en": ["nick", "name"],
+      "th": ["ชื่อ"]
     },
     "modsOnly": false,
     "broadcasterOnly": false,
@@ -614,10 +518,7 @@
       }
     ],
     "category": "preferences",
-    "platforms": [
-      "twitch",
-      "kick"
-    ]
+    "platforms": ["twitch", "kick"]
   },
   {
     "key": "ping",
@@ -637,9 +538,7 @@
     "broadcasterOnly": false,
     "args": [],
     "category": "info",
-    "platforms": [
-      "discord"
-    ]
+    "platforms": ["discord"]
   },
   {
     "key": "set",
@@ -652,12 +551,8 @@
       "th": "ตั้งค่าเงินของผู้ใช้"
     },
     "aliases": {
-      "en": [
-        "s"
-      ],
-      "th": [
-        "ตั้งเงิน"
-      ]
+      "en": ["s"],
+      "th": ["ตั้งเงิน"]
     },
     "modsOnly": true,
     "broadcasterOnly": false,
@@ -686,9 +581,7 @@
       }
     ],
     "category": "economy",
-    "platforms": [
-      "twitch"
-    ]
+    "platforms": ["twitch"]
   },
   {
     "key": "shoutout",
@@ -701,9 +594,7 @@
       "th": "แนะนำใครสักคน!"
     },
     "aliases": {
-      "en": [
-        "so"
-      ],
+      "en": ["so"],
       "th": []
     },
     "modsOnly": true,
@@ -722,9 +613,7 @@
       }
     ],
     "category": "moderation",
-    "platforms": [
-      "twitch"
-    ]
+    "platforms": ["twitch"]
   },
   {
     "key": "song-default",
@@ -737,12 +626,8 @@
       "th": "ตั้งเพลงเริ่มต้น"
     },
     "aliases": {
-      "en": [
-        "sd"
-      ],
-      "th": [
-        "เพลงเริ่ม"
-      ]
+      "en": ["sd"],
+      "th": ["เพลงเริ่ม"]
     },
     "modsOnly": false,
     "broadcasterOnly": true,
@@ -771,10 +656,7 @@
       }
     ],
     "category": "music",
-    "platforms": [
-      "twitch",
-      "kick"
-    ]
+    "platforms": ["twitch", "kick"]
   },
   {
     "key": "song-playing",
@@ -787,24 +669,14 @@
       "th": "แสดงเพลงที่กำลังเล่นอยู่"
     },
     "aliases": {
-      "en": [
-        "playing",
-        "nowplaying",
-        "np"
-      ],
-      "th": [
-        "เพลงอะไร",
-        "เพลงไร"
-      ]
+      "en": ["playing", "nowplaying", "np"],
+      "th": ["เพลงอะไร", "เพลงไร"]
     },
     "modsOnly": false,
     "broadcasterOnly": false,
     "args": [],
     "category": "music",
-    "platforms": [
-      "twitch",
-      "kick"
-    ]
+    "platforms": ["twitch", "kick"]
   },
   {
     "key": "song-queue",
@@ -817,13 +689,8 @@
       "th": "ตรวจสอบคิวเพลง"
     },
     "aliases": {
-      "en": [
-        "queue",
-        "sq"
-      ],
-      "th": [
-        "คิว"
-      ]
+      "en": ["queue", "sq"],
+      "th": ["คิว"]
     },
     "modsOnly": false,
     "broadcasterOnly": false,
@@ -841,10 +708,7 @@
       }
     ],
     "category": "music",
-    "platforms": [
-      "twitch",
-      "kick"
-    ]
+    "platforms": ["twitch", "kick"]
   },
   {
     "key": "song-remove",
@@ -857,13 +721,8 @@
       "th": "ลบเพลงออกจากคิว"
     },
     "aliases": {
-      "en": [
-        "remove",
-        "rm"
-      ],
-      "th": [
-        "ลบ"
-      ]
+      "en": ["remove", "rm"],
+      "th": ["ลบ"]
     },
     "modsOnly": false,
     "broadcasterOnly": false,
@@ -881,10 +740,7 @@
       }
     ],
     "category": "music",
-    "platforms": [
-      "twitch",
-      "kick"
-    ]
+    "platforms": ["twitch", "kick"]
   },
   {
     "key": "song-request",
@@ -897,13 +753,8 @@
       "th": "ขอเพลงที่ต้องการ"
     },
     "aliases": {
-      "en": [
-        "sr"
-      ],
-      "th": [
-        "ข",
-        "ขอ"
-      ]
+      "en": ["sr"],
+      "th": ["ข", "ขอ"]
     },
     "modsOnly": false,
     "broadcasterOnly": false,
@@ -921,10 +772,7 @@
       }
     ],
     "category": "music",
-    "platforms": [
-      "twitch",
-      "kick"
-    ]
+    "platforms": ["twitch", "kick"]
   },
   {
     "key": "song-skip",
@@ -937,22 +785,14 @@
       "th": "ข้ามเพลงปัจจุบัน"
     },
     "aliases": {
-      "en": [
-        "skip",
-        "sk"
-      ],
-      "th": [
-        "ช้าม"
-      ]
+      "en": ["skip", "sk"],
+      "th": ["ช้าม"]
     },
     "modsOnly": false,
     "broadcasterOnly": false,
     "args": [],
     "category": "music",
-    "platforms": [
-      "twitch",
-      "kick"
-    ]
+    "platforms": ["twitch", "kick"]
   },
   {
     "key": "stomp",
@@ -966,9 +806,7 @@
     },
     "aliases": {
       "en": [],
-      "th": [
-        "ถีบ"
-      ]
+      "th": ["ถีบ"]
     },
     "modsOnly": false,
     "broadcasterOnly": false,
@@ -986,11 +824,7 @@
       }
     ],
     "category": "social",
-    "platforms": [
-      "twitch",
-      "kick",
-      "discord"
-    ]
+    "platforms": ["twitch", "kick", "discord"]
   },
   {
     "key": "stream",
@@ -1003,12 +837,8 @@
       "th": "เปลี่ยนชื่อของสตรีม"
     },
     "aliases": {
-      "en": [
-        "s"
-      ],
-      "th": [
-        "สตรีม"
-      ]
+      "en": ["s"],
+      "th": ["สตรีม"]
     },
     "modsOnly": true,
     "broadcasterOnly": false,
@@ -1026,9 +856,7 @@
       }
     ],
     "category": "moderation",
-    "platforms": [
-      "twitch"
-    ]
+    "platforms": ["twitch"]
   },
   {
     "key": "uptime",
@@ -1048,10 +876,7 @@
     "broadcasterOnly": false,
     "args": [],
     "category": "info",
-    "platforms": [
-      "twitch",
-      "kick"
-    ]
+    "platforms": ["twitch", "kick"]
   },
   {
     "key": "version",
@@ -1064,22 +889,13 @@
       "th": "ตรวจสอบเวอร์ชันของบอท"
     },
     "aliases": {
-      "en": [
-        "v",
-        "ver"
-      ],
-      "th": [
-        "ว"
-      ]
+      "en": ["v", "ver"],
+      "th": ["ว"]
     },
     "modsOnly": false,
     "broadcasterOnly": false,
     "args": [],
     "category": "info",
-    "platforms": [
-      "twitch",
-      "kick",
-      "discord"
-    ]
+    "platforms": ["twitch", "kick", "discord"]
   }
 ]

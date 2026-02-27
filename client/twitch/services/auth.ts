@@ -5,7 +5,10 @@ import type { UserType } from "@/types";
 import { writeFileSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
-function persistTokenToEnv(userType: UserType, newTokenData: AccessToken): void {
+function persistTokenToEnv(
+  userType: UserType,
+  newTokenData: AccessToken,
+): void {
   try {
     const envPath = join(process.cwd(), ".env");
     let envContent = readFileSync(envPath, "utf-8");

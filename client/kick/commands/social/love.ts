@@ -53,8 +53,6 @@ export default {
       action: `${lovePercent}%`,
     });
 
-    await context.reply(
-      `${meta.user} 💘 ${target} ${lovePercent}%`
-    );
+    await context.reply(`${meta.user} 💘 ${target} ${lovePercent}%`);
   },
 };

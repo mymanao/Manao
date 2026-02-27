@@ -15,8 +15,8 @@ export class LoveCommand {
     description: {
       en: "How deep is your love?",
       th: "",
-    }
-  }
+    },
+  };
   @Slash({
     description: "How deep is your love?",
   })

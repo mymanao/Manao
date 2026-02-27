@@ -17,8 +17,8 @@ export class StompCommand {
     description: {
       en: "Stomp on someone!",
       th: "",
-    }
-  }
+    },
+  };
   @Slash({
     description: "Stomp on someone!",
   })

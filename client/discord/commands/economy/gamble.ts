@@ -26,14 +26,16 @@ export class GambleCommand {
       en: "Gamble your money with 50% chance to win",
       th: "",
     },
-    args: [{
-      name: { en: "amount", th: "" },
-      description: {
-        en: "Amount of money to gamble",
-        th: "",
+    args: [
+      {
+        name: { en: "amount", th: "" },
+        description: {
+          en: "Amount of money to gamble",
+          th: "",
+        },
       },
-    }]
-  }
+    ],
+  };
   @Slash({
     name: "gamble",
     description: "For you, gambling addict",
