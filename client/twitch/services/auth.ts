@@ -1,7 +1,7 @@
-import { logger } from "@helpers/logger";
-import { type AccessToken, RefreshingAuthProvider } from "@twurple/auth";
-import { TWITCH } from "@/config";
-import type { UserType } from "@/types";
+import {logger} from "@helpers/logger";
+import {type AccessToken, RefreshingAuthProvider} from "@twurple/auth";
+import {TWITCH} from "@/config";
+import type {UserType} from "@/types";
 
 function buildUserTokens(user: UserType): AccessToken {
   const tokens = user === "bot" ? TWITCH.BOT : TWITCH.BROADCASTER;
@@ -40,7 +40,22 @@ export function setupAuthProvider(): RefreshingAuthProvider {
     target.ACCESS_TOKEN = newTokenData.accessToken;
     target.REFRESH_TOKEN = newTokenData.refreshToken ?? "";
 
-    logger.info(`[Auth] Refreshed ${userType} token`);
+    let role = userType === "bot" ? "TWITCH_BOT" : "BROADCASTER";
+
+    Bun.write(".env", (await (Bun.file(".env")).text())
+      .split("\n")
+      .map((line: string) => {
+        if (line.startsWith(`${role}_ACCESS_TOKEN=`)) {
+          return `${role}_ACCESS_TOKEN=${newTokenData.accessToken}`;
+        } else if (line.startsWith(`${role}_REFRESH_TOKEN=`)) {
+          return `${role}_REFRESH_TOKEN=${newTokenData.refreshToken ?? ""}`;
+        }
+        return line;
+      }).join("\n")).then(() => {
+        logger.info(`[Auth] Refreshed ${userType} token, saved to .env`);
+    }).catch((err) => {
+      throw new Error(`Failed to update .env with refreshed ${userType} token: ${err}`);
+    })
   });
 
   authProvider.addUser(TWITCH.BOT.ID as string, buildUserTokens("bot"), [
