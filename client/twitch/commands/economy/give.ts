@@ -71,6 +71,14 @@ export default {
       return;
     }
     const targetID = targetUser.id;
+
+    if (targetID === meta.userID) {
+      await client.chat.say(
+        meta.channel,
+        `@${meta.user} ${t("economy.errorSelfTransfer", meta.lang)}`,
+      );
+      return;
+    }
     initAccount(targetID);
 
     subtractBalance(meta.userID, amount);
