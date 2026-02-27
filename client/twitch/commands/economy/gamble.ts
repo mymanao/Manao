@@ -61,7 +61,6 @@ export default {
     const resultBalance = amount * multiplier;
 
     if (win) {
-      subtractBalance(meta.userID, amount);
       addBalance(meta.userID, resultBalance);
       await client.chat.say(
         meta.channel,
@@ -71,7 +70,7 @@ export default {
         type: "success",
         icon: "🎰",
         message: meta.user,
-        action: `+ ${amount * 2} ${meta.currency}`,
+        action: `+ ${amount} ${meta.currency}`,
       });
     } else {
       subtractBalance(meta.userID, resultBalance);
