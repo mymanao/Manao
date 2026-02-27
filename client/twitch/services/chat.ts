@@ -2,7 +2,7 @@ import { readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { fetchCommand } from "@helpers/database";
 import { logger } from "@helpers/logger";
-import { getCustomReplies, getDisabledCommands } from "@helpers/preferences";
+import { getDisabledCommands } from "@helpers/preferences";
 import { handleMessage } from "@twitch/handler/messageHandler";
 import { ApiClient } from "@twurple/api";
 import type { RefreshingAuthProvider } from "@twurple/auth";
@@ -15,12 +15,8 @@ export const commands: Map<string, Command> = new Map();
 export const customCommands: Map<string, Command> = fetchCommand();
 export const songQueue: SongRequestData[] = [];
 
-let customReplies = getCustomReplies();
+import { getReplyStore } from "@helpers/replyStore";
 const sequenceIndex = new Map<string, number>();
-
-setInterval(() => {
-  customReplies = getCustomReplies();
-}, 10_000);
 
 export async function loadCommands() {
   const commandsDir = join(import.meta.dir, "../commands");
@@ -111,7 +107,7 @@ export async function initializeChatClient(
 
       const lowerMsg = message.toLowerCase();
 
-      for (const reply of customReplies) {
+      for (const reply of getReplyStore()) {
         for (const keyword of reply.keywords) {
           const lowerKey = keyword.toLowerCase();
           const matched =

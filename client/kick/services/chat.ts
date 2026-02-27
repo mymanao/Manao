@@ -9,6 +9,7 @@ import {
   addBalance,
   fetchCommand,
   getTwitchIDFromKickID,
+  db,
 } from "@helpers/database";
 import { logger } from "@helpers/logger";
 import type { Command } from "@/types";
@@ -19,12 +20,8 @@ import {PREFIX} from "@/config.ts";
 export const commands: Map<string, Command> = new Map();
 export const customCommands: Map<string, Command> = fetchCommand();
 
-let customReplies = getCustomReplies();
+import { getReplyStore } from "@helpers/replyStore";
 const sequenceIndex = new Map<string, number>();
-
-setInterval(() => {
-  customReplies = getCustomReplies();
-}, 10_000);
 
 export async function loadKickCommands(bot: KickIt) {
   const disabledCommands = new Set(getDisabledCommands());
@@ -105,12 +102,25 @@ export async function loadKickCommands(bot: KickIt) {
   bot.kickClient.webhooks.on(
     "chat.message.sent",
     async (event: ChatMessageEvent) => {
-      const twitchID = getTwitchIDFromKickID(event.sender.user_id.toString());
-      if (!twitchID || event.content.startsWith(PREFIX)) return;
-      addBalance(twitchID, Math.trunc(Math.random() * 4));
+      if (event.content.startsWith(PREFIX)) return;
+
+      const kickID = event.sender.user_id.toString();
+      const twitchID = getTwitchIDFromKickID(kickID);
+
+      // Give passive coins — works for both linked and unlinked users
+      if (twitchID) {
+        addBalance(twitchID, Math.trunc(Math.random() * 4));
+      } else {
+        const key = `kick:${kickID}`;
+        const exists = db.prepare("SELECT 1 FROM users WHERE user = ?").get(key);
+        if (!exists) db.prepare("INSERT INTO users (user, money) VALUES (?, 0)").run(key);
+        db.prepare("UPDATE users SET money = money + ? WHERE user = ?").run(
+          Math.trunc(Math.random() * 4), key
+        );
+      }
       const message = event.content.toLowerCase();
 
-      for (const reply of customReplies) {
+      for (const reply of getReplyStore()) {
         for (const keyword of reply.keywords) {
           const lowerKey = keyword.toLowerCase();
 
