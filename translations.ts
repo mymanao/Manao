@@ -89,6 +89,7 @@ export const translations = {
         "You have insufficient funds to perform this action",
       errorInvalidTimes:
         "Invalid number of times, please enter a number between 1 and 100",
+      errorSelfTransfer: "You cannot transfer money to yourself!",
 
       autobetResult:
         "Autobet results: {} time(s) — Won {} Lost {} — Remaining {} {}",
@@ -229,6 +230,7 @@ export const translations = {
       errorInvalidAmount: "จำนวนเงินไม่ถูกต้อง",
       errorInsufficientFunds: "คุณมีเงินไม่เพียงพอในการทำรายการนี้",
       errorInvalidTimes: "จำนวนครั้งไม่ถูกต้อง กรุณาใส่ตัวเลขระหว่าง 1 ถึง 100",
+      errorSelfTransfer: "ไม่สามารถโอนเงินให้ตัวเองได้",
 
       autobetResult: "ผลการเล่นอัตโนมัติ: {} ครั้ง — ได้ {} เสีย {} — เหลือ {} {}",
       currentBalance: "ยอดเงินปัจจุบันของคุณคือ: {} {}",
