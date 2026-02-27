@@ -1,14 +1,9 @@
-import {
-  addBalance,
-  subtractBalance,
-  getInfoFromKickID,
-  initAccountFromKick,
-} from "@helpers/database";
-import { t } from "@helpers/i18n";
-import { getCurrency, getLang } from "@helpers/preferences";
-import type { KickItContext } from "@manaobot/kickit/types";
-import type { CommandMeta } from "@/types";
-import { io } from "@/server";
+import {addKickBalance, getKickBalance, initKickAccount, subtractKickBalance,} from "@helpers/database";
+import {t} from "@helpers/i18n";
+import {getCurrency, getLang} from "@helpers/preferences";
+import type {KickItContext} from "@manaobot/kickit/types";
+import type {CommandMeta} from "@/types";
+import {io} from "@/server";
 
 export default {
   name: { en: "gamble", th: "พนัน" },
@@ -35,23 +30,15 @@ export default {
     args: string[],
   ): Promise<void> => {
     const userID = meta.userID.toString();
-
-    initAccountFromKick(userID);
-
-    const userInfo = getInfoFromKickID(userID);
     const lang = getLang();
     const currency = getCurrency();
 
-    if (!userInfo) {
-      await context.reply(
-        `@${meta.user} ${t("economy.errorAccountNotFound", lang, meta.user)}`,
-      );
-      return;
-    }
+    initKickAccount(userID);
+    const currentBalance = getKickBalance(userID);
 
     let amount =
       args[0] === "all"
-        ? userInfo.money
+        ? currentBalance
         : Math.trunc(parseInt(args[0] ?? "1", 10));
 
     if (args[0] !== "all" && (Number.isNaN(amount) || amount <= 0)) {
@@ -61,7 +48,7 @@ export default {
       return;
     }
 
-    if (amount > userInfo.money) {
+    if (amount > currentBalance) {
       await context.reply(
         `@${meta.user} ${t("economy.errorInsufficientFunds", lang)}`,
       );
@@ -73,49 +60,19 @@ export default {
     const resultAmount = amount * multiplier;
 
     if (win) {
-      addBalance(userID, resultAmount);
-
-      const newBalance = userInfo.money + resultAmount;
-
+      addKickBalance(userID, resultAmount);
+      const newBalance = currentBalance + resultAmount;
       await context.reply(
-        `@${meta.user} 🎉 ${t(
-          "economy.gambleWin",
-          lang,
-          resultAmount,
-          currency,
-          newBalance,
-          currency,
-        )}`,
+        `@${meta.user} 🎉 ${t("economy.gambleWin", lang, resultAmount, currency, newBalance, currency)}`,
       );
-
-      io.emit?.("feed", {
-        type: "success",
-        icon: "🎰",
-        message: meta.user,
-        action: `+ ${amount} ${currency}`,
-      });
+      io.emit?.("feed", { type: "success", icon: "🎰", message: meta.user, action: `+ ${amount} ${currency}` });
     } else {
-      subtractBalance(userID, amount);
-
-      const newBalance = userInfo.money - amount;
-
+      subtractKickBalance(userID, amount);
+      const newBalance = currentBalance - amount;
       await context.reply(
-        `@${meta.user} ❌ ${t(
-          "economy.gambleLose",
-          lang,
-          amount,
-          currency,
-          newBalance,
-          currency,
-        )}`,
+        `@${meta.user} ❌ ${t("economy.gambleLose", lang, amount, currency, newBalance, currency)}`,
       );
-
-      io.emit?.("feed", {
-        type: "danger",
-        icon: "🎰",
-        message: meta.user,
-        action: `- ${amount} ${currency}`,
-      });
+      io.emit?.("feed", { type: "danger", icon: "🎰", message: meta.user, action: `- ${amount} ${currency}` });
     }
   },
 };
