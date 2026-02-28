@@ -1,9 +1,9 @@
 import { Database } from "bun:sqlite";
-import { customCommands } from "@twitch/services/chat";
 import type { Command, UserData } from "@/types";
 import { logger } from "./logger";
 
 export const db = new Database("./bot-data.sqlite", { create: true });
+export const customCommands: Map<string, Command> = fetchCommand();
 
 export function initDatabase(): void {
   db.run(`

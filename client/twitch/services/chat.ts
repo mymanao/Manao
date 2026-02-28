@@ -1,6 +1,5 @@
 import { readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
-import { fetchCommand } from "@helpers/database";
 import { logger } from "@helpers/logger";
 import { getDisabledCommands } from "@helpers/preferences";
 import { handleMessage } from "@twitch/handler/messageHandler";
@@ -10,12 +9,11 @@ import { ChatClient } from "@twurple/chat";
 import { TWITCH } from "@/config.ts";
 import type { Command, SongRequestData } from "@/types";
 import { handleEventMessage } from "@twitch/services/event.ts";
+import { getReplyStore } from "@helpers/replyStore";
 
 export const commands: Map<string, Command> = new Map();
-export const customCommands: Map<string, Command> = fetchCommand();
 export const songQueue: SongRequestData[] = [];
 
-import { getReplyStore } from "@helpers/replyStore";
 const sequenceIndex = new Map<string, number>();
 
 export async function loadCommands() {

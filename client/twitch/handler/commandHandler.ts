@@ -1,6 +1,7 @@
 import { findCommand } from "@helpers/command";
 import {
   addBalance,
+  customCommands,
   getBalance,
   initAccount,
   setBalance,
@@ -10,7 +11,7 @@ import { t } from "@helpers/i18n";
 import { closest } from "@helpers/levenshtein";
 import { logger } from "@helpers/logger";
 import { getCurrency, getLang } from "@helpers/preferences";
-import { commands, customCommands } from "@twitch/services/chat";
+import { commands } from "@twitch/services/chat";
 import type { ApiClient } from "@twurple/api";
 import type { ChatClient } from "@twurple/chat";
 import { io } from "@/server";

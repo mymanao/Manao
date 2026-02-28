@@ -1,8 +1,7 @@
 import { findCommand } from "@helpers/command";
-import { addCommand, deleteCommand } from "@helpers/database";
+import { addCommand, customCommands, deleteCommand } from "@helpers/database";
 import { getCustomReplies } from "@helpers/preferences.ts";
 import { updateReplies } from "@helpers/replyStore";
-import { customCommands } from "@twitch/services/chat";
 import type { Elysia } from "elysia";
 import type { Command, CustomReply } from "@/types";
 
