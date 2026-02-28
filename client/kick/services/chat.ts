@@ -1,5 +1,9 @@
 import { Glob } from "bun";
-import { getCurrency, getDisabledCommands, getLang } from "@helpers/preferences";
+import {
+  getCurrency,
+  getDisabledCommands,
+  getLang,
+} from "@helpers/preferences";
 import {
   addBalance,
   addKickBalance,
