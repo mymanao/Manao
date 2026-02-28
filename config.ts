@@ -16,10 +16,6 @@ function getEnvVar(key: string, required = true): string {
 export const DIR = {
   APP: "./server/app",
   PUBLIC: "./server/public",
-  COMMANDS: {
-    TWITCH: "./server/twitch/commands",
-    DISCORD: "./server/discord/commands",
-  },
 };
 
 export const TWITCH = {
