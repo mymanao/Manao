@@ -69,11 +69,13 @@ export function getTwitchIDFromKickID(kickID: string): string {
 }
 
 export function getInfoFromKickID(kickID: string): UserData | undefined {
-  const row = db.prepare(`
+  const row = db
+    .prepare(`
     SELECT u.* FROM users u
     INNER JOIN linked_accounts la ON la.twitch_id = u.user
     WHERE la.kick_id = ?
-  `).get(kickID);
+  `)
+    .get(kickID);
   return row as UserData | undefined;
 }
 
@@ -158,7 +160,6 @@ export function addCommand(command: Command): void {
 }
 
 export function fetchCommand(): Map<string, Command> {
-  initDatabase();
   const rows = db.prepare("SELECT * FROM commands").all() as Array<
     Partial<Command>
   >;
@@ -236,6 +237,9 @@ export function subtractKickBalance(kickID: string, amount: number): void {
     subtractBalance(info.user, amount);
   } else {
     initKickAccount(kickID);
-    db.prepare("UPDATE users SET money = money - ? WHERE user = ?").run(amount, `kick:${kickID}`);
+    db.prepare("UPDATE users SET money = money - ? WHERE user = ?").run(
+      amount,
+      `kick:${kickID}`,
+    );
   }
 }
