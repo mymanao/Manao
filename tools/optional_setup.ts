@@ -74,7 +74,7 @@ if (useKick) {
   );
   console.log(
     chalk.cyan(
-      "→ Thai: https://manaobot.netlify.app/th/kick/00-getting-started/",
+      "→ Thai: https://manaobot.netlify.app/kick/00-getting-started/",
     ),
   );
   const clientId =
