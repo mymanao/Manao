@@ -29,6 +29,41 @@ print_warning() {
     echo -e "${YELLOW}WARNING: $1${NC}"
 }
 
+# Function to expand ~ in paths safely
+expand_path() {
+    local path="$1"
+    echo "${path/#\~/$HOME}"
+}
+
+# Function to resolve to absolute path
+resolve_path() {
+    local path="$1"
+    path="$(expand_path "$path")"
+    mkdir -p "$path"
+    cd "$path" && pwd
+}
+
+# Function to pick a folder via GUI or fallback to text input
+pick_folder() {
+    local default_path="$1"
+    local picked=""
+
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        # macOS
+        picked=$(osascript -e "POSIX path of (choose folder with prompt \"Select installation folder\" default location \"$default_path\")" 2>/dev/null | tr -d '\n') || true
+    elif command -v zenity &> /dev/null && [ -n "$DISPLAY" ]; then
+        # Linux (GNOME/GTK)
+        picked=$(zenity --file-selection --directory \
+            --title="Select installation folder" \
+            --filename="$default_path/" 2>/dev/null) || true
+    elif command -v kdialog &> /dev/null && [ -n "$DISPLAY" ]; then
+        # Linux (KDE)
+        picked=$(kdialog --getexistingdirectory "$default_path" 2>/dev/null) || true
+    fi
+
+    echo "$picked"
+}
+
 # Check if Git is installed
 if ! command -v git &> /dev/null; then
     print_error "Git not found. Please install Git first."
@@ -91,13 +126,14 @@ echo
 echo "Select installation folder..."
 echo "Current directory: $(pwd)"
 echo
-echo "1. Install in current directory"
-echo "2. Install in ~/ManaoBot"
+echo "1. Install in current directory ($(pwd))"
+echo "2. Install in $HOME/ManaoBot"
 echo "3. Install in /opt/ManaoBot (requires sudo)"
-echo "4. Enter custom path"
+echo "4. Browse for folder..."
+echo "5. Enter custom path"
 echo
 
-echo -n "Select option (1-4): "
+echo -n "Select option (1-5): "
 read -r folder_choice
 
 case $folder_choice in
@@ -111,9 +147,22 @@ case $folder_choice in
         selected_path="/opt/ManaoBot"
         ;;
     4)
+        echo "Opening folder picker..."
+        picked="$(pick_folder "$HOME")"
+        if [ -n "$picked" ]; then
+            selected_path="$picked"
+            echo "Selected: $selected_path"
+        else
+            print_warning "No folder selected or GUI not available. Falling back to text input."
+            echo -n "Enter custom path: "
+            read -r custom_path
+            selected_path="$(expand_path "$custom_path")"
+        fi
+        ;;
+    5)
         echo -n "Enter custom path: "
         read -r custom_path
-        selected_path="$custom_path"
+        selected_path="$(expand_path "$custom_path")"
         ;;
     *)
         echo "Invalid selection. Using current directory."
@@ -130,11 +179,14 @@ else
     install_path="$selected_path/ManaoBot"
 fi
 
+# Expand ~ and resolve to absolute path
+install_path="$(resolve_path "$install_path")"
+
 echo "Selected installation path: $install_path"
 echo
 
-# Check if the folder already exists
-if [ -d "$install_path" ]; then
+# Check if the folder already exists and is non-empty
+if [ -d "$install_path" ] && [ "$(ls -A "$install_path" 2>/dev/null)" ]; then
     echo "Folder $install_path already exists."
     echo -n "Do you want to overwrite? (Y/n): "
     read -r overwrite
@@ -143,7 +195,7 @@ if [ -d "$install_path" ]; then
         exit 0
     fi
 
-    # Backup .env* files
+    # Backup files
     backup_dir=$(mktemp -d)
     echo "Backing up .env files..."
 
@@ -179,7 +231,7 @@ if [ -d "$install_path" ]; then
         exit 1
     fi
 
-    # Create installation directory
+    # Re-create installation directory after removal
     mkdir -p "$install_path"
     if [ ! -d "$install_path" ]; then
         print_error "Failed to create installation directory."
@@ -233,7 +285,6 @@ if ! command -v bun &> /dev/null; then
     echo "Bun not found. Installing Bun..."
     if command -v curl &> /dev/null; then
         curl -fsSL https://bun.sh/install | bash
-        # Source the shell profile to update PATH
         if [ -f "$HOME/.bashrc" ]; then
             # shellcheck source=/dev/null
             source "$HOME/.bashrc"
@@ -241,7 +292,6 @@ if ! command -v bun &> /dev/null; then
             # shellcheck source=/dev/null
             source "$HOME/.zshrc"
         fi
-        # Update PATH for current session
         export PATH="$HOME/.bun/bin:$PATH"
     else
         print_error "curl not found. Please install curl first, then install Bun manually."
@@ -268,8 +318,8 @@ if ! bun install; then
     exit 1
 fi
 
-# Restore .env* files if they were backed up
-if [ -n "$backup_dir" ] && [ -d "$backup_dir" ]; then
+# Restore backed up files
+if [ -n "${backup_dir:-}" ] && [ -d "$backup_dir" ]; then
     echo "Restoring .env files..."
     for backup_file in "$backup_dir"/*; do
         if [ -f "$backup_file" ]; then
@@ -311,10 +361,10 @@ echo
 echo -n "Do you want to open the installation folder? (Y/n): "
 read -r open_folder
 if [[ ! "$open_folder" =~ ^[Nn]$ ]]; then
-    if command -v xdg-open &> /dev/null; then
-        xdg-open "$(realpath "$install_path")" 2>/dev/null
-    elif command -v open &> /dev/null; then
+    if [[ "$OSTYPE" == "darwin"* ]]; then
         open "$install_path"
+    elif command -v xdg-open &> /dev/null; then
+        xdg-open "$install_path" 2>/dev/null
     else
         echo "Cannot open folder automatically. Installation location: $install_path"
     fi
