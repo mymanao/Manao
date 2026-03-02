@@ -3,7 +3,11 @@ import { run } from "@/client/discord";
 import { startServer } from "./server";
 import { DISCORD, KICK } from "@/config.ts";
 import { startKickBot } from "@/client/kick";
-import {customCommands, fetchCustomCommands, initDatabase} from "@helpers/database.ts";
+import {
+  customCommands,
+  fetchCustomCommands,
+  initDatabase,
+} from "@helpers/database.ts";
 
 initDatabase();
 
