@@ -312,7 +312,7 @@ echo -n "Do you want to open the installation folder? (Y/n): "
 read -r open_folder
 if [[ ! "$open_folder" =~ ^[Nn]$ ]]; then
     if command -v xdg-open &> /dev/null; then
-        xdg-open "$install_path"
+        xdg-open "$(realpath "$install_path")" 2>/dev/null
     elif command -v open &> /dev/null; then
         open "$install_path"
     else
