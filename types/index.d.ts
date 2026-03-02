@@ -1,8 +1,6 @@
 import type { ApiClient } from "@twurple/api";
 import type { ChatClient } from "@twurple/chat";
 import type { Server as SocketIOServer } from "socket.io";
-import type { KickIt } from "@manaobot/kickit";
-import { getSoundFromRewardId } from "@helpers/preferences.ts";
 
 export type Language = "en" | "th";
 export type UserType = "bot" | "broadcaster";
