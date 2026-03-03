@@ -67,11 +67,20 @@ export default {
       return;
     }
 
-    addLinkedPlatform({
-      id: targetInternalID,
-      platform: "twitch",
-      platformID: meta.userID,
-    });
+    try {
+      addLinkedPlatform({
+        id: targetInternalID,
+        platform: "twitch",
+        platformID: meta.userID,
+      });
+    } catch {
+      await client.chat.say(
+        meta.channel,
+        `@${meta.user} ${t("configuration.errorAlreadyLinked", meta.lang)}`,
+      );
+      return;
+    }
+
     consumeLinkCode(targetInternalID);
 
     await client.chat.say(

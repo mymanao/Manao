@@ -71,11 +71,19 @@ export default {
       return;
     }
 
-    addLinkedPlatform({
-      id: targetInternalID,
-      platform: "kick",
-      platformID: meta.userID,
-    });
+    try {
+      addLinkedPlatform({
+        id: targetInternalID,
+        platform: "kick",
+        platformID: meta.userID,
+      });
+    } catch {
+      await context.reply(
+        `@${meta.user} ${t("configuration.errorAlreadyLinked", lang)}`,
+      );
+      return;
+    }
+
     consumeLinkCode(targetInternalID);
 
     await context.reply(
