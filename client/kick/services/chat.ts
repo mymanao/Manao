@@ -18,7 +18,7 @@ const { chatReward } = config;
 const sequenceIndex = new Map<string, number>();
 
 export async function loadKickCommands(bot: KickIt) {
-  const disabledCommands = new Set(getDisabledCommands());
+  const disabledCommands = new Set(await getDisabledCommands());
 
   const modules = new Glob("../commands/**/*.{ts,js}");
 
@@ -63,7 +63,7 @@ export async function loadKickCommands(bot: KickIt) {
             if (!isMod) return;
           }
 
-          const lang = getLang() ?? "en";
+          const lang = await getLang() ?? "en";
 
           const meta = {
             user: ctx.event.sender.username,
@@ -72,7 +72,7 @@ export async function loadKickCommands(bot: KickIt) {
             userID: ctx.event.sender.user_id.toString(),
             commands,
             lang,
-            currency: getCurrency(),
+            currency: await getCurrency(),
           };
 
           try {

@@ -1,19 +1,21 @@
 import { getCustomReplies, setCustomReplies } from "./preferences";
 import type { CustomReply } from "@/types";
 
-// Single shared store — both Twitch and Kick clients read from this
-let _customReplies: CustomReply[] = getCustomReplies();
+let _customReplies: CustomReply[] = [];
+
+export async function initReplyStore(): Promise<void> {
+  _customReplies = await getCustomReplies();
+}
 
 export function getReplyStore(): CustomReply[] {
   return _customReplies;
 }
 
-// Call this after any update via the dashboard API
-export function invalidateReplyStore(): void {
-  _customReplies = getCustomReplies();
+export async function invalidateReplyStore(): Promise<void> {
+  _customReplies = await getCustomReplies();
 }
 
-export function updateReplies(replies: CustomReply[]): void {
-  setCustomReplies(replies);
+export async function updateReplies(replies: CustomReply[]): Promise<void> {
+  await setCustomReplies(replies);
   _customReplies = replies;
 }

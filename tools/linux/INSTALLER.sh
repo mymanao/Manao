@@ -199,7 +199,8 @@ if [ -d "$install_path" ] && [ "$(ls -A "$install_path" 2>/dev/null)" ]; then
     backup_dir=$(mktemp -d)
     echo "Backing up .env files..."
 
-    # Backup bot-data.sqlite if it exists
+    # Backup bot-data.sqliteERROR [2026-03-03 01:22:57]: [Message] Error processing message: SQLiteError: no such column: id
+ if it exists
     if [ -f "$install_path/bot-data.sqlite" ]; then
         echo "Backing up bot-data.sqlite..."
         cp "$install_path/bot-data.sqlite" "$backup_dir/"

@@ -33,7 +33,7 @@ export class StompCommand {
     interaction: CommandInteraction,
   ): Promise<void> {
     const stompTimes = Math.floor(Math.random() * 1000) + 1;
-    const lang = getLang();
+    const lang = await getLang();
     await interaction.reply({
       content: `${interaction.user} 👣 ${user} ${stompTimes} ${t("misc.times", lang)}!`,
       flags: MessageFlags.Ephemeral,

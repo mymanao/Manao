@@ -23,8 +23,8 @@ export class LeaderboardCommand {
     description: "View the top richest users",
   })
   async leaderboard(interaction: CommandInteraction) {
-    const lang = getLang();
-    const currency = getCurrency();
+    const lang = await getLang();
+    const currency = await getCurrency();
 
     await interaction.deferReply();
 

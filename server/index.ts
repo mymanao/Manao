@@ -1,6 +1,7 @@
 import { html } from "@elysiajs/html";
 import { staticPlugin } from "@elysiajs/static";
 import { registerCommandsAPI } from "@server/api/commands.ts";
+import { registerConfigAPI } from "@server/api/config.ts";
 import { registerCustomCommandAPI } from "@server/api/custom-commands.ts";
 import { registerMusicAPI } from "@server/api/music.ts";
 import { registerRewardsAPI } from "@server/api/rewards.ts";
@@ -29,12 +30,13 @@ app.get("/scripts/socket.io/socket.io.js", () => {
 });
 
 registerPageRoutes(app);
-registerOverlayRoutes(app);
+await registerOverlayRoutes(app);
 
 registerMusicAPI(app);
 registerCommandsAPI(app);
+registerConfigAPI(app);
 registerCustomCommandAPI(app);
-registerRewardsAPI(app);
+await registerRewardsAPI(app);
 registerSoundboardAPI(app);
 registerLinkAPI(app);
 

@@ -91,7 +91,7 @@ export default {
         `@${meta.user} ${t("song.songDefaultSet", meta.lang, songsData.length)}`,
       );
     } else if (action === "add") {
-      const updatedSongs = addDefaultSong(songsData);
+      const updatedSongs = await addDefaultSong(songsData);
 
       await client.chat.say(
         meta.channel,

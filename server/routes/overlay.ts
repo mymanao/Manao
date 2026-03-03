@@ -5,8 +5,8 @@ import { Music } from "@server/app/overlay/Music.tsx";
 import { Template } from "@server/app/Template.tsx";
 import type { Elysia } from "elysia";
 
-function registerOverlayRoutes(app: Elysia): Elysia {
-  const [defaultSong] = getDefaultSong();
+async function registerOverlayRoutes(app: Elysia): Promise<Elysia> {
+  const [defaultSong] = await getDefaultSong();
 
   app.get("/overlay/chat", () =>
     Template(Chat(), {

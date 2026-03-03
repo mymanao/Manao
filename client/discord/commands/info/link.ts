@@ -9,7 +9,7 @@ import {
 } from "discord.js";
 import { Discord, Slash } from "discordx";
 
-const lang = getLang();
+const lang = await getLang();
 
 export const pendingLinks = new Map<
   string,

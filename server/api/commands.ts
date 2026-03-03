@@ -7,12 +7,12 @@ import { commands } from "@twitch/services/chat";
 import type { Elysia } from "elysia";
 
 export function registerCommandsAPI(app: Elysia) {
-  app.get("/api/lang", () => {
-    return { lang: getLang() };
+  app.get("/api/lang", async () => {
+    return { lang: await getLang() };
   });
 
-  app.get("/api/commands", () => {
-    const lang = getLang();
+  app.get("/api/commands", async () => {
+    const lang = await getLang();
     // don't show duplicate commands (aliases)
     const uniqueCommands = Array.from(commands.values()).filter(
       (command, index, self) =>
@@ -29,7 +29,7 @@ export function registerCommandsAPI(app: Elysia) {
     }));
   });
 
-  app.get("/api/commands/:commandName", ({ params: { commandName } }) => {
+  app.get("/api/commands/:commandName", async ({ params: { commandName } }) => {
     let cmdName = decodeURIComponent(commandName);
 
     const foundCommand = Array.from(commands.values()).find(
@@ -48,7 +48,7 @@ export function registerCommandsAPI(app: Elysia) {
       return { error: "Command not found" };
     }
 
-    const lang = getLang();
+    const lang = await getLang();
     return {
       name: command.name[lang],
       description: command.description[lang],

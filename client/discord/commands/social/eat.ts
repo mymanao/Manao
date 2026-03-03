@@ -18,7 +18,7 @@ export class EatCommand {
     description: "What do you want to eat?",
   })
   async eat(interaction: CommandInteraction): Promise<void> {
-    const lang = getLang();
+    const lang = await getLang();
     const foods = {
       th: [
         "ข้าว",

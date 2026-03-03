@@ -9,7 +9,7 @@ import { ChatClient } from "@twurple/chat";
 import { TWITCH } from "@/config.ts";
 import type { Command, SongRequestData } from "@/types";
 import { handleEventMessage } from "@twitch/services/event.ts";
-import { getReplyStore } from "@helpers/replyStore";
+import {getReplyStore, initReplyStore} from "@helpers/replyStore";
 
 export const commands: Map<string, Command> = new Map();
 export const songQueue: SongRequestData[] = [];
@@ -18,7 +18,7 @@ const sequenceIndex = new Map<string, number>();
 
 export async function loadCommands() {
   const commandsDir = join(import.meta.dir, "../commands");
-  const disabledCommands = new Set(getDisabledCommands());
+  const disabledCommands = new Set(await getDisabledCommands());
 
   function getFiles(dir: string): string[] {
     const files: string[] = [];
@@ -63,6 +63,7 @@ export async function loadCommands() {
 export async function initializeChatClient(
   authProvider: RefreshingAuthProvider,
 ) {
+  await initReplyStore();
   await loadCommands();
 
   const apiClient = new ApiClient({ authProvider });

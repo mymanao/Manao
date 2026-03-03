@@ -26,7 +26,7 @@ export class PingCommand {
           title: "Pong!",
           description: t(
             "discord.ping.latency",
-            getLang(),
+            await getLang(),
             (Date.now() - interaction.createdTimestamp).toString(),
           ),
           interaction: interaction,

@@ -48,7 +48,7 @@ export class GambleCommand {
     amountInput: string | undefined,
     interaction: CommandInteraction,
   ): Promise<void> {
-    const lang = getLang();
+    const lang = await getLang();
 
     await interaction.deferReply();
 
@@ -56,7 +56,7 @@ export class GambleCommand {
       userID: interaction.user.id,
       platform: "discord",
     });
-    const currency = getCurrency();
+    const currency = await getCurrency();
     const amountStr = amountInput ?? "1";
 
     let amount = Math.trunc(parseInt(amountStr, 10));

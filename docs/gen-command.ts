@@ -164,7 +164,7 @@ async function main() {
         }
       }
     } catch {
-      continue;
+      console.warn(`No commands found for platform: ${platform}`);
     }
   }
 
