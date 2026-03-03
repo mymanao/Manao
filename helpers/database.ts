@@ -42,30 +42,30 @@ const defaultConfig: UserConfig = {
 
 export function initDatabase(): void {
   db.run(`
-    CREATE TABLE IF NOT EXISTS users (
-      id TEXT PRIMARY KEY,
-      money INTEGER DEFAULT 0,
-      nickname TEXT
-    );
+      CREATE TABLE IF NOT EXISTS users (
+                                           id TEXT PRIMARY KEY,
+                                           money INTEGER DEFAULT 0,
+                                           nickname TEXT
+      );
 
-    CREATE TABLE IF NOT EXISTS commands (
-      name TEXT PRIMARY KEY,
-      description TEXT,
-      aliases TEXT DEFAULT '[]',
-      args TEXT DEFAULT '[]',
-      modsOnly BOOLEAN DEFAULT 0,
-      broadcasterOnly BOOLEAN DEFAULT 0,
-      disabled BOOLEAN DEFAULT 0,
-      execute TEXT
-    );
+      CREATE TABLE IF NOT EXISTS commands (
+                                              name TEXT PRIMARY KEY,
+                                              description TEXT,
+                                              aliases TEXT DEFAULT '[]',
+                                              args TEXT DEFAULT '[]',
+                                              modsOnly BOOLEAN DEFAULT 0,
+                                              broadcasterOnly BOOLEAN DEFAULT 0,
+                                              disabled BOOLEAN DEFAULT 0,
+                                              execute TEXT
+      );
 
-    CREATE TABLE IF NOT EXISTS linked_accounts (
-      id TEXT PRIMARY KEY,
-      discord_id TEXT UNIQUE,
-      twitch_id TEXT UNIQUE,
-      kick_id TEXT UNIQUE,
-      linked_at INTEGER DEFAULT (strftime('%s','now'))
-    );
+      CREATE TABLE IF NOT EXISTS linked_accounts (
+                                                     id TEXT PRIMARY KEY,
+                                                     discord_id TEXT UNIQUE,
+                                                     twitch_id TEXT UNIQUE,
+                                                     kick_id TEXT UNIQUE,
+                                                     linked_at INTEGER DEFAULT (strftime('%s','now'))
+          );
   `);
 }
 
@@ -73,37 +73,21 @@ export function initDatabase(): void {
    Account Linking
 ---------------------------------- */
 
-export function initAccount(opts: {
-  userID: string;
-  platform: Platform;
-}): string {
+export function initAccount(opts: { userID: string; platform: Platform }): string {
   const { userID, platform } = opts;
-  const linkedID = getLinkedID({ userID, platform });
-  if (linkedID) return linkedID;
+  const existing = getLinkedID({ userID, platform });
+  if (existing) return existing;
 
-  const column = `${platform}_id`;
   const id = Bun.randomUUIDv7();
-
-  db.prepare(`INSERT INTO linked_accounts (id, ${column}) VALUES (?, ?)`).run(
-    id,
-    userID,
-  );
-
+  db.prepare(`INSERT INTO linked_accounts (id, ${platform}_id) VALUES (?, ?)`).run(id, userID);
   db.prepare("INSERT INTO users (id, money) VALUES (?, 0)").run(id);
   return id;
 }
 
-export function getLinkedID(opts: {
-  userID: string;
-  platform: Platform;
-}): string | undefined {
-  const { userID, platform } = opts;
-  const column = `${platform}_id`;
-
+export function getLinkedID(opts: { userID: string; platform: Platform }): string | undefined {
   const row = db
-    .prepare(`SELECT id FROM linked_accounts WHERE ${column} = ?`)
-    .get(userID) as { id: string } | undefined;
-
+  .prepare(`SELECT id FROM linked_accounts WHERE ${opts.platform}_id = ?`)
+  .get(opts.userID) as { id: string } | undefined;
   return row?.id;
 }
 
@@ -113,26 +97,60 @@ export function addLinkedPlatform(opts: {
   platformID: string;
 }): void {
   const { id, platform, platformID } = opts;
-  const column = `${platform}_id`;
+  const col = `${platform}_id`;
 
-  const existingRow = db
-    .prepare(`SELECT id FROM linked_accounts WHERE id = ?`)
-    .get(id) as { id: string } | undefined;
-  if (!existingRow) {
-    db.prepare(`INSERT INTO linked_accounts (id, ${column}) VALUES (?, ?)`).run(
-      id,
-      platformID,
-    );
-  } else {
-    db.prepare(`UPDATE linked_accounts SET ${column} = ? WHERE id = ?`).run(
-      platformID,
-      id,
-    );
+  const existingOwner = db
+  .prepare(`SELECT id FROM linked_accounts WHERE ${col} = ?`)
+  .get(platformID) as { id: string } | undefined;
+
+  if (existingOwner) {
+    if (existingOwner.id === id) return;
+    mergeAccounts({ targetID: id, orphanID: existingOwner.id });
+    return;
   }
 
-  logger.info(
-    `[Account Linking] Linked ${platform} account (${platformID}) to user ID: ${id}`,
-  );
+  const targetExists = db
+  .prepare("SELECT id FROM linked_accounts WHERE id = ?")
+  .get(id) as { id: string } | undefined;
+
+  if (targetExists) {
+    db.prepare(`UPDATE linked_accounts SET ${col} = ? WHERE id = ?`).run(platformID, id);
+  } else {
+    db.prepare(`INSERT INTO linked_accounts (id, ${col}) VALUES (?, ?)`).run(id, platformID);
+  }
+
+  logger.info(`[Account Linking] Linked ${platform} (${platformID}) to ${id}`);
+}
+
+function mergeAccounts(opts: { targetID: string; orphanID: string }): void {
+  const { targetID, orphanID } = opts;
+
+  const orphan = db
+  .prepare("SELECT * FROM linked_accounts WHERE id = ?")
+  .get(orphanID) as Record<string, string> | undefined;
+
+  if (!orphan) return;
+
+  const orphanBalance = db
+  .prepare("SELECT money FROM users WHERE id = ?")
+  .get(orphanID) as { money: number } | undefined;
+
+  // Delete orphan first to release UNIQUE constraints before copying its values
+  db.prepare("DELETE FROM linked_accounts WHERE id = ?").run(orphanID);
+  db.prepare("DELETE FROM users WHERE id = ?").run(orphanID);
+
+  if (orphanBalance?.money) {
+    db.prepare("UPDATE users SET money = money + ? WHERE id = ?").run(orphanBalance.money, targetID);
+  }
+
+  for (const p of ["discord", "twitch", "kick"] as Platform[]) {
+    const col = `${p}_id`;
+    if (orphan[col]) {
+      db.prepare(`UPDATE linked_accounts SET ${col} = ? WHERE id = ?`).run(orphan[col], targetID);
+    }
+  }
+
+  logger.info(`[Account Linking] Merged ${orphanID} into ${targetID}`);
 }
 
 /* ----------------------------------
@@ -143,7 +161,6 @@ export function getNickname(id: string): string | null {
   const row = db.prepare("SELECT nickname FROM users WHERE id = ?").get(id) as
     | Pick<UserData, "nickname">
     | undefined;
-
   return row?.nickname ?? null;
 }
 
@@ -155,7 +172,6 @@ export function getBalance(id: string): number {
   const row = db.prepare("SELECT money FROM users WHERE id = ?").get(id) as
     | Pick<UserData, "money">
     | undefined;
-
   return row?.money ?? 0;
 }
 
@@ -180,13 +196,11 @@ export function setBalance(id: string, amount: number): number {
 
 export async function getUserConfig(): Promise<UserConfig> {
   const file = Bun.file(CONFIG_PATH);
-
   if (!(await file.exists())) {
     await Bun.write(CONFIG_PATH, JSON.stringify(defaultConfig, null, 2));
     return defaultConfig;
   }
-
-  return await file.json();
+  return file.json();
 }
 
 export async function updateUserConfig<K extends keyof UserConfig>(
@@ -195,7 +209,6 @@ export async function updateUserConfig<K extends keyof UserConfig>(
 ): Promise<void> {
   const config = await getUserConfig();
   config[key] = value;
-
   await Bun.write(CONFIG_PATH, JSON.stringify(config, null, 2));
 }
 
@@ -206,7 +219,7 @@ export async function updateUserConfig<K extends keyof UserConfig>(
 export function addCommand(command: Command): void {
   try {
     db.prepare(`
-      INSERT OR IGNORE INTO commands
+        INSERT OR IGNORE INTO commands
       (name, description, aliases, args, modsOnly, broadcasterOnly, disabled, execute)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `).run(
@@ -219,7 +232,6 @@ export function addCommand(command: Command): void {
       command.disabled ? 1 : 0,
       command.execute.toString(),
     );
-
     customCommands.set(command.name.en, command);
     logger.info(`[Custom Command] Added command: ${command.name.en}`);
   } catch (error) {
@@ -229,10 +241,7 @@ export function addCommand(command: Command): void {
 }
 
 export function fetchCustomCommands(): Map<string, Command> {
-  const rows = db.prepare("SELECT * FROM commands").all() as Array<
-    Partial<Command>
-  >;
-
+  const rows = db.prepare("SELECT * FROM commands").all() as Array<Partial<Command>>;
   const commandList: Map<string, Command> = new Map();
 
   for (const row of rows) {
@@ -244,7 +253,6 @@ export function fetchCustomCommands(): Map<string, Command> {
         aliases: JSON.parse(String(row.aliases ?? "[]")),
         args: JSON.parse(String(row.args ?? "[]")),
       } as Command;
-
       commandList.set(command.name.en, command);
     } catch (error) {
       logger.error(`[Custom Command] Failed to parse command: ${row} ${error}`);
