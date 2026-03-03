@@ -12,7 +12,10 @@ export function ConfigManager() {
       </p>
 
       {/* Toast */}
-      <div id="toast" class="toast toast-top toast-end fixed z-9999999999999999999999999999999 hidden">
+      <div
+        id="toast"
+        class="toast toast-top toast-end fixed z-9999999999999999999999999999999 hidden"
+      >
         <div id="toast-inner" class="alert alert-success shadow-lg">
           <i class="fas fa-check-circle"></i>
           <span id="toast-msg">Saved!</span>
