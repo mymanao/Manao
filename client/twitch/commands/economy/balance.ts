@@ -1,6 +1,6 @@
-import { db, initAccount } from "@helpers/database";
+import { getBalance, initAccount } from "@helpers/database";
 import { t } from "@helpers/i18n";
-import type { ClientServices, CommandMeta, UserData } from "@/types";
+import type { ClientServices, CommandMeta } from "@/types";
 
 export default {
   name: { en: "balance", th: "ยอดเงิน" },
@@ -34,28 +34,19 @@ export default {
       return;
     }
 
-    initAccount(user.id);
+    initAccount({ userID: user.id, platform: "twitch" });
 
-    const stmt = db.prepare("SELECT money FROM users WHERE user = ?");
-    const balance = stmt.get(user.id) as Pick<UserData, "money">;
-
-    if (!balance) {
-      await client.chat.say(
-        meta.channel,
-        `@${meta.user} ${t("economy.errorAccountNotFound", meta.lang, user.displayName)}`,
-      );
-      return;
-    }
+    const balance = getBalance(user.id);
 
     client.io.emit("feed", {
       type: "normal",
       icon: "👛",
       message: `${meta.user}`,
-      action: `${balance.money} ${meta.currency}`,
+      action: `${balance} ${meta.currency}`,
     });
     await client.chat.say(
       meta.channel,
-      `${user.displayName} ${t("economy.currentBalance", meta.lang, balance.money, meta.currency)}`,
+      `${user.displayName} ${t("economy.currentBalance", meta.lang, balance, meta.currency)}`,
     );
   },
 };

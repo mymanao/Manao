@@ -1,9 +1,9 @@
+import { getUserConfig } from "@helpers/database.ts";
+
 export const isProduction = Bun.env.NODE_ENV === "production";
 
 export const PORT = Number(Bun.env.PORT ?? 3000);
 export const SOCKET_PORT = Number(Bun.env.SOCKET_PORT ?? 5000);
-
-export const PREFIX = "!";
 
 function getEnvVar(key: string, required = true): string {
   const value = Bun.env[key];

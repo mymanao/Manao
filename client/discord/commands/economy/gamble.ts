@@ -1,18 +1,15 @@
 import { Category } from "@discordx/utilities";
 import {
-  addBalance,
   getBalance,
-  getTwitchID,
-  initAccount,
+  addBalance,
   subtractBalance,
+  initAccount,
 } from "@helpers/database";
-import { templateEmbed } from "@helpers/discord/embed.ts";
 import { t } from "@helpers/i18n";
 import { getCurrency, getLang } from "@helpers/preferences";
 import {
   ApplicationCommandOptionType,
   type CommandInteraction,
-  MessageFlagsBitField,
 } from "discord.js";
 import { Discord, Slash, SlashOption } from "discordx";
 import { io } from "@/server";
@@ -36,6 +33,7 @@ export class GambleCommand {
       },
     ],
   };
+
   @Slash({
     name: "gamble",
     description: "For you, gambling addict",
@@ -54,20 +52,10 @@ export class GambleCommand {
 
     await interaction.deferReply();
 
-    const user = interaction.user;
-    const userID = getTwitchID(user.id);
-    if (!userID) {
-      await interaction.editReply({
-        embeds: [
-          templateEmbed({
-            type: "error",
-            title: "Error",
-            description: t("discord.link.errorUserNotLinked", lang),
-          }),
-        ],
-      });
-      return;
-    }
+    const id = initAccount({
+      userID: interaction.user.id,
+      platform: "discord",
+    });
     const currency = getCurrency();
     const amountStr = amountInput ?? "1";
 
@@ -75,18 +63,16 @@ export class GambleCommand {
 
     if ((Number.isNaN(amount) || amount < 0) && amountStr !== "all") {
       await interaction.editReply(
-        `@${user.username} ${t("economy.errorInvalidAmount", lang)}`,
+        `@${interaction.user.username} ${t("economy.errorInvalidAmount", lang)}`,
       );
       return;
     }
 
-    initAccount(userID);
-
-    const balance = getBalance(userID);
+    const balance = getBalance(id);
 
     if (amount > balance && amountStr !== "all") {
       await interaction.editReply(
-        `@${user.username} ${t("economy.errorInsufficientFunds", lang)}`,
+        `@${interaction.user.username} ${t("economy.errorInsufficientFunds", lang)}`,
       );
       return;
     }
@@ -96,43 +82,41 @@ export class GambleCommand {
     }
 
     const win = Math.random() >= 0.5;
-    const multiplier = win ? 2 : 1;
-    const resultBalance = amount * multiplier;
 
     if (win) {
-      addBalance(userID, resultBalance);
+      addBalance(id, amount);
       await interaction.editReply(
-        `@${user.username} 🎉 ${t(
+        `@${interaction.user.username} 🎉 ${t(
           "economy.gambleWin",
           lang,
-          resultBalance,
+          amount,
           currency,
-          balance + resultBalance,
+          balance + amount,
           currency,
         )}`,
       );
       io.emit("feed", {
         type: "success",
         icon: "🎰",
-        message: user.username,
-        action: `+ ${amount * 1.75} ${currency}`,
+        message: interaction.user.username,
+        action: `+ ${amount} ${currency}`,
       });
     } else {
-      subtractBalance(userID, resultBalance);
+      subtractBalance(id, amount);
       await interaction.editReply(
-        `@${user.username} ❌ ${t(
+        `@${interaction.user.username} ❌ ${t(
           "economy.gambleLose",
           lang,
-          resultBalance,
+          amount,
           currency,
-          balance - resultBalance,
+          balance - amount,
           currency,
         )}`,
       );
       io.emit("feed", {
         type: "danger",
         icon: "🎰",
-        message: user.username,
+        message: interaction.user.username,
         action: `- ${amount} ${currency}`,
       });
     }

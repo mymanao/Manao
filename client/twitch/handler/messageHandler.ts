@@ -1,4 +1,3 @@
-import { addBalance, getNickname, initAccount } from "@helpers/database";
 import { logger } from "@helpers/logger";
 import type { ApiClient } from "@twurple/api";
 import {
@@ -7,10 +6,20 @@ import {
   type ChatMessage,
   parseEmotePositions,
 } from "@twurple/chat";
-import { PREFIX } from "@/config";
 import { io } from "@/server";
 import type { MessageData, UserBadge } from "@/types";
 import { handleCommand } from "./commandHandler";
+import {
+  addBalance,
+  getUserConfig,
+  initAccount,
+  getNickname,
+} from "@helpers/database";
+
+const config = await getUserConfig();
+const PREFIX = config.prefix.twitch;
+const { chatReward } = config;
+const cooldowns = new Map<string, number>();
 
 export async function handleMessage(
   channel: string,
@@ -48,7 +57,23 @@ async function handleRegularMessage(
   apiClient: ApiClient,
 ) {
   try {
-    const nickname = getNickname(userID);
+    const id = initAccount({ userID, platform: "twitch" });
+
+    const now = Date.now();
+    const lastReward = cooldowns.get(id) ?? 0;
+
+    if (now - lastReward > chatReward.twitch.cooldown * 1000) {
+      if (Math.random() < chatReward.twitch.chance) {
+        const amount =
+          Math.floor(
+            Math.random() * (chatReward.twitch.max - chatReward.twitch.min + 1),
+          ) + chatReward.twitch.min;
+        addBalance(id, amount);
+      }
+      cooldowns.set(id, now);
+    }
+
+    const nickname = getNickname(id);
     const role = determineUserRole(msgObj.userInfo);
 
     const processedMessage = await processEmotes(message, msgObj);
@@ -71,9 +96,6 @@ async function handleRegularMessage(
     };
 
     io.emit("message", messageData);
-
-    initAccount(userID);
-    addBalance(userID, Math.trunc(Math.random() * 4));
   } catch (error) {
     logger.error(`[Message] Error processing message: ${error}`);
   }

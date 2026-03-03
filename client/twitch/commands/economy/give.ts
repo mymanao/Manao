@@ -40,7 +40,7 @@ export default {
 
     if (!target) throw new Error();
 
-    if (Number.isNaN(amount) || amount < 0) {
+    if (Number.isNaN(amount) || amount <= 0) {
       await client.chat.say(
         meta.channel,
         `@${meta.user} ${t("economy.errorInvalidAmount", meta.lang)}`,
@@ -50,7 +50,7 @@ export default {
 
     let balance = getBalance(meta.userID);
     if (!balance) {
-      initAccount(meta.userID);
+      initAccount({ userID: meta.userID, platform: "twitch" });
       balance = 0;
     }
 
@@ -79,7 +79,7 @@ export default {
       );
       return;
     }
-    initAccount(targetID);
+    initAccount({ userID: targetID, platform: "twitch" });
 
     subtractBalance(meta.userID, amount);
     addBalance(targetID, amount);

@@ -1,9 +1,8 @@
 import {
   addBalance,
   subtractBalance,
-  getInfoFromKickID,
-  initAccountFromKick,
   getBalance,
+  initAccount,
 } from "@helpers/database";
 import { t } from "@helpers/i18n";
 import { getCurrency, getLang } from "@helpers/preferences";
@@ -44,20 +43,9 @@ export default {
   ): Promise<void> => {
     if (!args[0] || !args[1]) return;
 
-    const userID = meta.userID.toString();
-
-    initAccountFromKick(userID);
-
-    const userInfo = getInfoFromKickID(userID);
+    const id = initAccount({ userID: meta.userID.toString(), platform: "kick" });
     const lang = getLang();
     const currency = getCurrency();
-
-    if (!userInfo) {
-      await context.reply(
-        `@${meta.user} ${t("economy.errorAccountNotFound", lang, meta.user)}`,
-      );
-      return;
-    }
 
     let amount = Math.trunc(parseInt(args[0], 10));
     const times = Math.trunc(parseInt(args[1], 10));
@@ -76,7 +64,7 @@ export default {
       return;
     }
 
-    let currentBalance = getBalance(userID);
+    let currentBalance = getBalance(id);
     let totalWon = 0;
     let totalLost = 0;
 
@@ -87,19 +75,17 @@ export default {
         amount = currentBalance;
       }
 
-      const win = Math.random() < 0.32;
-      const multiplier = win ? 2 : 1;
-      const resultAmount = amount * multiplier;
+      const win = Math.random() >= 0.5;
 
       if (win) {
-        addBalance(userID, resultAmount);
-        totalWon += resultAmount;
+        addBalance(id, amount);
+        totalWon += amount;
       } else {
-        subtractBalance(userID, resultAmount);
-        totalLost += resultAmount;
+        subtractBalance(id, amount);
+        totalLost += amount;
       }
 
-      currentBalance = getBalance(userID);
+      currentBalance = getBalance(id);
     }
 
     await context.reply(

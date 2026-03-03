@@ -40,7 +40,7 @@ export default {
   ) => {
     if (!args[0] || !args[1]) throw new Error();
 
-    initAccount(meta.userID);
+    const id = initAccount({ userID: meta.userID, platform: "twitch" });
 
     let amount = Math.trunc(parseInt(args[0], 10));
     const times = Math.trunc(parseInt(args[1], 10));
@@ -61,7 +61,7 @@ export default {
       return;
     }
 
-    let currentBalance = getBalance(meta.userID);
+    let currentBalance = getBalance(id);
     let totalWon = 0;
     let totalLost = 0;
 
@@ -70,18 +70,16 @@ export default {
       if (amount > currentBalance) amount = currentBalance;
 
       const win = Math.random() < 0.5;
-      const multiplier = win ? 2 : 1;
-      const resultBalance = amount * multiplier;
 
       if (win) {
-        addBalance(meta.userID, resultBalance);
-        totalWon += resultBalance;
+        addBalance(id, amount);
+        totalWon += amount;
       } else {
-        subtractBalance(meta.userID, resultBalance);
-        totalLost += resultBalance;
+        subtractBalance(id, amount);
+        totalLost += amount;
       }
 
-      currentBalance = getBalance(meta.userID);
+      currentBalance = getBalance(id);
     }
 
     await client.chat.say(

@@ -1,4 +1,4 @@
-import { getInfoFromKickID, initAccountFromKick } from "@helpers/database";
+import { getBalance, initAccount } from "@helpers/database";
 import { t } from "@helpers/i18n";
 import { getCurrency, getLang } from "@helpers/preferences";
 import type { KickItContext } from "@manaobot/kickit/types";
@@ -30,27 +30,13 @@ export default {
     _message: string,
     _args: string[],
   ): Promise<void> => {
-    initAccountFromKick(meta.userID.toString());
-
-    const userInfo = getInfoFromKickID(meta.userID.toString());
-
+    const id = initAccount({ userID: meta.userID.toString(), platform: "kick" });
     const lang = getLang();
     const currency = getCurrency();
-
-    if (!userInfo) {
-      await context.reply(
-        `@${meta.user} ${t("economy.errorAccountNotFound", lang, meta.user)}`,
-      );
-      return;
-    }
+    const balance = getBalance(id);
 
     await context.reply(
-      `@${meta.user} ${t(
-        "economy.currentBalance",
-        lang,
-        userInfo.money,
-        currency,
-      )}`,
+      `@${meta.user} ${t("economy.currentBalance", lang, balance, currency)}`,
     );
   },
 };

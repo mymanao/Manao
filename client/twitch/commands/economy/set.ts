@@ -1,4 +1,4 @@
-import { db, initAccount, setBalance } from "@helpers/database";
+import { initAccount, setBalance } from "@helpers/database";
 import { t } from "@helpers/i18n";
 import type { ClientServices, CommandMeta } from "@/types";
 
@@ -53,7 +53,7 @@ export default {
       return;
     }
     const targetID = targetUser.id;
-    initAccount(targetID);
+    initAccount({ userID: targetID, platform: "twitch" });
 
     setBalance(targetID, amount);
 

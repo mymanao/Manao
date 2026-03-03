@@ -7,9 +7,11 @@ import {
   customCommands,
   fetchCustomCommands,
   initDatabase,
+  initUserConfig,
 } from "@helpers/database.ts";
 
 initDatabase();
+await initUserConfig();
 
 for (const [key, cmd] of fetchCustomCommands()) {
   customCommands.set(key, cmd);

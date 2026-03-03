@@ -7,7 +7,12 @@ import {
   type Message,
 } from "discord.js";
 import { Client } from "discordx";
-import { DISCORD, PREFIX } from "@/config.ts";
+import { DISCORD } from "@/config.ts";
+import { addBalance, getUserConfig, initAccount } from "@helpers/database.ts";
+
+const config = await getUserConfig();
+const { chatReward } = config;
+const cooldowns = new Map<string, number>();
 
 export const bot = new Client({
   botGuilds: [(client) => client.guilds.cache.map((guild) => guild.id)],
@@ -22,10 +27,6 @@ export const bot = new Client({
   ],
 
   silent: true,
-
-  simpleCommand: {
-    prefix: PREFIX,
-  },
 });
 
 bot.once(Events.ClientReady, async () => {
@@ -39,6 +40,25 @@ bot.on("interactionCreate", (interaction: Interaction) => {
 });
 
 bot.on("messageCreate", (message: Message) => {
+  if (message.author.bot) return;
+
+  const discordID = message.author.id;
+  const id = initAccount({ userID: discordID, platform: "discord" });
+
+  const now = Date.now();
+  const lastReward = cooldowns.get(id) ?? 0;
+
+  if (now - lastReward > chatReward.discord.cooldown * 1000) {
+    if (Math.random() < chatReward.discord.chance) {
+      const amount =
+        Math.floor(
+          Math.random() * (chatReward.discord.max - chatReward.discord.min + 1),
+        ) + chatReward.discord.min;
+      addBalance(id, amount);
+    }
+    cooldowns.set(id, now);
+  }
+
   void bot.executeCommand(message);
 });
 

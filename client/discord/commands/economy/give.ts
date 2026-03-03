@@ -1,12 +1,5 @@
 import { Category } from "@discordx/utilities";
-import {
-  addBalance,
-  getBalance,
-  getTwitchID,
-  initAccount,
-  subtractBalance,
-} from "@helpers/database";
-import { templateEmbed } from "@helpers/discord/embed.ts";
+import { addBalance, getBalance, initAccount, subtractBalance } from "@helpers/database";
 import { t } from "@helpers/i18n";
 import { getCurrency, getLang } from "@helpers/preferences";
 import {
@@ -61,66 +54,33 @@ export class GiveCommand {
     const lang = getLang();
     await interaction.deferReply();
 
-    const senderDiscordID = interaction.user.id;
-    const senderTwitchID = getTwitchID(senderDiscordID);
+    const senderId = initAccount({ userID: interaction.user.id, platform: "discord" });
+    const receiverId = initAccount({ userID: targetUser.id, platform: "discord" });
 
-    if (!senderTwitchID) {
-      await interaction.editReply({
-        embeds: [
-          templateEmbed({
-            type: "error",
-            title: "Error",
-            description: t("discord.link.errorUserNotLinked", lang),
-          }),
-        ],
-      });
-      return;
-    }
-
-    const receiverDiscordID = targetUser.id;
-    const receiverTwitchID = getTwitchID(receiverDiscordID);
-
-    if (!receiverTwitchID) {
-      await interaction.editReply({
-        embeds: [
-          templateEmbed({
-            type: "error",
-            title: "Error",
-            description: t("discord.link.errorTargetNotLinked", lang),
-          }),
-        ],
-      });
+    if (senderId === receiverId) {
+      await interaction.editReply(t("economy.errorSelfTransfer", lang));
       return;
     }
 
     const amount = Math.trunc(parseInt(amountInput, 10));
-    if (Number.isNaN(amount) || amount < 0) {
+    if (Number.isNaN(amount) || amount <= 0) {
       await interaction.editReply(t("economy.errorInvalidAmount", lang));
       return;
     }
 
-    initAccount(senderTwitchID);
-    initAccount(receiverTwitchID);
-
-    const senderBalance = getBalance(senderTwitchID);
+    const senderBalance = getBalance(senderId);
     if (amount > senderBalance) {
       await interaction.editReply(t("economy.errorInsufficientFunds", lang));
       return;
     }
 
-    subtractBalance(senderTwitchID, amount);
-    addBalance(receiverTwitchID, amount);
+    subtractBalance(senderId, amount);
+    addBalance(receiverId, amount);
 
     const currency = getCurrency();
 
     await interaction.editReply(
-      t(
-        "economy.transactionSuccess",
-        lang,
-        amount,
-        currency,
-        targetUser.username,
-      ),
+      t("economy.transactionSuccess", lang, amount, currency, targetUser.username),
     );
 
     io.emit("feed", {

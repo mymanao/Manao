@@ -1,11 +1,11 @@
 import {
   addBalance,
-  db,
+  getBalance,
   initAccount,
   subtractBalance,
 } from "@helpers/database";
 import { t } from "@helpers/i18n";
-import type { ClientServices, CommandMeta, UserData } from "@/types";
+import type { ClientServices, CommandMeta } from "@/types";
 
 export default {
   name: { en: "gamble", th: "พนัน" },
@@ -40,11 +40,10 @@ export default {
       return;
     }
 
-    initAccount(meta.userID);
+    initAccount({ userID: meta.userID, platform: "twitch" });
 
-    const stmt = db.prepare("SELECT money FROM users WHERE user = ?");
-    const balance = stmt.get(meta.userID) as Pick<UserData, "money">;
-    if (amount > balance.money && args[0] !== "all") {
+    const balance = getBalance(meta.userID);
+    if (amount > balance && args[0] !== "all") {
       await client.chat.say(
         meta.channel,
         `@${meta.user} ${t("economy.errorInsufficientFunds", meta.lang)}`,
@@ -53,18 +52,16 @@ export default {
     }
 
     if (args[0] === "all") {
-      amount = balance.money;
+      amount = balance;
     }
 
     const win = Math.random() >= 0.5;
-    const multiplier = win ? 2 : 1;
-    const resultBalance = amount * multiplier;
 
     if (win) {
-      addBalance(meta.userID, resultBalance);
+      addBalance(meta.userID, amount);
       await client.chat.say(
         meta.channel,
-        `@${meta.user} 🎉 ${t("economy.gambleWin", meta.lang, resultBalance, meta.currency, balance.money + resultBalance, meta.currency)}`,
+        `@${meta.user} 🎉 ${t("economy.gambleWin", meta.lang, amount, meta.currency, balance + amount, meta.currency)}`,
       );
       client.io.emit("feed", {
         type: "success",
@@ -73,10 +70,10 @@ export default {
         action: `+ ${amount} ${meta.currency}`,
       });
     } else {
-      subtractBalance(meta.userID, resultBalance);
+      subtractBalance(meta.userID, amount);
       await client.chat.say(
         meta.channel,
-        `@${meta.user} ❌ ${t("economy.gambleLose", meta.lang, resultBalance, meta.currency, balance.money - resultBalance, meta.currency)}`,
+        `@${meta.user} ❌ ${t("economy.gambleLose", meta.lang, amount, meta.currency, balance - amount, meta.currency)}`,
       );
       client.io.emit("feed", {
         type: "danger",

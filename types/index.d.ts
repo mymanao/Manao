@@ -130,3 +130,24 @@ export interface SoundReward {
   globalCooldown: number | null;
   sound: string | null;
 }
+
+export type Platform = "twitch" | "discord" | "kick";
+
+interface ChatReward {
+  min: number;
+  max: number;
+  chance: number;
+  cooldown: number;
+}
+
+export interface UserConfig {
+  prefix: Record<Exclude<Platform, "discord">, string>;
+  defaultSong: SongData[];
+  disabledCommands: string[];
+  lang: string;
+  currency: string;
+  customMessages: CustomMessages;
+  soundReward: SoundReward[];
+  customReply: CustomReply[];
+  chatReward: Record<Platform, ChatReward>;
+}

@@ -1,5 +1,5 @@
 import { Database } from "bun:sqlite";
-import type { Command, UserData } from "@/types";
+import type { Command, Platform, UserConfig, UserData } from "@/types";
 import { logger } from "./logger";
 
 export const db = new Database("./bot-data.sqlite", { create: true });
@@ -8,14 +8,9 @@ export const customCommands: Map<string, Command> = new Map();
 export function initDatabase(): void {
   db.run(`
     CREATE TABLE IF NOT EXISTS users (
-      user TEXT PRIMARY KEY,
+      id TEXT PRIMARY KEY,
       money INTEGER DEFAULT 0,
       nickname TEXT
-    );
-
-    CREATE TABLE IF NOT EXISTS config (
-      key TEXT PRIMARY KEY,
-      value TEXT
     );
 
     CREATE TABLE IF NOT EXISTS commands (
@@ -30,121 +25,181 @@ export function initDatabase(): void {
     );
 
     CREATE TABLE IF NOT EXISTS linked_accounts (
-      discord_id TEXT PRIMARY KEY,
+      id TEXT PRIMARY KEY,
+      discord_id TEXT UNIQUE,
       twitch_id TEXT UNIQUE,
       kick_id TEXT UNIQUE,
       linked_at INTEGER DEFAULT (strftime('%s','now'))
     );
-
-    INSERT OR IGNORE INTO config (key, value) VALUES
-    ('defaultSong', '[]'),
-    ('disabledCommands', '[]'),
-    ('lang', 'en'),
-    ('currency', 'COIN'),
-    ('customMessages', ''),
-    ('soundReward', '[]'),
-    ('customReply', '[]');
   `);
 }
 
-export function initAccount(userID: string | number): void {
-  const exists = db.prepare("SELECT 1 FROM users WHERE user = ?").get(userID);
-  if (!exists) {
-    db.prepare("INSERT INTO users (user, money) VALUES (?, ?)").run(userID, 0);
-  }
-}
-
-export function getTwitchID(discordID: string): string {
-  const row = db
-    .prepare("SELECT twitch_id FROM linked_accounts WHERE discord_id = ?")
-    .get(discordID);
-  return (row as { twitch_id: string })?.twitch_id ?? "";
-}
-
-export function getTwitchIDFromKickID(kickID: string): string {
-  const row = db
-    .prepare("SELECT twitch_id FROM linked_accounts WHERE kick_id = ?")
-    .get(kickID);
-  return (row as { twitch_id: string })?.twitch_id ?? "";
-}
-
-export function getInfoFromKickID(kickID: string): UserData | undefined {
-  const row = db
-    .prepare(`
-    SELECT u.* FROM users u
-    INNER JOIN linked_accounts la ON la.twitch_id = u.user
-    WHERE la.kick_id = ?
-  `)
-    .get(kickID);
-  return row as UserData | undefined;
-}
-
-export function initAccountFromKick(kickID: string): void {
-  const linkedRow = db
-    .prepare("SELECT twitch_id FROM linked_accounts WHERE kick_id = ?")
-    .get(kickID);
-  const twitchID = (linkedRow as { twitch_id: string })?.twitch_id;
-  if (!twitchID) return;
-  initAccount(twitchID);
-}
-
-export function getNickname(userID: string | number): string | null {
-  const row = db
-    .prepare("SELECT nickname FROM users WHERE user = ?")
-    .get(userID);
-  return (row as UserData)?.nickname ?? null;
-}
-
-export function updateNickname(
-  userID: string | number,
-  nickname: string | null,
-): void {
-  db.prepare("UPDATE users SET nickname = ? WHERE user = ?").run(
-    nickname,
-    userID,
+export async function initUserConfig(): Promise<void> {
+  if (await Bun.file("userConfig.json").exists()) return;
+  await Bun.write(
+    "userConfig.json",
+    JSON.stringify({
+      prefix: {
+        twitch: "!",
+        kick: "!",
+      },
+      defaultSong: [],
+      disabledCommands: [],
+      lang: "en",
+      currency: "COIN",
+      customMessages: {
+        onFollow: {
+          en: "[user] just followed the channel!",
+          th: "[user] ได้ติดตามช่องนี้!",
+        },
+        onSubscribe: {
+          en: "[user] just subscribed to the channel!",
+          th: "[user] ได้สมัครสมาชิกช่องนี้!",
+        },
+        onRaid: {
+          en: "[user] just raided the channel with [viewers] viewers!",
+          th: "[user] ได้บุกช่องนี้พร้อมกับผู้ชม [viewers] คน!",
+        },
+        onReSubscribe: {
+          en: "[user] just resubscribed to the channel!",
+          th: "[user] ได้สมัครสมาชิกช่องนี้อีกครั้ง!",
+        },
+      },
+      soundReward: [],
+      customReply: [],
+      chatReward: {
+        kick: {
+          min: 1,
+          max: 4,
+          chance: 0.75,
+          cooldown: 60,
+        },
+        twitch: {
+          min: 1,
+          max: 4,
+          chance: 0.75,
+          cooldown: 60,
+        },
+        discord: {
+          min: 1,
+          max: 4,
+          chance: 0.75,
+          cooldown: 60,
+        },
+      },
+    }),
   );
 }
 
-export function getBalance(userID: string | number): number {
-  const row = db.prepare("SELECT money FROM users WHERE user = ?").get(userID);
-  return (row as Pick<UserData, "money">)?.money ?? 0;
-}
+/* ----------------------------------
+   Account Linking
+---------------------------------- */
 
-export function addBalance(userID: string | number, amount: number): number {
-  db.prepare("UPDATE users SET money = money + ? WHERE user = ?").run(
-    amount,
+export function initAccount(opts: {
+  userID: string;
+  platform: Platform;
+}): string {
+  const { userID, platform } = opts;
+  const linkedID = getLinkedID({ userID, platform });
+  if (linkedID) return linkedID;
+
+  const column = `${platform}_id`;
+  const id = Bun.randomUUIDv7();
+
+  db.prepare(`INSERT INTO linked_accounts (id, ${column}) VALUES (?, ?)`).run(
+    id,
     userID,
   );
-  return getBalance(userID);
+
+  db.prepare("INSERT INTO users (id, money) VALUES (?, 0)").run(id);
+  return id;
 }
 
-export function subtractBalance(
-  userID: string | number,
-  amount: number,
-): number {
-  db.prepare("UPDATE users SET money = money - ? WHERE user = ?").run(
-    amount,
-    userID,
-  );
-  return getBalance(userID);
+export function getLinkedID(opts: {
+  userID: string;
+  platform: Platform;
+}): string | undefined {
+  const { userID, platform } = opts;
+  const column = `${platform}_id`;
+
+  const row = db
+    .prepare(`SELECT id FROM linked_accounts WHERE ${column} = ?`)
+    .get(userID) as { id: string } | undefined;
+
+  return row?.id;
 }
 
-export function setBalance(userID: string | number, amount: number): number {
-  db.prepare("UPDATE users SET money = ? WHERE user = ?").run(amount, userID);
-  return getBalance(userID);
+/* ----------------------------------
+   User Data
+---------------------------------- */
+
+export function getNickname(id: string): string | null {
+  const row = db.prepare("SELECT nickname FROM users WHERE id = ?").get(id) as
+    | Pick<UserData, "nickname">
+    | undefined;
+
+  return row?.nickname ?? null;
 }
+
+export function updateNickname(id: string, nickname: string | null): void {
+  db.prepare("UPDATE users SET nickname = ? WHERE id = ?").run(nickname, id);
+}
+
+export function getBalance(id: string): number {
+  const row = db.prepare("SELECT money FROM users WHERE id = ?").get(id) as
+    | Pick<UserData, "money">
+    | undefined;
+
+  return row?.money ?? 0;
+}
+
+export function addBalance(id: string, amount: number): number {
+  db.prepare("UPDATE users SET money = money + ? WHERE id = ?").run(amount, id);
+  return getBalance(id);
+}
+
+export function subtractBalance(id: string, amount: number): number {
+  db.prepare("UPDATE users SET money = money - ? WHERE id = ?").run(amount, id);
+  return getBalance(id);
+}
+
+export function setBalance(id: string, amount: number): number {
+  db.prepare("UPDATE users SET money = ? WHERE id = ?").run(amount, id);
+  return getBalance(id);
+}
+
+/* ----------------------------------
+   User Config
+---------------------------------- */
+
+export async function getUserConfig(): Promise<UserConfig> {
+  return await Bun.file("userConfig.json").json();
+}
+
+export async function updateUserConfig<K extends keyof UserConfig>(
+  key: K,
+  value: UserConfig[K],
+): Promise<void> {
+  const config = await getUserConfig();
+  config[key] = value;
+  await Bun.write("userConfig.json", JSON.stringify(config, null, 2));
+}
+
+/* ----------------------------------
+   Commands
+---------------------------------- */
 
 export function addCommand(command: Command): void {
   try {
     db.prepare(`
-      INSERT OR IGNORE INTO commands 
+      INSERT OR IGNORE INTO commands
       (name, description, aliases, args, modsOnly, broadcasterOnly, disabled, execute)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `).run(
       JSON.stringify(command.name),
       JSON.stringify(command.description),
-      JSON.stringify(command.aliases || []),
-      JSON.stringify(command.args || []),
+      JSON.stringify(command.aliases ?? []),
+      JSON.stringify(command.args ?? []),
       command.modsOnly ? 1 : 0,
       command.broadcasterOnly ? 1 : 0,
       command.disabled ? 1 : 0,
@@ -166,7 +221,7 @@ export function fetchCustomCommands(): Map<string, Command> {
 
   const commandList: Map<string, Command> = new Map();
 
-  rows.forEach((row) => {
+  for (const row of rows) {
     try {
       const command: Command = {
         ...row,
@@ -180,66 +235,12 @@ export function fetchCustomCommands(): Map<string, Command> {
     } catch (error) {
       logger.error(`[Custom Command] Failed to parse command: ${row} ${error}`);
     }
-  });
+  }
 
   return commandList;
 }
 
 export function deleteCommand(commandName: string): void {
   db.prepare("DELETE FROM commands WHERE name = ?").run(commandName);
-
-  if (customCommands.has(commandName)) {
-    customCommands.delete(commandName);
-  }
-}
-
-// Get balance for a Kick user and falls back to kick_id if not linked to Twitch
-export function getKickBalance(kickID: string): number {
-  const info = getInfoFromKickID(kickID);
-  if (info) return info.money;
-  // unlinked user: use kick_id directly as an account key
-  const row = db
-    .prepare("SELECT money FROM users WHERE user = ?")
-    .get(`kick:${kickID}`) as
-    | {
-        money: number;
-      }
-    | undefined;
-  return row?.money ?? 0;
-}
-
-export function initKickAccount(kickID: string): void {
-  const linked = getInfoFromKickID(kickID);
-  if (linked) return; // already linked, an account exists
-  const key = `kick:${kickID}`;
-  const exists = db.prepare("SELECT 1 FROM users WHERE user = ?").get(key);
-  if (!exists) {
-    db.prepare("INSERT INTO users (user, money) VALUES (?, 0)").run(key);
-  }
-}
-
-export function addKickBalance(kickID: string, amount: number): void {
-  const info = getInfoFromKickID(kickID);
-  if (info) {
-    addBalance(info.user, amount);
-  } else {
-    initKickAccount(kickID);
-    db.prepare("UPDATE users SET money = money + ? WHERE user = ?").run(
-      amount,
-      `kick:${kickID}`,
-    );
-  }
-}
-
-export function subtractKickBalance(kickID: string, amount: number): void {
-  const info = getInfoFromKickID(kickID);
-  if (info) {
-    subtractBalance(info.user, amount);
-  } else {
-    initKickAccount(kickID);
-    db.prepare("UPDATE users SET money = money - ? WHERE user = ?").run(
-      amount,
-      `kick:${kickID}`,
-    );
-  }
+  customCommands.delete(commandName);
 }

@@ -4,21 +4,17 @@ import {
   getDisabledCommands,
   getLang,
 } from "@helpers/preferences";
-import {
-  addBalance,
-  addKickBalance,
-  getInfoFromKickID,
-  initKickAccount,
-} from "@helpers/database";
+import { addBalance, getUserConfig, initAccount } from "@helpers/database";
 import { getReplyStore } from "@helpers/replyStore";
 import { logger } from "@helpers/logger";
 import type { Command } from "@/types";
 import type { KickIt } from "@manaobot/kickit";
 import type { ChatMessageEvent } from "@manaobot/kick/types";
-import { PREFIX } from "@/config.ts";
 
 export const commands: Map<string, Command> = new Map();
-
+const config = await getUserConfig();
+const PREFIX = config.prefix.kick;
+const { chatReward } = config;
 const sequenceIndex = new Map<string, number>();
 
 export async function loadKickCommands(bot: KickIt) {
@@ -97,19 +93,28 @@ export async function loadKickCommands(bot: KickIt) {
 
   logger.info(`[Kick Commands] Total mappings: ${commands.size}`);
 
+  const cooldowns = new Map<string, number>();
+
   bot.kickClient.webhooks.on(
     "chat.message.sent",
     async (event: ChatMessageEvent) => {
       if (event.content.startsWith(PREFIX)) return;
 
       const kickID = event.sender.user_id.toString();
-      const userInfo = getInfoFromKickID(kickID);
+      const id = initAccount({ userID: kickID, platform: "kick" });
 
-      if (userInfo) {
-        addBalance(userInfo.user, Math.trunc(Math.random() * 4));
-      } else {
-        initKickAccount(kickID);
-        addKickBalance(kickID, Math.trunc(Math.random() * 4));
+      const now = Date.now();
+      const lastReward = cooldowns.get(id) ?? 0;
+
+      if (now - lastReward > chatReward.kick.cooldown * 1000) {
+        if (Math.random() < chatReward.kick.chance) {
+          const amount =
+            Math.floor(
+              Math.random() * (chatReward.kick.max - chatReward.kick.min + 1),
+            ) + chatReward.kick.min;
+          addBalance(id, amount);
+        }
+        cooldowns.set(id, now);
       }
 
       const message = event.content.toLowerCase();

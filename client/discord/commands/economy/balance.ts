@@ -1,5 +1,5 @@
 import { Category } from "@discordx/utilities";
-import { getBalance, getTwitchID, initAccount } from "@helpers/database";
+import { getBalance, getLinkedID } from "@helpers/database";
 import { templateEmbed } from "@helpers/discord/embed.ts";
 import { t } from "@helpers/i18n";
 import { getCurrency, getLang } from "@helpers/preferences";
@@ -16,6 +16,7 @@ export class BalanceCommand {
       th: "ตรวจสอบยอดเงิน",
     },
   };
+
   @Slash({
     name: "balance",
     description: "Check your balance",
@@ -27,23 +28,12 @@ export class BalanceCommand {
       flags: MessageFlagsBitField.Flags.Ephemeral,
     });
 
-    const user = interaction.user;
-    const userID = getTwitchID(user.id);
-    if (!userID) {
-      await interaction.editReply({
-        embeds: [
-          templateEmbed({
-            type: "error",
-            title: "Error",
-            description: t("configuration.linkSuccess", lang),
-          }),
-        ],
-      });
-      return;
-    }
+    const id = getLinkedID({
+      userID: interaction.user.id,
+      platform: "discord",
+    })!;
 
-    initAccount(userID);
-    const balance = getBalance(userID);
+    const balance = getBalance(id);
     const currency = getCurrency();
 
     await interaction.editReply({

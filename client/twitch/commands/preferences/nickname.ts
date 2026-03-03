@@ -29,8 +29,6 @@ export default {
   ) => {
     const name = args.join(" ");
 
-    initAccount(meta.userID);
-
     if (!args[0]) {
       const nickname = getNickname(meta.userID);
       await client.chat.say(

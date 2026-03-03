@@ -1,8 +1,8 @@
 import {
-  addKickBalance,
-  getKickBalance,
-  initKickAccount,
-  subtractKickBalance,
+  addBalance,
+  getBalance,
+  initAccount,
+  subtractBalance,
 } from "@helpers/database";
 import { t } from "@helpers/i18n";
 import { getCurrency, getLang } from "@helpers/preferences";
@@ -34,12 +34,10 @@ export default {
     _message: string,
     args: string[],
   ): Promise<void> => {
-    const userID = meta.userID.toString();
+    const id = initAccount({ userID: meta.userID.toString(), platform: "kick" });
     const lang = getLang();
     const currency = getCurrency();
-
-    initKickAccount(userID);
-    const currentBalance = getKickBalance(userID);
+    const currentBalance = getBalance(id);
 
     let amount =
       args[0] === "all"
@@ -61,14 +59,11 @@ export default {
     }
 
     const win = Math.random() >= 0.5;
-    const multiplier = win ? 2 : 1;
-    const resultAmount = amount * multiplier;
 
     if (win) {
-      addKickBalance(userID, resultAmount);
-      const newBalance = currentBalance + resultAmount;
+      addBalance(id, amount);
       await context.reply(
-        `@${meta.user} 🎉 ${t("economy.gambleWin", lang, resultAmount, currency, newBalance, currency)}`,
+        `@${meta.user} 🎉 ${t("economy.gambleWin", lang, amount, currency, currentBalance + amount, currency)}`,
       );
       io.emit?.("feed", {
         type: "success",
@@ -77,10 +72,9 @@ export default {
         action: `+ ${amount} ${currency}`,
       });
     } else {
-      subtractKickBalance(userID, amount);
-      const newBalance = currentBalance - amount;
+      subtractBalance(id, amount);
       await context.reply(
-        `@${meta.user} ❌ ${t("economy.gambleLose", lang, amount, currency, newBalance, currency)}`,
+        `@${meta.user} ❌ ${t("economy.gambleLose", lang, amount, currency, currentBalance - amount, currency)}`,
       );
       io.emit?.("feed", {
         type: "danger",
