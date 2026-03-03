@@ -1,7 +1,5 @@
 import {
-  db,
   getNickname,
-  initAccount,
   updateNickname,
 } from "@helpers/database";
 import { t } from "@helpers/i18n";

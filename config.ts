@@ -1,5 +1,3 @@
-import { getUserConfig } from "@helpers/database.ts";
-
 export const isProduction = Bun.env.NODE_ENV === "production";
 
 export const PORT = Number(Bun.env.PORT ?? 3000);
