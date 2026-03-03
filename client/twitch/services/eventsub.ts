@@ -30,20 +30,26 @@ async function setupFollowListener(
   listener: EventSubWsListener,
   chatClient: ChatClient,
 ) {
-  listener.onChannelFollow(TWITCH.BROADCASTER.ID, TWITCH.BOT.ID, async (data) => {
-    const messageOnFollow = (await getCustomMessages()).onFollow;
-    chatClient.say(
-      TWITCH.BROADCASTER.CHANNEL,
-      parseTemplate(messageOnFollow[await getLang()], { user: data.userName }),
-    );
-    logger.info(`[EventSub] New follower: ${data.userName}`);
-    io.emit("feed", {
-      type: "success",
-      icon: "💟",
-      message: `${data.userDisplayName}`,
-      action: "Followed",
-    } as FeedEvent);
-  });
+  listener.onChannelFollow(
+    TWITCH.BROADCASTER.ID,
+    TWITCH.BOT.ID,
+    async (data) => {
+      const messageOnFollow = (await getCustomMessages()).onFollow;
+      chatClient.say(
+        TWITCH.BROADCASTER.CHANNEL,
+        parseTemplate(messageOnFollow[await getLang()], {
+          user: data.userName,
+        }),
+      );
+      logger.info(`[EventSub] New follower: ${data.userName}`);
+      io.emit("feed", {
+        type: "success",
+        icon: "💟",
+        message: `${data.userDisplayName}`,
+        action: "Followed",
+      } as FeedEvent);
+    },
+  );
   logger.info("[EventSub] Registered follower listener");
 }
 

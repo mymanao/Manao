@@ -63,7 +63,7 @@ export async function loadKickCommands(bot: KickIt) {
             if (!isMod) return;
           }
 
-          const lang = await getLang() ?? "en";
+          const lang = (await getLang()) ?? "en";
 
           const meta = {
             user: ctx.event.sender.username,

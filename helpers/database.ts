@@ -5,6 +5,41 @@ import { logger } from "./logger";
 export const db = new Database("./bot-data.sqlite", { create: true });
 export const customCommands: Map<string, Command> = new Map();
 
+const CONFIG_PATH = `${process.cwd()}/userConfig.json`;
+
+const defaultConfig: UserConfig = {
+  prefix: { twitch: "!", kick: "!" },
+  defaultSong: [],
+  disabledCommands: [],
+  lang: "en",
+  currency: "COIN",
+  customMessages: {
+    onFollow: {
+      en: "[user] just followed the channel!",
+      th: "[user] ได้ติดตามช่องนี้!",
+    },
+    onSubscribe: {
+      en: "[user] just subscribed to the channel!",
+      th: "[user] ได้สมัครสมาชิกช่องนี้!",
+    },
+    onRaid: {
+      en: "[user] just raided the channel with [viewers] viewers!",
+      th: "[user] ได้บุกช่องนี้พร้อมกับผู้ชม [viewers] คน!",
+    },
+    onResubscribe: {
+      en: "[user] just resubscribed to the channel!",
+      th: "[user] ได้สมัครสมาชิกช่องนี้อีกครั้ง!",
+    },
+  },
+  soundReward: [],
+  customReply: [],
+  chatReward: {
+    kick: { min: 1, max: 4, chance: 0.75, cooldown: 60 },
+    twitch: { min: 1, max: 4, chance: 0.75, cooldown: 60 },
+    discord: { min: 1, max: 4, chance: 0.75, cooldown: 60 },
+  },
+};
+
 export function initDatabase(): void {
   db.run(`
     CREATE TABLE IF NOT EXISTS users (
@@ -32,63 +67,6 @@ export function initDatabase(): void {
       linked_at INTEGER DEFAULT (strftime('%s','now'))
     );
   `);
-}
-
-export async function initUserConfig(): Promise<void> {
-  if (await Bun.file("userConfig.json").exists()) return;
-  await Bun.write(
-    "userConfig.json",
-    JSON.stringify({
-      prefix: {
-        twitch: "!",
-        kick: "!",
-      },
-      defaultSong: [],
-      disabledCommands: [],
-      lang: "en",
-      currency: "COIN",
-      customMessages: {
-        onFollow: {
-          en: "[user] just followed the channel!",
-          th: "[user] ได้ติดตามช่องนี้!",
-        },
-        onSubscribe: {
-          en: "[user] just subscribed to the channel!",
-          th: "[user] ได้สมัครสมาชิกช่องนี้!",
-        },
-        onRaid: {
-          en: "[user] just raided the channel with [viewers] viewers!",
-          th: "[user] ได้บุกช่องนี้พร้อมกับผู้ชม [viewers] คน!",
-        },
-        onReSubscribe: {
-          en: "[user] just resubscribed to the channel!",
-          th: "[user] ได้สมัครสมาชิกช่องนี้อีกครั้ง!",
-        },
-      },
-      soundReward: [],
-      customReply: [],
-      chatReward: {
-        kick: {
-          min: 1,
-          max: 4,
-          chance: 0.75,
-          cooldown: 60,
-        },
-        twitch: {
-          min: 1,
-          max: 4,
-          chance: 0.75,
-          cooldown: 60,
-        },
-        discord: {
-          min: 1,
-          max: 4,
-          chance: 0.75,
-          cooldown: 60,
-        },
-      },
-    }),
-  );
 }
 
 /* ----------------------------------
@@ -173,7 +151,14 @@ export function setBalance(id: string, amount: number): number {
 ---------------------------------- */
 
 export async function getUserConfig(): Promise<UserConfig> {
-  return await Bun.file("userConfig.json").json();
+  const file = Bun.file(CONFIG_PATH);
+
+  if (!(await file.exists())) {
+    await Bun.write(CONFIG_PATH, JSON.stringify(defaultConfig, null, 2));
+    return defaultConfig;
+  }
+
+  return await file.json();
 }
 
 export async function updateUserConfig<K extends keyof UserConfig>(
@@ -182,7 +167,8 @@ export async function updateUserConfig<K extends keyof UserConfig>(
 ): Promise<void> {
   const config = await getUserConfig();
   config[key] = value;
-  await Bun.write("userConfig.json", JSON.stringify(config, null, 2));
+
+  await Bun.write(CONFIG_PATH, JSON.stringify(config, null, 2));
 }
 
 /* ----------------------------------

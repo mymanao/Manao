@@ -71,7 +71,10 @@ export async function getSoundFromRewardId(id: string): Promise<string | null> {
   return reward ? reward.sound : null;
 }
 
-export async function updateSoundFromRewardId(id: string, sound: string): Promise<void> {
+export async function updateSoundFromRewardId(
+  id: string,
+  sound: string,
+): Promise<void> {
   const rewards = await getSoundRewards();
   const reward = rewards.find((r) => r.id === id);
   if (reward) {
@@ -82,7 +85,10 @@ export async function updateSoundFromRewardId(id: string, sound: string): Promis
   }
 }
 
-export async function addSoundReward(reward: { id: string; sound: string }): Promise<any[]> {
+export async function addSoundReward(reward: {
+  id: string;
+  sound: string;
+}): Promise<any[]> {
   const rewards = await getSoundRewards();
   rewards.push(reward);
   await updateUserConfig("soundReward", rewards);
@@ -98,15 +104,31 @@ export async function removeSoundReward(rewardId: string): Promise<any[]> {
 
 export async function getCustomMessages(): Promise<CustomMessages> {
   const config = await getUserConfig();
-  return config.customMessages ?? {
-    onFollow: { en: "[user] just followed the channel!", th: "[user] ได้ติดตามช่องนี้!" },
-    onSubscribe: { en: "[user] just subscribed to the channel!", th: "[user] ได้สมัครสมาชิกช่องนี้!" },
-    onRaid: { en: "[user] just raided the channel with [viewers] viewers!", th: "[user] ได้บุกช่องนี้พร้อมกับผู้ชม [viewers] คน!" },
-    onReSubscribe: { en: "[user] just resubscribed to the channel!", th: "[user] ได้สมัครสมาชิกช่องนี้อีกครั้ง!" },
-  };
+  return (
+    config.customMessages ?? {
+      onFollow: {
+        en: "[user] just followed the channel!",
+        th: "[user] ได้ติดตามช่องนี้!",
+      },
+      onSubscribe: {
+        en: "[user] just subscribed to the channel!",
+        th: "[user] ได้สมัครสมาชิกช่องนี้!",
+      },
+      onRaid: {
+        en: "[user] just raided the channel with [viewers] viewers!",
+        th: "[user] ได้บุกช่องนี้พร้อมกับผู้ชม [viewers] คน!",
+      },
+      onResubscribe: {
+        en: "[user] just resubscribed to the channel!",
+        th: "[user] ได้สมัครสมาชิกช่องนี้อีกครั้ง!",
+      },
+    }
+  );
 }
 
-export async function updateCustomMessages(messages: CustomMessages): Promise<void> {
+export async function updateCustomMessages(
+  messages: CustomMessages,
+): Promise<void> {
   await updateUserConfig("customMessages", messages);
 }
 

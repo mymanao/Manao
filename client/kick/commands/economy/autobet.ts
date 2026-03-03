@@ -43,7 +43,10 @@ export default {
   ): Promise<void> => {
     if (!args[0] || !args[1]) return;
 
-    const id = initAccount({ userID: meta.userID.toString(), platform: "kick" });
+    const id = initAccount({
+      userID: meta.userID.toString(),
+      platform: "kick",
+    });
     const lang = await getLang();
     const currency = await getCurrency();
 

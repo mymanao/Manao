@@ -1,7 +1,4 @@
-import {
-  getNickname,
-  updateNickname,
-} from "@helpers/database";
+import { getNickname, updateNickname } from "@helpers/database";
 import { t } from "@helpers/i18n";
 import type { ClientServices, CommandMeta } from "@/types";
 

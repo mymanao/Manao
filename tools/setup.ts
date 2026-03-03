@@ -195,19 +195,27 @@ async function configureTwitch(
   const strings = {
     en: {
       enable: "Do you want to enable Manao Twitch Bot?",
-      beforeStart: "🛠 To continue, you need a Twitch Application. Read the guide below:",
+      beforeStart:
+        "🛠 To continue, you need a Twitch Application. Read the guide below:",
       goTo: "Go to: ",
       createAppInfo1: "Click 'Register Your Application'",
       createAppInfo2: "When creating the app, set the OAuth Redirect URL to: ",
-      createAppInfo3: "You can leave the category as 'Application Integration' or anything.",
+      createAppInfo3:
+        "You can leave the category as 'Application Integration' or anything.",
       createAppInfo4: "Set client type to 'Confidential'",
-      createAppInfo5: "The application name doesn't matter — name it anything you want.",
+      createAppInfo5:
+        "The application name doesn't matter — name it anything you want.",
       openBrowser: "Open browser to continue?",
-      confirmCreateApp: "Press 'Enter' once you have created the app and have your Client ID and Client Secret ready.",
-      enterClientID: "Enter your Twitch Application Client ID (Leave blank for unchanged):",
-      enterClientSecret: "Enter your Twitch Application Client Secret (Leave blank for unchanged):",
-      promptLoginBot: "To continue, please login to your BOT Twitch account (the secondary account for the bot).",
-      promptLogin: "To continue, please login to your BROADCASTER Twitch account (the primary account for streaming).",
+      confirmCreateApp:
+        "Press 'Enter' once you have created the app and have your Client ID and Client Secret ready.",
+      enterClientID:
+        "Enter your Twitch Application Client ID (Leave blank for unchanged):",
+      enterClientSecret:
+        "Enter your Twitch Application Client Secret (Leave blank for unchanged):",
+      promptLoginBot:
+        "To continue, please login to your BOT Twitch account (the secondary account for the bot).",
+      promptLogin:
+        "To continue, please login to your BROADCASTER Twitch account (the primary account for streaming).",
     },
     th: {
       enable: "ต้องการเปิดใช้งานบอต Twitch ของ Manao หรือไม่?",
@@ -215,15 +223,21 @@ async function configureTwitch(
       goTo: "ไปที่: ",
       createAppInfo1: "คลิก 'ลงทะเบียนแอพพลิเคชั่น'",
       createAppInfo2: "เมื่อสร้างแอป ให้ตั้งค่า OAuth Redirect URL เป็น: ",
-      createAppInfo3: "คุณสามารถปล่อยหมวดหมู่เป็น 'Application Integration' หรืออะไรก็ได้",
+      createAppInfo3:
+        "คุณสามารถปล่อยหมวดหมู่เป็น 'Application Integration' หรืออะไรก็ได้",
       createAppInfo4: "ตั้งค่าประเภทไคลเอนต์เป็น 'โปรดเก็บรักษาเป็นความลับ'",
       createAppInfo5: "ชื่อแอปพลิเคชันไม่สำคัญ — ตั้งชื่ออะไรก็ได้ที่คุณต้องการ",
       openBrowser: "เปิดเบราว์เซอร์เพื่อดำเนินการต่อ?",
-      confirmCreateApp: "กด 'Enter' เมื่อคุณสร้างแอปและมี Client ID และ Client Secret พร้อมแล้ว",
-      enterClientID: "ใส่ Client ID ของ Twitch Application ของคุณ (เว้นว่างเพื่อไม่เปลี่ยนแปลง):",
-      enterClientSecret: "ใส่ Client Secret ของ Twitch Application ของคุณ (เว้นว่างเพื่อไม่เปลี่ยนแปลง):",
-      promptLoginBot: "เพื่อดำเนินการต่อ โปรดเข้าสู่ระบบบัญชีบอต Twitch ของคุณ (บัญชีรองที่ใช้สำหรับบอต)",
-      promptLogin: "เพื่อดำเนินการต่อ โปรดเข้าสู่ระบบบัญชี Twitch ของคุณที่ใช้ในการสตรีม (บัญชีหลักที่ใช้สตรีม)",
+      confirmCreateApp:
+        "กด 'Enter' เมื่อคุณสร้างแอปและมี Client ID และ Client Secret พร้อมแล้ว",
+      enterClientID:
+        "ใส่ Client ID ของ Twitch Application ของคุณ (เว้นว่างเพื่อไม่เปลี่ยนแปลง):",
+      enterClientSecret:
+        "ใส่ Client Secret ของ Twitch Application ของคุณ (เว้นว่างเพื่อไม่เปลี่ยนแปลง):",
+      promptLoginBot:
+        "เพื่อดำเนินการต่อ โปรดเข้าสู่ระบบบัญชีบอต Twitch ของคุณ (บัญชีรองที่ใช้สำหรับบอต)",
+      promptLogin:
+        "เพื่อดำเนินการต่อ โปรดเข้าสู่ระบบบัญชี Twitch ของคุณที่ใช้ในการสตรีม (บัญชีหลักที่ใช้สตรีม)",
     },
   };
 
@@ -239,13 +253,17 @@ async function configureTwitch(
   console.log(chalk.yellowBright(s.beforeStart));
   console.log(s.goTo + chalk.blueBright("https://dev.twitch.tv/console/apps"));
   console.log(chalk.gray(`→ ${s.createAppInfo1}`));
-  console.log(chalk.gray(`→ ${s.createAppInfo2}`), chalk.bold("http://localhost:3000"));
+  console.log(
+    chalk.gray(`→ ${s.createAppInfo2}`),
+    chalk.bold("http://localhost:3000"),
+  );
   console.log(chalk.gray(`→ ${s.createAppInfo3}`));
   console.log(chalk.gray(`→ ${s.createAppInfo4}`));
   console.log(chalk.gray(`→ ${s.createAppInfo5}`));
 
   const openBrowserConfirm = await confirm({ message: s.openBrowser });
-  if (openBrowserConfirm) await openBrowser("https://dev.twitch.tv/console/apps");
+  if (openBrowserConfirm)
+    await openBrowser("https://dev.twitch.tv/console/apps");
 
   await confirm({ message: s.confirmCreateApp });
 
@@ -293,8 +311,16 @@ async function configureDiscord(
         "⚠ To enable Discord integration, you need to create a Discord Bot and get its token. Read the guide below:",
       ),
     );
-    console.log(chalk.cyan("→ English: https://manaobot.netlify.app/en/discord/00-getting-started/"));
-    console.log(chalk.cyan("→ Thai: https://manaobot.netlify.app/th/discord/00-getting-started/"));
+    console.log(
+      chalk.cyan(
+        "→ English: https://manaobot.netlify.app/en/discord/00-getting-started/",
+      ),
+    );
+    console.log(
+      chalk.cyan(
+        "→ Thai: https://manaobot.netlify.app/th/discord/00-getting-started/",
+      ),
+    );
 
     const token = await password({
       message: "Enter your Discord Bot Token (Leave blank for unchanged)",
@@ -319,15 +345,31 @@ async function configureKick(
         "⚠ To enable Kick integration, you need to create a Kick Application and get its Client ID and Client Secret. Read the guide below:",
       ),
     );
-    console.log(chalk.cyan("→ English: https://manaobot.netlify.app/en/kick/00-getting-started/"));
-    console.log(chalk.cyan("→ Thai: https://manaobot.netlify.app/th/kick/00-getting-started/"));
+    console.log(
+      chalk.cyan(
+        "→ English: https://manaobot.netlify.app/en/kick/00-getting-started/",
+      ),
+    );
+    console.log(
+      chalk.cyan(
+        "→ Thai: https://manaobot.netlify.app/th/kick/00-getting-started/",
+      ),
+    );
 
     const clientId =
-      (await input({ message: "Enter your Kick Client ID (Leave blank for unchanged)" })).trim() ||
+      (
+        await input({
+          message: "Enter your Kick Client ID (Leave blank for unchanged)",
+        })
+      ).trim() ||
       Bun.env.KICK_CLIENT_ID ||
       "";
     const clientSecret =
-      (await password({ message: "Enter your Kick Client Secret (Leave blank for unchanged)" })).trim() ||
+      (
+        await password({
+          message: "Enter your Kick Client Secret (Leave blank for unchanged)",
+        })
+      ).trim() ||
       Bun.env.KICK_CLIENT_SECRET ||
       "";
 
@@ -368,13 +410,17 @@ async function configureKick(
 async function run(): Promise<void> {
   try {
     console.log(
-      chalk.bold.underline.magenta(`⟦◄ ManaoBot v${version} - Configuration ►⟧`),
+      chalk.bold.underline.magenta(
+        `⟦◄ ManaoBot v${version} - Configuration ►⟧`,
+      ),
     );
 
     const envFile = Bun.file(".env");
     const isFirstTime = !(await envFile.exists());
 
-    const envContent = { value: isFirstTime ? generateEnvTemplate() : await envFile.text() };
+    const envContent = {
+      value: isFirstTime ? generateEnvTemplate() : await envFile.text(),
+    };
     const replaceOrAppend = makeReplaceOrAppend(envContent);
 
     let lang: "en" | "th" = "en";

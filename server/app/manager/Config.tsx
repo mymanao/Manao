@@ -12,10 +12,7 @@ export function ConfigManager() {
       </p>
 
       {/* Toast */}
-      <div
-        id="toast"
-        class="toast toast-top toast-end fixed z-50 hidden"
-      >
+      <div id="toast" class="toast toast-top toast-end fixed z-9999999999999999999999999999999 hidden">
         <div id="toast-inner" class="alert alert-success shadow-lg">
           <i class="fas fa-check-circle"></i>
           <span id="toast-msg">Saved!</span>
@@ -23,7 +20,6 @@ export function ConfigManager() {
       </div>
 
       <div class="mx-auto max-w-4xl space-y-6">
-
         {/* General */}
         <div class="card bg-base-200 shadow-xl">
           <div class="card-body">
@@ -59,7 +55,8 @@ export function ConfigManager() {
         <div class="card bg-base-200 shadow-xl">
           <div class="card-body">
             <h2 class="card-title mb-4 text-xl">
-              <i class="fas fa-terminal text-secondary mr-2"></i> Command Prefixes
+              <i class="fas fa-terminal text-secondary mr-2"></i> Command
+              Prefixes
             </h2>
             <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
               <div>
@@ -162,16 +159,22 @@ export function ConfigManager() {
         <div class="card bg-base-200 shadow-xl">
           <div class="card-body">
             <h2 class="card-title mb-4 text-xl">
-              <i class="fas fa-comment-dots text-accent mr-2"></i> Custom Messages
+              <i class="fas fa-comment-dots text-accent mr-2"></i> Custom
+              Messages
             </h2>
             <p class="text-base-content/60 mb-4 text-sm">
-              Use <code>[user]</code> and <code>[viewers]</code> as placeholders.
+              Use <code>[user]</code> and <code>[viewers]</code> as
+              placeholders.
             </p>
 
             {[
               { key: "onFollow", label: "On Follow", icon: "fa-heart" },
               { key: "onSubscribe", label: "On Subscribe", icon: "fa-star" },
-              { key: "onReSubscribe", label: "On Re-Subscribe", icon: "fa-rotate-right" },
+              {
+                key: "onResubscribe",
+                label: "On Re-Subscribe",
+                icon: "fa-rotate-right",
+              },
               { key: "onRaid", label: "On Raid", icon: "fa-people-group" },
             ].map(({ key, label, icon }) => (
               <div class="mb-4">
@@ -211,7 +214,6 @@ export function ConfigManager() {
             <i class="fas fa-save mr-2"></i> Save Changes
           </button>
         </div>
-
       </div>
     </main>
   );

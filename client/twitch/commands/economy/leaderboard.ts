@@ -8,14 +8,16 @@ export default {
   aliases: { en: ["leader", "ld", "lb", "top", "baltop"], th: [] },
   args: [],
   execute: async (client: ClientServices, meta: CommandMeta) => {
-    const leaderboard = db.prepare(`
+    const leaderboard = db
+      .prepare(`
       SELECT u.money, la.twitch_id
       FROM users u
       JOIN linked_accounts la ON la.id = u.id
       WHERE la.twitch_id IS NOT NULL
       ORDER BY u.money DESC
       LIMIT 5
-    `).all() as Array<{ money: number; twitch_id: string }>;
+    `)
+      .all() as Array<{ money: number; twitch_id: string }>;
 
     const twitchIDs = leaderboard.map((u) => u.twitch_id);
     const users = await client.api.users.getUsersByIds(twitchIDs);

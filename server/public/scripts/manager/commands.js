@@ -174,7 +174,7 @@ customCommandForm.addEventListener("submit", async (e) => {
       body: JSON.stringify(payload),
     });
     if (!res.ok) {
-        return console.error("Failed to save command:", await res.text());
+      return console.error("Failed to save command:", await res.text());
     }
     customCommandModal.close();
     await fetchCustomCommands();

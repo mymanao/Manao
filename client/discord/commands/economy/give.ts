@@ -1,5 +1,10 @@
 import { Category } from "@discordx/utilities";
-import { addBalance, getBalance, initAccount, subtractBalance } from "@helpers/database";
+import {
+  addBalance,
+  getBalance,
+  initAccount,
+  subtractBalance,
+} from "@helpers/database";
 import { t } from "@helpers/i18n";
 import { getCurrency, getLang } from "@helpers/preferences";
 import {
@@ -54,8 +59,14 @@ export class GiveCommand {
     const lang = await getLang();
     await interaction.deferReply();
 
-    const senderId = initAccount({ userID: interaction.user.id, platform: "discord" });
-    const receiverId = initAccount({ userID: targetUser.id, platform: "discord" });
+    const senderId = initAccount({
+      userID: interaction.user.id,
+      platform: "discord",
+    });
+    const receiverId = initAccount({
+      userID: targetUser.id,
+      platform: "discord",
+    });
 
     if (senderId === receiverId) {
       await interaction.editReply(t("economy.errorSelfTransfer", lang));
@@ -80,7 +91,13 @@ export class GiveCommand {
     const currency = await getCurrency();
 
     await interaction.editReply(
-      t("economy.transactionSuccess", lang, amount, currency, targetUser.username),
+      t(
+        "economy.transactionSuccess",
+        lang,
+        amount,
+        currency,
+        targetUser.username,
+      ),
     );
 
     io.emit("feed", {

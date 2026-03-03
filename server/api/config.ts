@@ -10,11 +10,16 @@ export function registerConfigAPI(app: Elysia) {
     try {
       const config = body as Record<string, any>;
 
-      if (config.lang !== undefined) await updateUserConfig("lang", config.lang);
-      if (config.currency !== undefined) await updateUserConfig("currency", config.currency);
-      if (config.prefix !== undefined) await updateUserConfig("prefix", config.prefix);
-      if (config.chatReward !== undefined) await updateUserConfig("chatReward", config.chatReward);
-      if (config.customMessages !== undefined) await updateUserConfig("customMessages", config.customMessages);
+      if (config.lang !== undefined)
+        await updateUserConfig("lang", config.lang);
+      if (config.currency !== undefined)
+        await updateUserConfig("currency", config.currency);
+      if (config.prefix !== undefined)
+        await updateUserConfig("prefix", config.prefix);
+      if (config.chatReward !== undefined)
+        await updateUserConfig("chatReward", config.chatReward);
+      if (config.customMessages !== undefined)
+        await updateUserConfig("customMessages", config.customMessages);
 
       return { success: true };
     } catch (err) {
