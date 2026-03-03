@@ -2,24 +2,12 @@ import { Category } from "@discordx/utilities";
 import { templateEmbed } from "@helpers/discord/embed.ts";
 import { t } from "@helpers/i18n.ts";
 import { getLang } from "@helpers/preferences.ts";
-import {
-  type CommandInteraction,
-  MessageFlagsBitField,
-  type User,
-} from "discord.js";
+import { getLinkedID, initAccount } from "@helpers/database.ts";
+import { generateLinkCode } from "@helpers/linking.ts";
+import { type CommandInteraction, MessageFlagsBitField } from "discord.js";
 import { Discord, Slash } from "discordx";
 
 const lang = await getLang();
-
-export const pendingLinks = new Map<
-  string,
-  {
-    code: string;
-    createdAt: number;
-    user: User;
-    roles: string[];
-  }
->();
 
 @Discord()
 @Category("Info")
@@ -27,20 +15,26 @@ export class LinkCommand {
   static metadata = {
     name: { en: "link", th: "" },
     description: {
-      en: "Generate a code for authentication",
+      en: "Generate a code to link your Discord account to Twitch or Kick",
       th: "",
     },
   };
-  @Slash({ name: "link", description: "Generated a code for authentication" })
+
+  @Slash({
+    name: "link",
+    description: "Generate a code to link your Discord account to Twitch or Kick",
+  })
   async link(interaction: CommandInteraction): Promise<void> {
     const discordID = interaction.user.id;
-    const code = Math.random().toString(36).substring(2, 8).toUpperCase();
 
-    pendingLinks.set(discordID, {
-      code,
-      createdAt: Date.now(),
-      user: interaction.user,
-      roles: interaction.member?.roles as unknown as string[],
+    const internalID =
+      getLinkedID({ userID: discordID, platform: "discord" }) ??
+      initAccount({ userID: discordID, platform: "discord" });
+
+    const code = generateLinkCode({
+      internalID,
+      originPlatform: "discord",
+      userID: discordID,
     });
 
     await interaction.reply({
@@ -48,15 +42,9 @@ export class LinkCommand {
         templateEmbed({
           type: "default",
           title: t("discord.link.title", lang),
-          fields: [
-            {
-              name: t("discord.link.fieldName", lang),
-              value: code,
-              inline: true,
-            },
-          ],
+          fields: [{ name: t("discord.link.fieldName", lang), value: code, inline: true }],
           description: t("discord.link.description", lang),
-          interaction: interaction,
+          interaction,
         }),
       ],
       flags: MessageFlagsBitField.Flags.Ephemeral,
