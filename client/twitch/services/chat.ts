@@ -96,6 +96,7 @@ export async function initializeChatClient(
         channelID,
         chatClient,
         apiClient,
+        commands,
       );
 
       handleEventMessage({

@@ -7,14 +7,9 @@ import {
   parseEmotePositions,
 } from "@twurple/chat";
 import { io } from "@/server";
-import type { MessageData, UserBadge } from "@/types";
+import type { Command, MessageData, UserBadge } from "@/types";
 import { handleCommand } from "./commandHandler";
-import {
-  addBalance,
-  getUserConfig,
-  initAccount,
-  getNickname,
-} from "@helpers/database";
+import { addBalance, getUserConfig, initAccount, getNickname } from "@helpers/database";
 
 const config = await getUserConfig();
 const PREFIX = config.prefix.twitch;
@@ -30,18 +25,11 @@ export async function handleMessage(
   channelID: string,
   chatClient: ChatClient,
   apiClient: ApiClient,
+  commands: Map<string, Command>,
 ) {
   try {
     if (message.startsWith(PREFIX)) {
-      await handleCommand(
-        channel,
-        user,
-        userID,
-        channelID,
-        message,
-        chatClient,
-        apiClient,
-      );
+      await handleCommand(channel, user, userID, channelID, message, chatClient, apiClient, commands);
     } else {
       await handleRegularMessage(message, msgObj, userID, apiClient);
     }
