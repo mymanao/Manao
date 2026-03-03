@@ -40,25 +40,6 @@ interface UserInfo {
    Helpers
 ---------------------------------- */
 
-async function openBrowser(url: string): Promise<void> {
-  const platform = process.platform;
-  let command: string[];
-
-  switch (platform) {
-    case "win32":
-      command = ["cmd", "/c", "start", ""];
-      break;
-    case "darwin":
-      command = ["open"];
-      break;
-    default:
-      command = ["xdg-open"];
-      break;
-  }
-
-  Bun.spawnSync([...command, url]);
-}
-
 async function fetchTokens(cliPath: string): Promise<ConfigTokens> {
   const { stderr } = Bun.spawnSync([
     cliPath,
