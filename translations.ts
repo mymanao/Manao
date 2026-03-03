@@ -26,10 +26,8 @@ export const translations = {
     },
     info: {
       errorCommandNotFound: "Command not found: {}",
-
       version: "Manaobot v{} using Twurple v{} running on Bun v{}",
-      versionDiscord:
-        "ManaoBot v{} using Discord.js v{}, Discordx v{}, running on Bun v{}",
+      versionDiscord: "ManaoBot v{} using Discord.js v{}, Discordx v{}, running on Bun v{}",
       versionKick: "ManaoBot v{} using Manao KickIt v{} running on Bun v{}",
       seconds: "{} seconds",
       minutes: "{} minutes",
@@ -41,14 +39,13 @@ export const translations = {
     configuration: {
       errorInvalidLanguage: "Invalid language. Available languages: {}",
       errorNicknameTooLong: "Nickname is too long",
-      errorNicknameContainsSpecialChars:
-        "Nickname can only contain letters and numbers",
+      errorNicknameContainsSpecialChars: "Nickname can only contain letters and numbers",
       errorGameNotFound: "Game not found: {}",
       errorPermission: "You don't have permission to run this command",
-      errorCurrentGameNotFound:
-        "Current game not found, or the broadcaster didn't specify stream's category",
-      errorCodeInvalidOrExpired:
-        "The provided code is invalid or has expired. Please generate a new code to proceed.",
+      errorCurrentGameNotFound: "Current game not found, or the broadcaster didn't specify stream's category",
+      errorCodeInvalidOrExpired: "The provided code is invalid or has expired. Please generate a new code to proceed.",
+      errorAlreadyLinked: "This account is already linked to another user.",
+      errorLinkSelf: "You cannot link an account to itself.",
 
       currentLanguage: "Your current language is: {}",
       currentLanguageChanged: "Language changed to: {}",
@@ -59,6 +56,7 @@ export const translations = {
       currentGameChanged: "Game changed to: {}",
       currentCurrency: "The channel's current currency is: {}",
       currentCurrencyChanged: "Channel's currency changed to: {}",
+      linkCodeGenerated: "Your link code is (expires in 60 seconds)",
       linkSuccess: "Account successfully linked",
     },
     moderation: {
@@ -66,8 +64,7 @@ export const translations = {
       errorCannotShoutout: "Shoutout failed",
       errorUserNotFound: "User not found: {}",
       errorInvalidAction: "Invalid action! (connect, disconnect)",
-      errorEventAlreadyConnected:
-        "Event is already connected, to disconnect, use the !event disconnect command",
+      errorEventAlreadyConnected: "Event is already connected, to disconnect, use the !event disconnect command",
       errorUrlRequired: "Please provide a URL to connect to",
       errorEventNotConnected: "No event is currently connected",
 
@@ -82,17 +79,13 @@ export const translations = {
       errorUserNotFound: "User not found: {}",
       errorAccountNotFound: "Account not found for user: {}",
       errorAlreadyDaily: "You have already claimed your daily income today",
-      errorAlreadyWeekly:
-        "You have already claimed your weekly income this week, please wait for {} day(s)",
+      errorAlreadyWeekly: "You have already claimed your weekly income this week, please wait for {} day(s)",
       errorInvalidAmount: "Invalid amount has been entered",
-      errorInsufficientFunds:
-        "You have insufficient funds to perform this action",
-      errorInvalidTimes:
-        "Invalid number of times, please enter a number between 1 and 100",
+      errorInsufficientFunds: "You have insufficient funds to perform this action",
+      errorInvalidTimes: "Invalid number of times, please enter a number between 1 and 100",
       errorSelfTransfer: "You cannot transfer money to yourself!",
 
-      autobetResult:
-        "Autobet results: {} time(s) — Won {} Lost {} — Remaining {} {}",
+      autobetResult: "Autobet results: {} time(s) — Won {} Lost {} — Remaining {} {}",
       currentBalance: "Your current balance is: {} {}",
       getDaily: "You have received your daily income of {} {}",
       getWeekly: "You have received your weekly income of {} {}",
@@ -105,21 +98,18 @@ export const translations = {
       errorModeratorOnly: "This command is for moderators only",
       errorBroadcasterOnly: "This command is for the broadcaster only",
       errorArgsRequired: "Please provide the required arguments: {}",
-      errorCommandHandler:
-        "An error occurred while executing the command. The bot may stopped working.",
+      errorCommandHandler: "An error occurred while executing the command. The bot may stopped working.",
       errorCommandNotFound: 'Command {} not found, do you mean "{}"?',
-
       executeReload: "Successfully started reloading commands",
     },
     discord: {
       link: {
-        errorUserNotLinked: "Link Twitch account using `/link` command first.",
-        errorTargetNotLinked:
-          "The target user has not linked their Twitch account.",
-
+        errorUserNotLinked: "Link your account using the `!link` command on Twitch or Kick first.",
+        errorTargetNotLinked: "The target user has not linked their account.",
+        errorTitle: "Linking Failed",
+        successTitle: "Account Linked",
         title: "Link your Discord account",
-        description:
-          "To link Manao Twitch Bot, Run !link follow by the code in Twitch chat to link your account.",
+        description: "Run !link on Twitch or Kick followed by the code to link your account, or provide a code here from another platform.",
         fieldName: "Code",
       },
       ping: {
@@ -127,10 +117,8 @@ export const translations = {
       },
       help: {
         helpPageTitle: "(Page {} of {}) Category: {}",
-        helpFooter:
-          "You can send `/help command` followed by a command name to get more information about it.",
-        helpBackToAll:
-          "You can send `/help all` to get a list of all commands.",
+        helpFooter: "You can send `/help command` followed by a command name to get more information about it.",
+        helpBackToAll: "You can send `/help all` to get a list of all commands.",
         helpDescriptionField: "Description",
         helpCategoryField: "Category",
         helpOptionsField: "Options",
@@ -169,11 +157,9 @@ export const translations = {
     },
     info: {
       errorCommandNotFound: "ไม่พบคำสั่ง: {}",
-
       help: "📚 ดูคำสั่งทั้งหมดได้ที่ https://manaobot.netlify.app/th/commands/ — พิมพ์ !help ตามด้วยคำสั่ง เพื่อดูรายละเอียดของคำสั่งนั้น ๆ ครับ",
       version: "Manaobot v{} ใช้ Twurple v{} รันบน Bun v{}",
-      versionDiscord:
-        "ManaoBot v{} ใช้ Discord.js v{}, Discordx v{}, รันบน Bun v{}",
+      versionDiscord: "ManaoBot v{} ใช้ Discord.js v{}, Discordx v{}, รันบน Bun v{}",
       versionKick: "ManaoBot v{} ใช้ Manao KickIt v{} รันบน Bun v{}",
       seconds: "{} วินาที",
       minutes: "{} นาที",
@@ -184,14 +170,13 @@ export const translations = {
     configuration: {
       errorInvalidLanguage: "ภาษาที่ไม่ถูกต้อง ภาษาในปัจจุบัน: {}",
       errorNicknameTooLong: "ชื่อเล่นยาวเกินไป",
-      errorNicknameContainsSpecialChars:
-        "ชื่อเล่นสามารถมีได้เฉพาะตัวอักษรและตัวเลขเท่านั้น",
+      errorNicknameContainsSpecialChars: "ชื่อเล่นสามารถมีได้เฉพาะตัวอักษรและตัวเลขเท่านั้น",
       errorGameNotFound: "ไม่พบเกม: {}",
       errorPermission: "คุณไม่มีสิทธิ์สั่งคำสั่งนี้",
-      errorCurrentGameNotFound:
-        "ไม่พบเกมของสตรีม หรือผู้ดำเนินรายการไม่ได้ระบุหมวดหมู่ของสตรีม",
-      errorCodeInvalidOrExpired:
-        "รหัสที่ให้มาไม่ถูกต้องหรือหมดอายุแล้ว กรุณาสร้างรหัสใหม่เพื่อดำเนินการต่อ",
+      errorCurrentGameNotFound: "ไม่พบเกมของสตรีม หรือผู้ดำเนินรายการไม่ได้ระบุหมวดหมู่ของสตรีม",
+      errorCodeInvalidOrExpired: "รหัสที่ให้มาไม่ถูกต้องหรือหมดอายุแล้ว กรุณาสร้างรหัสใหม่เพื่อดำเนินการต่อ",
+      errorAlreadyLinked: "บัญชีนี้ถูกเชื่อมต่อกับผู้ใช้อื่นอยู่แล้ว",
+      errorLinkSelf: "ไม่สามารถเชื่อมต่อบัญชีกับตัวเองได้",
 
       currentLanguage: "ภาษาปัจจุบันของคุณคือ: {}",
       currentLanguageChanged: "เปลี่ยนภาษาเป็น: {}",
@@ -202,6 +187,7 @@ export const translations = {
       currentGameChanged: "เกมถูกเปลี่ยนเป็น: {}",
       currentCurrency: "สกุลเงินปัจจุบันของช่องคือ: {}",
       currentCurrencyChanged: "สกุลเงินของช่องถูกเปลี่ยนเป็น: {}",
+      linkCodeGenerated: "รหัสเชื่อมต่อของคุณคือ (หมดอายุใน 60 วินาที)",
       linkSuccess: "บัญชีถูกเชื่อมต่อเรียบร้อยแล้ว",
     },
     moderation: {
@@ -209,8 +195,7 @@ export const translations = {
       errorCannotShoutout: "ไม่สามารถ Shoutout ได้",
       errorUserNotFound: "ไม่พบผู้ใช้: {}",
       errorInvalidAction: "คำสั่งไม่ถูกต้อง! (connect, disconnect)",
-      errorEventAlreadyConnected:
-        "อีเวนต์เชื่อมต่ออยู่แล้ว หากต้องการตัดการเชื่อมต่อ ให้ใช้คำสั่ง !event disconnect",
+      errorEventAlreadyConnected: "อีเวนต์เชื่อมต่ออยู่แล้ว หากต้องการตัดการเชื่อมต่อ ให้ใช้คำสั่ง !event disconnect",
       errorUrlRequired: "กรุณาใส่ URL ที่ต้องการเชื่อมต่อ",
       errorEventNotConnected: "ไม่มีอีเวนต์ที่เชื่อมต่ออยู่ในขณะนี้",
 
@@ -247,17 +232,16 @@ export const translations = {
       errorArgsRequired: "กรุณาใส่พารามิเตอร์ที่จำเป็น: {}",
       errorCommandHandler: "เกิดข้อผิดพลาดขณะเรียกใช้คำสั่ง บอทอาจหยุดทำงาน",
       errorCommandNotFound: 'ไม่พบคำสั่ง {} คุณหมายถึง "{}" หรือเปล่า?',
-
       executeReload: "เริ่มต้นกระบวนการรีโหลดคำสั่งแล้ว",
     },
     discord: {
       link: {
-        errorUserNotLinked: "เชื่อมต่อบัญชีกับทวิชโดยใช้คำสั่ง `/link` ก่อน",
-        errorTargetNotLinked: "ผู้ใข้อีกคนยังไม่ได้เชื่อมต่อบัญชีกับทวิช",
-
+        errorUserNotLinked: "เชื่อมต่อบัญชีโดยใช้คำสั่ง `!link` บน Twitch หรือ Kick ก่อน",
+        errorTargetNotLinked: "ผู้ใช้อีกคนยังไม่ได้เชื่อมต่อบัญชี",
+        errorTitle: "การเชื่อมต่อล้มเหลว",
+        successTitle: "เชื่อมต่อบัญชีสำเร็จ",
         title: "เชื่อมต่อด้วยบัญชีดิสคอร์ด",
-        description:
-          "เพื่อเชื่อมกับบอตทวิช Manao ให้พิมพ์คำสั่ง !link แล้วตามด้วยรหัสในแชททวิชเพื่อเชื่อมต่อบัญชี",
+        description: "พิมพ์ !link บน Twitch หรือ Kick แล้วตามด้วยรหัสเพื่อเชื่อมต่อบัญชี หรือใส่รหัสจากแพลตฟอร์มอื่นที่นี่ได้เลย",
         fieldName: "รหัส",
       },
       ping: {
@@ -265,8 +249,7 @@ export const translations = {
       },
       help: {
         helpPageTitle: "(หน้า {} จาก {}) หมวด: {}",
-        helpFooter:
-          "สามารถพิมพ์ `/help command` แล้วตามด้วยชื่อคำสั่งเพื่อดูรายละเอียดเพิ่มเติมได้",
+        helpFooter: "สามารถพิมพ์ `/help command` แล้วตามด้วยชื่อคำสั่งเพื่อดูรายละเอียดเพิ่มเติมได้",
         helpBackToAll: "สามารถพิมพ์ `/help all` เพื่อดูรายการคำสั่งทั้งหมดได้",
         helpDescriptionField: "คำอธิบาย",
         helpCategoryField: "หมวดหมู่",
