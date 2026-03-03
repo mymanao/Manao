@@ -51,7 +51,7 @@ export class GiveCommand {
     amountInput: string,
     interaction: CommandInteraction,
   ): Promise<void> {
-    const lang = getLang();
+    const lang = await getLang();
     await interaction.deferReply();
 
     const senderId = initAccount({ userID: interaction.user.id, platform: "discord" });
@@ -77,7 +77,7 @@ export class GiveCommand {
     subtractBalance(senderId, amount);
     addBalance(receiverId, amount);
 
-    const currency = getCurrency();
+    const currency = await getCurrency();
 
     await interaction.editReply(
       t("economy.transactionSuccess", lang, amount, currency, targetUser.username),

@@ -18,7 +18,7 @@ export async function registerRewardsAPI(app: Elysia) {
     );
 
     const rewardsData = [] as SoundReward[];
-    rewards.forEach((reward: HelixCustomReward) => {
+    rewards.forEach(async (reward: HelixCustomReward) => {
       rewardsData.push({
         id: reward.id,
         title: reward.title,
@@ -27,7 +27,7 @@ export async function registerRewardsAPI(app: Elysia) {
         isEnabled: reward.isEnabled,
         userInputRequired: reward.userInputRequired,
         globalCooldown: reward.globalCooldown,
-        sound: getSoundFromRewardId(reward.id),
+        sound: await getSoundFromRewardId(reward.id),
       });
     });
 

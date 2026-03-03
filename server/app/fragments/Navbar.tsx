@@ -39,6 +39,9 @@ export function Navbar() {
                 <li>
                   <a href="/manager/replies">Replies</a>
                 </li>
+                <li>
+                  <a href="/manager/config">Config Editor</a>
+                </li>
               </ul>
             </li>
             <li>
@@ -89,6 +92,9 @@ export function Navbar() {
                 </li>
                 <li>
                   <a href="/manager/replies">Replies</a>
+                </li>
+                <li>
+                  <a href="/manager/config">Config Editor</a>
                 </li>
               </ul>
             </details>

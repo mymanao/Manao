@@ -25,7 +25,7 @@ export async function handleCommand(
   chatClient: ChatClient,
   apiClient: ApiClient,
 ) {
-  const lang = getLang() ?? "en";
+  const lang = await getLang() ?? "en";
   const say = (msg: string) => chatClient.say(channel, `@${user}, ${msg}`);
 
   try {
@@ -94,7 +94,7 @@ export async function handleCommand(
           userID,
           commands,
           lang,
-          currency: getCurrency() ?? "KEEB",
+          currency: await getCurrency() ?? "COIN",
         },
         message,
         args,
@@ -126,7 +126,7 @@ export async function handleCommand(
           userID,
           commands,
           lang,
-          currency: getCurrency() ?? "COIN",
+          currency: await getCurrency() ?? "COIN",
         },
         message,
         args,

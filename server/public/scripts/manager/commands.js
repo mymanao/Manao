@@ -109,7 +109,9 @@ async function handleDeleteCommand(id) {
   if (!confirm("Are you sure you want to delete this command?")) return;
   try {
     const res = await fetch(`/api/custom-commands/${id}`, { method: "DELETE" });
-    if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
+    if (!res.ok) {
+      return console.error("Failed to delete command:", await res.text());
+    }
     await fetchCustomCommands();
   } catch (err) {
     console.error("Failed to delete command:", err);
@@ -171,7 +173,9 @@ customCommandForm.addEventListener("submit", async (e) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
-    if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
+    if (!res.ok) {
+        return console.error("Failed to save command:", await res.text());
+    }
     customCommandModal.close();
     await fetchCustomCommands();
   } catch (err) {

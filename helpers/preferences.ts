@@ -5,33 +5,10 @@ import type {
   LocalizedCommandArg,
   SongData,
 } from "@/types";
-import { db, initDatabase } from "./database";
+import { getUserConfig, updateUserConfig } from "./database";
 
 type LangCode = "en" | "th";
 type CurrencyCode = string;
-
-function getConfig(key: string, defaultValue: string): string {
-  initDatabase();
-  const stmt = db.prepare("SELECT value FROM config WHERE key = ?");
-  const row = stmt.get(key) as { value?: string } | undefined;
-
-  if (!row?.value) {
-    const insert = db.prepare(
-      "INSERT OR IGNORE INTO config (key, value) VALUES (?, ?)",
-    );
-    insert.run(key, defaultValue);
-    return defaultValue;
-  }
-
-  return row.value;
-}
-
-function setConfig(key: string, value: string): void {
-  const stmt = db.prepare(
-    "INSERT INTO config (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value",
-  );
-  stmt.run(key, value);
-}
 
 export function localizeCommandArgs(
   arg: Array<CommandArg>,
@@ -46,68 +23,31 @@ export function localizeCommandArgs(
   });
 }
 
-export function getLang(): LangCode {
-  return (getConfig("lang", "en") as LangCode) ?? "en";
+export async function getLang(): Promise<LangCode> {
+  const config = await getUserConfig();
+  return (config.lang as LangCode) ?? "en";
 }
 
-export function updateLang(newLang: LangCode): void {
-  setConfig("lang", newLang);
+export async function updateLang(newLang: LangCode): Promise<void> {
+  await updateUserConfig("lang", newLang);
 }
 
-export function getCurrency(): CurrencyCode {
-  return getConfig("currency", "COIN");
+export async function getCurrency(): Promise<CurrencyCode> {
+  const config = await getUserConfig();
+  return config.currency ?? "COIN";
 }
 
-export function updateCurrency(newCurrency: CurrencyCode): void {
-  setConfig("currency", newCurrency);
+export async function updateCurrency(newCurrency: CurrencyCode): Promise<void> {
+  await updateUserConfig("currency", newCurrency);
 }
 
-export function getDisabledCommands(): string[] {
-  const raw = getConfig("disabledCommands", "[]");
-  try {
-    return JSON.parse(raw) as string[];
-  } catch {
-    throw new Error("Failed to parse disabledCommands");
-  }
+export async function getDisabledCommands(): Promise<string[]> {
+  const config = await getUserConfig();
+  return config.disabledCommands ?? [];
 }
 
-export function getSoundRewards(): any[] {
-  return JSON.parse(getConfig("soundReward", "[]") ?? "[]");
-}
-
-export function getSoundFromRewardId(id: string): string | null {
-  const rewards = getSoundRewards();
-  const reward = rewards.find((r) => r.id === id);
-  return reward ? reward.sound : null;
-}
-
-export function updateSoundFromRewardId(id: string, sound: string): void {
-  const rewards = getSoundRewards();
-  const reward = rewards.find((r) => r.id === id);
-  if (reward) {
-    reward.sound = sound;
-    setConfig("soundReward", JSON.stringify(rewards));
-  } else {
-    addSoundReward({ id, sound });
-  }
-}
-
-export function addSoundReward(reward: { id: string; sound: string }): any[] {
-  const rewards = getSoundRewards();
-  rewards.push(reward);
-  setConfig("soundReward", JSON.stringify(rewards));
-  return rewards;
-}
-
-export function removeSoundReward(rewardId: string): any[] {
-  const rewards = getSoundRewards();
-  const updatedRewards = rewards.filter((r) => r.id !== rewardId);
-  setConfig("soundReward", JSON.stringify(updatedRewards));
-  return updatedRewards;
-}
-
-export function toggleCommand(commandName: string): boolean {
-  const disabledCommands = getDisabledCommands();
+export async function toggleCommand(commandName: string): Promise<boolean> {
+  const disabledCommands = await getDisabledCommands();
   const index = disabledCommands.indexOf(commandName);
 
   if (index > -1) {
@@ -116,69 +56,82 @@ export function toggleCommand(commandName: string): boolean {
     disabledCommands.push(commandName);
   }
 
-  setConfig("disabledCommands", JSON.stringify(disabledCommands));
+  await updateUserConfig("disabledCommands", disabledCommands);
   return index === -1;
 }
 
-export function getCustomMessages(): CustomMessages {
-  const raw = getConfig(
-    "customMessages",
-    JSON.stringify({
-      onFollow: {
-        en: "Thank you for following!",
-        th: "ขอบคุณที่ติดตามนะ",
-      },
-      onSubscribe: {
-        en: "Thank you for subscribing!",
-        th: "ขอบคุณที่สมัครสมาชิกนะ",
-      },
-      onRaid: {
-        en: "Thank you for the raid!",
-        th: "ขอบคุณที่บุกมานะ",
-      },
-      onResubscribe: {
-        en: "Thank you for resubscribing!",
-        th: "ขอบคุณที่สมัครสมาชิกอีกครั้งนะ",
-      },
-    }),
-  );
-  try {
-    return JSON.parse(raw) as CustomMessages;
-  } catch {
-    throw new Error("Failed to parse CustomMessages");
+export async function getSoundRewards(): Promise<any[]> {
+  const config = await getUserConfig();
+  return config.soundReward ?? [];
+}
+
+export async function getSoundFromRewardId(id: string): Promise<string | null> {
+  const rewards = await getSoundRewards();
+  const reward = rewards.find((r) => r.id === id);
+  return reward ? reward.sound : null;
+}
+
+export async function updateSoundFromRewardId(id: string, sound: string): Promise<void> {
+  const rewards = await getSoundRewards();
+  const reward = rewards.find((r) => r.id === id);
+  if (reward) {
+    reward.sound = sound;
+    await updateUserConfig("soundReward", rewards);
+  } else {
+    await addSoundReward({ id, sound });
   }
 }
 
-export function getCustomReplies(): CustomReply[] {
-  const raw = getConfig("customReplies", "[]");
-  try {
-    return JSON.parse(raw) as CustomReply[];
-  } catch {
-    throw new Error("Failed to parse CustomReplies");
-  }
+export async function addSoundReward(reward: { id: string; sound: string }): Promise<any[]> {
+  const rewards = await getSoundRewards();
+  rewards.push(reward);
+  await updateUserConfig("soundReward", rewards);
+  return rewards;
 }
 
-export function setCustomReplies(replies: CustomReply[]): void {
-  setConfig("customReplies", JSON.stringify(replies));
+export async function removeSoundReward(rewardId: string): Promise<any[]> {
+  const rewards = await getSoundRewards();
+  const updatedRewards = rewards.filter((r) => r.id !== rewardId);
+  await updateUserConfig("soundReward", updatedRewards);
+  return updatedRewards;
 }
 
-export function getDefaultSong(): SongData[] {
-  const raw = getConfig("defaultSong", "[]");
-  try {
-    return JSON.parse(raw) as SongData[];
-  } catch {
-    throw new Error("Failed to parse DefaultSong");
-  }
+export async function getCustomMessages(): Promise<CustomMessages> {
+  const config = await getUserConfig();
+  return config.customMessages ?? {
+    onFollow: { en: "[user] just followed the channel!", th: "[user] ได้ติดตามช่องนี้!" },
+    onSubscribe: { en: "[user] just subscribed to the channel!", th: "[user] ได้สมัครสมาชิกช่องนี้!" },
+    onRaid: { en: "[user] just raided the channel with [viewers] viewers!", th: "[user] ได้บุกช่องนี้พร้อมกับผู้ชม [viewers] คน!" },
+    onReSubscribe: { en: "[user] just resubscribed to the channel!", th: "[user] ได้สมัครสมาชิกช่องนี้อีกครั้ง!" },
+  };
 }
 
-export function setDefaultSong(songs: SongData[]): void {
-  setConfig("defaultSong", JSON.stringify(songs));
+export async function updateCustomMessages(messages: CustomMessages): Promise<void> {
+  await updateUserConfig("customMessages", messages);
 }
 
-export function addDefaultSong(songs: SongData[]): SongData[] {
-  const existingSongs = getDefaultSong();
+export async function getCustomReplies(): Promise<CustomReply[]> {
+  const config = await getUserConfig();
+  return config.customReply ?? [];
+}
+
+export async function setCustomReplies(replies: CustomReply[]): Promise<void> {
+  await updateUserConfig("customReply", replies);
+}
+
+export async function getDefaultSong(): Promise<SongData[]> {
+  const config = await getUserConfig();
+  return config.defaultSong ?? [];
+}
+
+export async function setDefaultSong(songs: SongData[]): Promise<void> {
+  await updateUserConfig("defaultSong", songs);
+}
+
+export async function addDefaultSong(songs: SongData[]): Promise<SongData[]> {
+  const existingSongs = await getDefaultSong();
   const updatedSongs = [...existingSongs, ...songs];
-  setConfig("defaultSong", JSON.stringify(updatedSongs));
+  await updateUserConfig("defaultSong", updatedSongs);
   return updatedSongs;
 }
 

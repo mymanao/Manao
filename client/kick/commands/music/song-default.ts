@@ -93,7 +93,7 @@ export default {
     }));
 
     if (action === "set") {
-      setDefaultSong(songsData);
+      await setDefaultSong(songsData);
 
       await context.reply(
         `@${meta.user} ${t(
@@ -103,7 +103,7 @@ export default {
         )}`,
       );
     } else {
-      const updatedSongs = addDefaultSong(songsData);
+      const updatedSongs = await addDefaultSong(songsData);
 
       await context.reply(
         `@${meta.user} ${t(

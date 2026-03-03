@@ -315,7 +315,7 @@ const log = document.getElementById("log");
 let messageCount = 0;
 const timeout = getParam("timeout") ?? 0;
 
-function getAnimationClass(direction) {
+function getAnimationClass() {
   try {
     const settings = JSON.parse(
       localStorage.getItem("chatOverlaySettings") || "{}",

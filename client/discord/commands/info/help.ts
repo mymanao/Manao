@@ -44,7 +44,7 @@ export class HelpCommand {
   };
   @Slash({ description: "Show all available commands" })
   async all(interaction: CommandInteraction) {
-    const lang = getLang();
+    const lang = await getLang();
 
     const commands = MetadataStorage.instance.applicationCommandSlashesFlat.map(
       (cmd: DApplicationCommand & ICategory) => {
@@ -98,7 +98,7 @@ export class HelpCommand {
     command: string,
     interaction: CommandInteraction,
   ): Promise<void> {
-    const lang = getLang();
+    const lang = await getLang();
 
     const cmd = MetadataStorage.instance.applicationCommandSlashesFlat.find(
       (c: DApplicationCommand & ICategory) => c.name === command,

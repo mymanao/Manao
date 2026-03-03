@@ -22,7 +22,7 @@ export class BalanceCommand {
     description: "Check your balance",
   })
   async balance(interaction: CommandInteraction): Promise<void> {
-    const lang = getLang();
+    const lang = await getLang();
 
     await interaction.deferReply({
       flags: MessageFlagsBitField.Flags.Ephemeral,
@@ -34,7 +34,7 @@ export class BalanceCommand {
     })!;
 
     const balance = getBalance(id);
-    const currency = getCurrency();
+    const currency = await getCurrency();
 
     await interaction.editReply({
       embeds: [

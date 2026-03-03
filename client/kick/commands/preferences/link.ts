@@ -35,7 +35,7 @@ export default {
 
     if (!entry) {
       await context.reply(
-        `@${meta.user} ${t("configuration.errorCodeInvalidOrExpired", getLang())}`,
+        `@${meta.user} ${t("configuration.errorCodeInvalidOrExpired", await getLang())}`,
       );
       return;
     }
@@ -52,7 +52,7 @@ export default {
     pendingLinks.delete(discordID);
 
     await context.reply(
-      `@${meta.user} ${t("configuration.linkSuccess", getLang())}`,
+      `@${meta.user} ${t("configuration.linkSuccess", await getLang())}`,
     );
   },
 };

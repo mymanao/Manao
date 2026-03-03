@@ -8,7 +8,9 @@ socket.on("currentSongProgress", (data) => {
 async function loadQueue() {
   try {
     const res = await fetch("/api/queue");
-    if (!res.ok) throw new Error("Network response was not ok");
+    if (!res.ok) {
+      return console.error("Failed to fetch queue:", res.statusText);
+    }
     const data = await res.json();
 
     const tbody = document.getElementById("queue");

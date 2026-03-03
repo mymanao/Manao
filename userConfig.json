@@ -1,7 +1,7 @@
 {
   "prefix": {
-    "twitch": "!",
-    "kick": "!"
+    "twitch": "#",
+    "kick": "bro"
   },
   "defaultSong": [],
   "disabledCommands": [],
@@ -16,25 +16,25 @@
       "en": "[user] just subscribed to the channel!",
       "th": "[user] ได้สมัครสมาชิกช่องนี้!"
     },
-    "onRaid": {
-      "en": "[user] just raided the channel with [viewers] viewers!",
-      "th": "[user] ได้บุกช่องนี้พร้อมกับผู้ชม [viewers] คน!"
-    },
     "onReSubscribe": {
       "en": "[user] just resubscribed to the channel!",
       "th": "[user] ได้สมัครสมาชิกช่องนี้อีกครั้ง!"
+    },
+    "onRaid": {
+      "en": "[user] just raided the channel with [viewers] viewers!",
+      "th": "[user] ได้บุกช่องนี้พร้อมกับผู้ชม [viewers] คน!"
     }
   },
   "soundReward": [],
   "customReply": [],
   "chatReward": {
-    "kick": {
+    "twitch": {
       "min": 1,
       "max": 4,
       "chance": 0.75,
       "cooldown": 60
     },
-    "twitch": {
+    "kick": {
       "min": 1,
       "max": 4,
       "chance": 0.75,

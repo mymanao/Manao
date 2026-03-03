@@ -21,7 +21,7 @@ export async function initializeEventSub(
   await setupFollowListener(listener, chatClient);
   await setupSubscriptionListener(listener, chatClient);
   await setupRaidListener(listener, chatClient);
-  setupRewardListeners(listener);
+  await setupRewardListeners(listener);
   listener.start();
   logger.info("[EventSub] Listener started");
 }
@@ -30,11 +30,11 @@ async function setupFollowListener(
   listener: EventSubWsListener,
   chatClient: ChatClient,
 ) {
-  listener.onChannelFollow(TWITCH.BROADCASTER.ID, TWITCH.BOT.ID, (data) => {
-    const messageOnFollow = getCustomMessages().onFollow;
+  listener.onChannelFollow(TWITCH.BROADCASTER.ID, TWITCH.BOT.ID, async (data) => {
+    const messageOnFollow = (await getCustomMessages()).onFollow;
     chatClient.say(
       TWITCH.BROADCASTER.CHANNEL,
-      parseTemplate(messageOnFollow[getLang()], { user: data.userName }),
+      parseTemplate(messageOnFollow[await getLang()], { user: data.userName }),
     );
     logger.info(`[EventSub] New follower: ${data.userName}`);
     io.emit("feed", {
@@ -51,11 +51,11 @@ async function setupSubscriptionListener(
   listener: EventSubWsListener,
   chatClient: ChatClient,
 ) {
-  listener.onChannelSubscription(TWITCH.BROADCASTER.ID, (data) => {
-    const messageOnSubscribe = getCustomMessages().onSubscribe;
+  listener.onChannelSubscription(TWITCH.BROADCASTER.ID, async (data) => {
+    const messageOnSubscribe = (await getCustomMessages()).onSubscribe;
     chatClient.say(
       TWITCH.BROADCASTER.CHANNEL,
-      parseTemplate(messageOnSubscribe[getLang()], {
+      parseTemplate(messageOnSubscribe[await getLang()], {
         user: data.userName,
         tier: Number(data.tier) / 1000,
       }),
@@ -75,11 +75,11 @@ async function setupRaidListener(
   listener: EventSubWsListener,
   chatClient: ChatClient,
 ) {
-  listener.onChannelRaidTo(TWITCH.BROADCASTER.ID, (data) => {
-    const messageOnRaid = getCustomMessages().onRaid;
+  listener.onChannelRaidTo(TWITCH.BROADCASTER.ID, async (data) => {
+    const messageOnRaid = (await getCustomMessages()).onRaid;
     chatClient.say(
       TWITCH.BROADCASTER.CHANNEL,
-      parseTemplate(messageOnRaid[getLang()], {
+      parseTemplate(messageOnRaid[await getLang()], {
         user: data.raidingBroadcasterDisplayName,
         viewers: data.viewers.toString(),
       }),
@@ -97,8 +97,8 @@ async function setupRaidListener(
   logger.info("[EventSub] Registered raid listener");
 }
 
-function setupRewardListeners(listener: EventSubWsListener) {
-  getSoundRewards().forEach((r) => {
+async function setupRewardListeners(listener: EventSubWsListener) {
+  (await getSoundRewards()).forEach((r) => {
     listener.onChannelRedemptionAddForReward(
       TWITCH.BROADCASTER.ID,
       r.id,

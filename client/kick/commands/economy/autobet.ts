@@ -44,8 +44,8 @@ export default {
     if (!args[0] || !args[1]) return;
 
     const id = initAccount({ userID: meta.userID.toString(), platform: "kick" });
-    const lang = getLang();
-    const currency = getCurrency();
+    const lang = await getLang();
+    const currency = await getCurrency();
 
     let amount = Math.trunc(parseInt(args[0], 10));
     const times = Math.trunc(parseInt(args[1], 10));

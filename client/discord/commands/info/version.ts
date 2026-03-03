@@ -25,7 +25,7 @@ export class VersionCommand {
     description: "Check bot's current version",
   })
   async version(interaction: CommandInteraction): Promise<void> {
-    const lang = getLang();
+    const lang = await getLang();
     await interaction.reply({
       content: t(
         "info.versionDiscord",

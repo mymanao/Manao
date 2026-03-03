@@ -1,6 +1,7 @@
 import { Home } from "@server/app/Home.tsx";
 import { ChannelPoints } from "@server/app/manager/ChannelPoints.tsx";
 import { CommandManager } from "@server/app/manager/Commands.tsx";
+import { ConfigManager } from "@server/app/manager/Config.tsx";
 import { CustomReplies } from "@server/app/manager/Replies.tsx";
 import { Queue } from "@server/app/Queue.tsx";
 import { SoundboardController } from "@server/app/soundboard/Controller.tsx";
@@ -56,6 +57,13 @@ function registerPageRoutes(app: Elysia): Elysia {
     Template(CustomReplies(), {
       title: "ManaoWeb - Custom Replies Manager",
       includeScripts: ["manager/replies.js"],
+    }),
+  );
+
+  app.get("/manager/config", () =>
+    Template(ConfigManager(), {
+      title: "ManaoWeb - Config Editor",
+      includeScripts: ["manager/config.js"],
     }),
   );
 

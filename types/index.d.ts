@@ -11,8 +11,8 @@ export interface Localized<T = string> {
 }
 
 export interface CommandArg {
-  name: Localized<string>;
-  description: Localized<string>;
+  name: Localized;
+  description: Localized;
   required?: boolean;
 }
 
@@ -23,8 +23,8 @@ export interface LocalizedCommandArg {
 }
 
 export interface Command {
-  name: Localized<string>;
-  description: Localized<string>;
+  name: Localized;
+  description: Localized;
   aliases?: Localized<string[]>;
   args?: CommandArg[];
   modsOnly?: boolean;

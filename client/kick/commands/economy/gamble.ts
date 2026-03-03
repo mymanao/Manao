@@ -35,8 +35,8 @@ export default {
     args: string[],
   ): Promise<void> => {
     const id = initAccount({ userID: meta.userID.toString(), platform: "kick" });
-    const lang = getLang();
-    const currency = getCurrency();
+    const lang = await getLang();
+    const currency = await getCurrency();
     const currentBalance = getBalance(id);
 
     let amount =
