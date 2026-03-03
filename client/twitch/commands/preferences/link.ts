@@ -1,23 +1,23 @@
-import { pendingLinks } from "@discord/commands/info/link.ts";
-import { db } from "@helpers/database";
+import { addLinkedPlatform, getLinkedID, initAccount } from "@helpers/database";
 import { t } from "@helpers/i18n";
+import { consumeLinkCode, generateLinkCode, validateLinkCode } from "@helpers/linking";
 import type { ClientServices, CommandMeta } from "@/types";
 
 export default {
   name: { en: "link", th: "เชื่อมบัญชี" },
   description: {
-    en: "Link your Twitch account to Discord",
-    th: "เชื่อมบัญชี Twitch กับ Discord",
+    en: "Link your Twitch account to another platform, or generate a code for others to use",
+    th: "เชื่อมบัญชี Twitch กับแพลตฟอร์มอื่น หรือสร้างรหัสเพื่อให้แพลตฟอร์มอื่นเชื่อมมาหาคุณ",
   },
   aliases: { en: ["connect"], th: ["เชื่อม"] },
   args: [
     {
       name: { en: "code", th: "รหัสเชื่อมต่อ" },
       description: {
-        en: "Enter the 6-digit link code from Discord",
-        th: "กรอกรหัส 6 หลักที่ได้จาก Discord",
+        en: "6-digit code from another platform, or leave blank to generate one",
+        th: "รหัส 6 หลักจากแพลตฟอร์มอื่น หรือเว้นว่างเพื่อสร้างรหัส",
       },
-      required: true,
+      required: false,
     },
   ],
   execute: async (
@@ -27,11 +27,27 @@ export default {
     args: Array<string>,
   ) => {
     const code = args[0]?.trim().toUpperCase();
-    const entry = [...pendingLinks.entries()].find(
-      ([, data]) => data.code === code && Date.now() - data.createdAt < 60000,
-    );
 
-    if (!entry) {
+    const internalID =
+      getLinkedID({ userID: meta.userID, platform: "twitch" }) ??
+      initAccount({ userID: meta.userID, platform: "twitch" });
+
+    if (!code) {
+      const newCode = generateLinkCode({
+        internalID,
+        originPlatform: "twitch",
+        userID: meta.userID,
+      });
+      await client.chat.say(
+        meta.channel,
+        `@${meta.user} ${t("configuration.linkCodeGenerated", meta.lang)}: ${newCode}`,
+      );
+      return;
+    }
+
+    const targetInternalID = validateLinkCode(code);
+
+    if (!targetInternalID) {
       await client.chat.say(
         meta.channel,
         `@${meta.user} ${t("configuration.errorCodeInvalidOrExpired", meta.lang)}`,
@@ -39,15 +55,16 @@ export default {
       return;
     }
 
-    const [discordID] = entry;
+    if (targetInternalID === internalID) {
+      await client.chat.say(
+        meta.channel,
+        `@${meta.user} ${t("configuration.errorLinkSelf", meta.lang)}`,
+      );
+      return;
+    }
 
-    db.prepare(`
-        INSERT INTO linked_accounts (discord_id, twitch_id)
-        VALUES (?, ?)
-        ON CONFLICT(discord_id) DO UPDATE SET twitch_id = excluded.twitch_id
-    `).run(discordID, meta.userID);
-
-    pendingLinks.delete(discordID);
+    addLinkedPlatform({ id: targetInternalID, platform: "twitch", platformID: meta.userID });
+    consumeLinkCode(targetInternalID);
 
     await client.chat.say(
       meta.channel,
