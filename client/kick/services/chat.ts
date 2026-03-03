@@ -99,7 +99,8 @@ export async function loadKickCommands(bot: KickIt) {
     "chat.message.sent",
     async (event: ChatMessageEvent) => {
       if (event.content.startsWith(PREFIX)) return;
-      if (event.sender.identity?.badges?.some((b: any) => b.type === "bot")) return;
+      if (event.sender.identity?.badges?.some((b: any) => b.type === "bot"))
+        return;
 
       const kickID = event.sender.user_id.toString();
       const id = initAccount({ userID: kickID, platform: "kick" });

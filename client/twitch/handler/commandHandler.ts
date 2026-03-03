@@ -46,7 +46,9 @@ export async function handleCommand(
 
       const suggestion = closest(commandName, allNames);
       if (suggestion) {
-        await say(t("command.errorCommandNotFound", lang, commandName, suggestion));
+        await say(
+          t("command.errorCommandNotFound", lang, commandName, suggestion),
+        );
       }
       return;
     }
@@ -70,7 +72,11 @@ export async function handleCommand(
       const missing = command.args.filter((arg, i) => arg.required && !args[i]);
       if (missing.length > 0) {
         await say(
-          t("command.errorArgsRequired", lang, missing.map((arg) => arg.name[lang]).join(", ")),
+          t(
+            "command.errorArgsRequired",
+            lang,
+            missing.map((arg) => arg.name[lang]).join(", "),
+          ),
         );
         return;
       }
@@ -93,7 +99,8 @@ export async function handleCommand(
         message,
         args,
         say: (msg: string) => chatClient.say(channel, msg),
-        getInput: (index: number | null) => index ? args[index - 1] : args.join(" "),
+        getInput: (index: number | null) =>
+          index ? args[index - 1] : args.join(" "),
         getBalance,
         addBalance,
         subtractBalance,

@@ -73,21 +73,29 @@ export function initDatabase(): void {
    Account Linking
 ---------------------------------- */
 
-export function initAccount(opts: { userID: string; platform: Platform }): string {
+export function initAccount(opts: {
+  userID: string;
+  platform: Platform;
+}): string {
   const { userID, platform } = opts;
   const existing = getLinkedID({ userID, platform });
   if (existing) return existing;
 
   const id = Bun.randomUUIDv7();
-  db.prepare(`INSERT INTO linked_accounts (id, ${platform}_id) VALUES (?, ?)`).run(id, userID);
+  db.prepare(
+    `INSERT INTO linked_accounts (id, ${platform}_id) VALUES (?, ?)`,
+  ).run(id, userID);
   db.prepare("INSERT INTO users (id, money) VALUES (?, 0)").run(id);
   return id;
 }
 
-export function getLinkedID(opts: { userID: string; platform: Platform }): string | undefined {
+export function getLinkedID(opts: {
+  userID: string;
+  platform: Platform;
+}): string | undefined {
   const row = db
-  .prepare(`SELECT id FROM linked_accounts WHERE ${opts.platform}_id = ?`)
-  .get(opts.userID) as { id: string } | undefined;
+    .prepare(`SELECT id FROM linked_accounts WHERE ${opts.platform}_id = ?`)
+    .get(opts.userID) as { id: string } | undefined;
   return row?.id;
 }
 
@@ -100,8 +108,8 @@ export function addLinkedPlatform(opts: {
   const col = `${platform}_id`;
 
   const existingOwner = db
-  .prepare(`SELECT id FROM linked_accounts WHERE ${col} = ?`)
-  .get(platformID) as { id: string } | undefined;
+    .prepare(`SELECT id FROM linked_accounts WHERE ${col} = ?`)
+    .get(platformID) as { id: string } | undefined;
 
   if (existingOwner) {
     if (existingOwner.id === id) return;
@@ -110,13 +118,19 @@ export function addLinkedPlatform(opts: {
   }
 
   const targetExists = db
-  .prepare("SELECT id FROM linked_accounts WHERE id = ?")
-  .get(id) as { id: string } | undefined;
+    .prepare("SELECT id FROM linked_accounts WHERE id = ?")
+    .get(id) as { id: string } | undefined;
 
   if (targetExists) {
-    db.prepare(`UPDATE linked_accounts SET ${col} = ? WHERE id = ?`).run(platformID, id);
+    db.prepare(`UPDATE linked_accounts SET ${col} = ? WHERE id = ?`).run(
+      platformID,
+      id,
+    );
   } else {
-    db.prepare(`INSERT INTO linked_accounts (id, ${col}) VALUES (?, ?)`).run(id, platformID);
+    db.prepare(`INSERT INTO linked_accounts (id, ${col}) VALUES (?, ?)`).run(
+      id,
+      platformID,
+    );
   }
 
   logger.info(`[Account Linking] Linked ${platform} (${platformID}) to ${id}`);
@@ -126,27 +140,33 @@ function mergeAccounts(opts: { targetID: string; orphanID: string }): void {
   const { targetID, orphanID } = opts;
 
   const orphan = db
-  .prepare("SELECT * FROM linked_accounts WHERE id = ?")
-  .get(orphanID) as Record<string, string> | undefined;
+    .prepare("SELECT * FROM linked_accounts WHERE id = ?")
+    .get(orphanID) as Record<string, string> | undefined;
 
   if (!orphan) return;
 
   const orphanBalance = db
-  .prepare("SELECT money FROM users WHERE id = ?")
-  .get(orphanID) as { money: number } | undefined;
+    .prepare("SELECT money FROM users WHERE id = ?")
+    .get(orphanID) as { money: number } | undefined;
 
   // Delete orphan first to release UNIQUE constraints before copying its values
   db.prepare("DELETE FROM linked_accounts WHERE id = ?").run(orphanID);
   db.prepare("DELETE FROM users WHERE id = ?").run(orphanID);
 
   if (orphanBalance?.money) {
-    db.prepare("UPDATE users SET money = money + ? WHERE id = ?").run(orphanBalance.money, targetID);
+    db.prepare("UPDATE users SET money = money + ? WHERE id = ?").run(
+      orphanBalance.money,
+      targetID,
+    );
   }
 
   for (const p of ["discord", "twitch", "kick"] as Platform[]) {
     const col = `${p}_id`;
     if (orphan[col]) {
-      db.prepare(`UPDATE linked_accounts SET ${col} = ? WHERE id = ?`).run(orphan[col], targetID);
+      db.prepare(`UPDATE linked_accounts SET ${col} = ? WHERE id = ?`).run(
+        orphan[col],
+        targetID,
+      );
     }
   }
 
@@ -241,7 +261,9 @@ export function addCommand(command: Command): void {
 }
 
 export function fetchCustomCommands(): Map<string, Command> {
-  const rows = db.prepare("SELECT * FROM commands").all() as Array<Partial<Command>>;
+  const rows = db.prepare("SELECT * FROM commands").all() as Array<
+    Partial<Command>
+  >;
   const commandList: Map<string, Command> = new Map();
 
   for (const row of rows) {

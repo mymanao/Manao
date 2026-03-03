@@ -9,7 +9,12 @@ import {
 import { io } from "@/server";
 import type { Command, MessageData, UserBadge } from "@/types";
 import { handleCommand } from "./commandHandler";
-import { addBalance, getUserConfig, initAccount, getNickname } from "@helpers/database";
+import {
+  addBalance,
+  getUserConfig,
+  initAccount,
+  getNickname,
+} from "@helpers/database";
 
 const config = await getUserConfig();
 const PREFIX = config.prefix.twitch;
@@ -29,7 +34,16 @@ export async function handleMessage(
 ) {
   try {
     if (message.startsWith(PREFIX)) {
-      await handleCommand(channel, user, userID, channelID, message, chatClient, apiClient, commands);
+      await handleCommand(
+        channel,
+        user,
+        userID,
+        channelID,
+        message,
+        chatClient,
+        apiClient,
+        commands,
+      );
     } else {
       await handleRegularMessage(message, msgObj, userID, apiClient);
     }

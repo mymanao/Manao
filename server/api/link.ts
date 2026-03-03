@@ -5,8 +5,7 @@ const API_TTL_MS = 5 * 60_000;
 
 function findEntry(code: string, ttl: number) {
   return [...pendingLinks.entries()].find(
-    ([, data]) =>
-      data.code === code && Date.now() - data.createdAt < ttl,
+    ([, data]) => data.code === code && Date.now() - data.createdAt < ttl,
   );
 }
 

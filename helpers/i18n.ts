@@ -1,5 +1,5 @@
 import { translations } from "@/translations";
-import {logger} from "@helpers/logger.ts";
+import { logger } from "@helpers/logger.ts";
 
 type Lang = keyof typeof translations;
 type TranslationNode = string | { [key: string]: TranslationNode };
@@ -21,10 +21,14 @@ export function t(
       translation = translation[k] as TranslationNode;
     } else {
       if (lang !== "en") {
-        logger.warn(`[i18n] Missing translation for key "${key}" in language "${lang}". Falling back to English.`);
+        logger.warn(
+          `[i18n] Missing translation for key "${key}" in language "${lang}". Falling back to English.`,
+        );
         return t(key, "en", ...params);
       }
-      logger.warn(`[i18n] Missing translation for key "${key}" in language "${lang}". Falling back to key.`);
+      logger.warn(
+        `[i18n] Missing translation for key "${key}" in language "${lang}". Falling back to key.`,
+      );
       return key;
     }
   }

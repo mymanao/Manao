@@ -2,7 +2,11 @@ import { Category } from "@discordx/utilities";
 import { templateEmbed } from "@helpers/discord/embed.ts";
 import { t } from "@helpers/i18n.ts";
 import { getLang } from "@helpers/preferences.ts";
-import { addLinkedPlatform, getLinkedID, initAccount } from "@helpers/database.ts";
+import {
+  addLinkedPlatform,
+  getLinkedID,
+  initAccount,
+} from "@helpers/database.ts";
 import {
   consumeLinkCode,
   generateLinkCode,
@@ -35,9 +39,11 @@ export class LinkCommand {
   async link(
     @SlashOption(
       new SlashCommandStringOption()
-      .setName("code")
-      .setDescription("6-digit code from Twitch or Kick to link your accounts")
-      .setRequired(false),
+        .setName("code")
+        .setDescription(
+          "6-digit code from Twitch or Kick to link your accounts",
+        )
+        .setRequired(false),
     )
     code: string | undefined,
     interaction: CommandInteraction,
