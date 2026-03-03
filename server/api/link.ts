@@ -1,37 +1,44 @@
 import { Elysia } from "elysia";
-import { pendingLinks } from "@discord/commands/info/link.ts";
+import { pendingLinks, consumeLinkCode } from "@helpers/linking.ts";
+
+const API_TTL_MS = 5 * 60_000;
+
+function findEntry(code: string, ttl: number) {
+  return [...pendingLinks.entries()].find(
+    ([, data]) =>
+      data.code === code && Date.now() - data.createdAt < ttl,
+  );
+}
 
 export function registerLinkAPI(app: Elysia) {
   app.get("/api/link/:code", ({ params, status }) => {
-    const { code } = params as unknown as { code: string };
+    const code = (params as { code: string }).code?.trim().toUpperCase();
+    if (!code) return status(400);
 
-    if (!code) {
-      return status(400);
-    }
-    const entry = [...pendingLinks.entries()].find(
-      ([, data]) =>
-        data.code === code && Date.now() - data.createdAt < 5 * 60 * 1000,
-    );
+    const entry = findEntry(code, API_TTL_MS);
     if (!entry) return status(404);
 
-    const [_, data] = entry;
-    return status(200, data);
+    const [internalID, data] = entry;
+
+    return status(200, {
+      internalID,
+      platform: data.originPlatform,
+      userID: data.userID,
+      createdAt: data.createdAt,
+      expiresAt: data.createdAt + API_TTL_MS,
+    });
   });
 
-  app.get("/api/link/:code/delete", ({ params, status }) => {
-    const { code } = params as unknown as { code: string };
+  app.delete("/api/link/:code", ({ params, status }) => {
+    const code = (params as { code: string }).code?.trim().toUpperCase();
+    if (!code) return status(400);
 
-    if (!code) {
-      return status(400);
-    }
-
-    const entry = [...pendingLinks.entries()].find(
-      ([, data]) => data.code === code,
-    );
+    const entry = findEntry(code, API_TTL_MS);
     if (!entry) return status(404);
 
-    const [discordID] = entry;
-    pendingLinks.delete(discordID);
+    const [internalID] = entry;
+    consumeLinkCode(internalID);
+
     return status(200);
   });
 }
