@@ -1,7 +1,7 @@
 export const isProduction = Bun.env.NODE_ENV === "production";
 
 export const PORT = Number(Bun.env.PORT ?? 3000);
-export const SOCKET_PORT = Number(Bun.env.SOCKET_PORT ?? 6969);
+export const SOCKET_PORT = Number(Bun.env.SOCKET_PORT ?? 5000);
 
 function getEnvVar(key: string, required = true): string {
   const value = Bun.env[key];
