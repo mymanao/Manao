@@ -11,23 +11,20 @@ function getEnvVar(key: string, required = true): string {
   return value ?? "";
 }
 
-export const DIR = {
-  APP: "./server/app",
-  PUBLIC: "./server/public",
-};
+let isTwitchEnabled = Bun.env.USE_TWITCH === "true";
 
 export const TWITCH = {
-  ENABLED: Bun.env.USE_TWITCH === "true",
-  CLIENT_ID: getEnvVar("TWITCH_CLIENT_ID"),
-  CLIENT_SECRET: getEnvVar("TWITCH_CLIENT_SECRET"),
+  ENABLED: isTwitchEnabled,
+  CLIENT_ID: getEnvVar("TWITCH_CLIENT_ID", isTwitchEnabled),
+  CLIENT_SECRET: getEnvVar("TWITCH_CLIENT_SECRET", isTwitchEnabled),
   BOT: {
-    ID: getEnvVar("TWITCH_BOT_ID"),
+    ID: getEnvVar("TWITCH_BOT_ID", isTwitchEnabled),
     ACCESS_TOKEN: getEnvVar("TWITCH_BOT_ACCESS_TOKEN", false),
     REFRESH_TOKEN: getEnvVar("TWITCH_BOT_REFRESH_TOKEN", false),
   },
   BROADCASTER: {
-    ID: getEnvVar("BROADCASTER_ID"),
-    CHANNEL: getEnvVar("BROADCASTER_CHANNEL"),
+    ID: getEnvVar("BROADCASTER_ID", isTwitchEnabled),
+    CHANNEL: getEnvVar("BROADCASTER_CHANNEL", isTwitchEnabled),
     ACCESS_TOKEN: getEnvVar("BROADCASTER_ACCESS_TOKEN", false),
     REFRESH_TOKEN: getEnvVar("BROADCASTER_REFRESH_TOKEN", false),
   },
