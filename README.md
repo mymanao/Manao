@@ -1,6 +1,6 @@
 <div align="center">
   <a href="https://github.com/mymanao/manao">
-    <img src="https://raw.githubusercontent.com/mymanao/manao/main/docs/manao.svg" height="64px" width="auto" alt="Manao Logo" />
+    <img src="https://raw.githubusercontent.com/mymanao/manao/main/docs/manao_full_outlined.svg" height="64px" width="auto" alt="Manao Logo" />
   </a>
   <h2>Manao</h2>
   <p>A collection of utilities and tools for Twitch and Kick streamers.</p>
