@@ -1,5 +1,5 @@
 import { getSoundFromRewardId } from "@helpers/preferences.ts";
-import { io } from "@/server";
+import { io } from "@/server/services/socket.io";
 
 export async function handleReward(data: any) {
   const { rewardId: id, rewardTitle: name } = data;

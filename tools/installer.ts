@@ -6,7 +6,7 @@ import * as process from "node:process";
 // ── Platform ─────────────────────────────────────
 
 const IS_WINDOWS = process.platform === "win32";
-const IS_MAC     = process.platform === "darwin";
+const IS_MAC = process.platform === "darwin";
 
 // When run as `sudo`, HOME becomes /root and SUDO_USER holds the real username.
 // Resolve the real user's home so bun/config paths point to the right place.
@@ -16,20 +16,25 @@ function resolveRealHome(): string {
   if (SUDO_USER && !IS_WINDOWS) {
     try {
       // `getent passwd <user>` returns colon-delimited passwd entry; field 6 is home dir
-      const result = Bun.spawnSync(["getent", "passwd", SUDO_USER], { stdout: "pipe", stderr: "pipe" });
+      const result = Bun.spawnSync(["getent", "passwd", SUDO_USER], {
+        stdout: "pipe",
+        stderr: "pipe",
+      });
       const line = result.stdout.toString().trim();
       if (line) {
         const home = line.split(":")[5];
         if (home) return home;
       }
-    } catch { /* fall through */ }
+    } catch {
+      /* fall through */
+    }
     // Fallback: most Linux distros put homes at /home/<user>
     return `/home/${SUDO_USER}`;
   }
   return process.env.HOME ?? process.env.USERPROFILE ?? "";
 }
 
-const HOME      = resolveRealHome();
+const HOME = resolveRealHome();
 const LOCAL_APP = process.env.LOCALAPPDATA ?? join(HOME, ".local", "share");
 
 const DEFAULT_INSTALL_DIR = IS_WINDOWS
@@ -39,21 +44,21 @@ const DEFAULT_INSTALL_DIR = IS_WINDOWS
 // ── ANSI colours (skipped on Windows cmd, works in WT/pwsh) ──
 
 const c = {
-  reset:   "\x1b[0m",
-  red:     "\x1b[31m",
-  green:   "\x1b[32m",
-  yellow:  "\x1b[33m",
-  cyan:    "\x1b[36m",
-  bold:    "\x1b[1m",
+  reset: "\x1b[0m",
+  red: "\x1b[31m",
+  green: "\x1b[32m",
+  yellow: "\x1b[33m",
+  cyan: "\x1b[36m",
+  bold: "\x1b[1m",
 };
 
 const print = {
-  info:    (m: string) => console.log(`${c.cyan}${m}${c.reset}`),
+  info: (m: string) => console.log(`${c.cyan}${m}${c.reset}`),
   success: (m: string) => console.log(`${c.green}✔  ${m}${c.reset}`),
-  warn:    (m: string) => console.log(`${c.yellow}⚠  ${m}${c.reset}`),
-  error:   (m: string) => console.error(`${c.red}✖  ${m}${c.reset}`),
-  header:  (m: string) => console.log(`${c.bold}${c.cyan}${m}${c.reset}`),
-  line:    ()          => console.log(`${c.cyan}${"═".repeat(44)}${c.reset}`),
+  warn: (m: string) => console.log(`${c.yellow}⚠  ${m}${c.reset}`),
+  error: (m: string) => console.error(`${c.red}✖  ${m}${c.reset}`),
+  header: (m: string) => console.log(`${c.bold}${c.cyan}${m}${c.reset}`),
+  line: () => console.log(`${c.cyan}${"═".repeat(44)}${c.reset}`),
 };
 
 // ── Prompt helpers ───────────────────────────────
@@ -61,7 +66,9 @@ const print = {
 function readLine(question: string): string {
   process.stdout.write(question + " ");
   const proc = Bun.spawnSync(
-    IS_WINDOWS ? ["cmd", "/c", "set /p x= && echo %x%"] : ["sh", "-c", "IFS= read -r line && printf '%s' \"$line\""],
+    IS_WINDOWS
+      ? ["cmd", "/c", "set /p x= && echo %x%"]
+      : ["sh", "-c", "IFS= read -r line && printf '%s' \"$line\""],
     { stdin: "inherit", stdout: "pipe", stderr: "inherit" },
   );
   return proc.stdout.toString().trimEnd();
@@ -75,12 +82,18 @@ function ask(question: string, defaultVal = ""): string {
 
 function confirm(question: string, defaultYes = true): boolean {
   const hint = defaultYes ? "Y/n" : "y/N";
-  const answer = readLine(`${c.cyan}?${c.reset} ${question} (${hint}):`).toLowerCase();
+  const answer = readLine(
+    `${c.cyan}?${c.reset} ${question} (${hint}):`,
+  ).toLowerCase();
   if (!answer) return defaultYes;
   return answer === "y" || answer === "yes";
 }
 
-function pickFromList<T extends { label: string }>(items: T[], label: string, defaultIndex = 0): T {
+function pickFromList<T extends { label: string }>(
+  items: T[],
+  label: string,
+  defaultIndex = 0,
+): T {
   console.log(`\n${c.yellow}${label}${c.reset}`);
   items.forEach((item, i) => {
     const marker = i === 0 ? `${c.green} (latest)${c.reset}` : "";
@@ -98,11 +111,16 @@ function pickFromList<T extends { label: string }>(items: T[], label: string, de
 
 // ── GitHub releases ──────────────────────────────
 
-interface Release { tag_name: string; published_at: string }
+interface Release {
+  tag_name: string;
+  published_at: string;
+}
 
 async function fetchReleases(): Promise<Release[]> {
   print.info("Fetching available versions from GitHub…");
-  const res = await fetch("https://api.github.com/repos/tinarskii/manao/releases");
+  const res = await fetch(
+    "https://api.github.com/repos/tinarskii/manao/releases",
+  );
   if (!res.ok) throw new Error(`GitHub API returned ${res.status}`);
   const releases: Release[] = await res.json();
   if (!releases.length) throw new Error("No releases found.");
@@ -120,13 +138,22 @@ function resolveInstallPath(selected: string): string {
 async function pickInstallDir(): Promise<string> {
   const options = [
     { label: `Current directory  (${process.cwd()})`, path: process.cwd() },
-    { label: `Home folder        (${join(HOME, "ManaoBot")})`, path: join(HOME, "ManaoBot") },
-    { label: `Default app dir    (${DEFAULT_INSTALL_DIR})`, path: DEFAULT_INSTALL_DIR },
+    {
+      label: `Home folder        (${join(HOME, "ManaoBot")})`,
+      path: join(HOME, "ManaoBot"),
+    },
+    {
+      label: `Default app dir    (${DEFAULT_INSTALL_DIR})`,
+      path: DEFAULT_INSTALL_DIR,
+    },
     { label: "Custom path…", path: "" },
   ];
 
   if (!IS_WINDOWS && !IS_MAC) {
-    options.splice(2, 0, { label: "/opt/ManaoBot  (may need sudo)", path: "/opt/ManaoBot" });
+    options.splice(2, 0, {
+      label: "/opt/ManaoBot  (may need sudo)",
+      path: "/opt/ManaoBot",
+    });
   }
 
   const picked = pickFromList(options, "Installation folder:", 2);
@@ -134,16 +161,28 @@ async function pickInstallDir(): Promise<string> {
   if (picked.path) return resolveInstallPath(picked.path);
 
   const custom = ask("Enter custom path");
-  if (!custom) { print.warn("No path entered. Using default."); return DEFAULT_INSTALL_DIR; }
+  if (!custom) {
+    print.warn("No path entered. Using default.");
+    return DEFAULT_INSTALL_DIR;
+  }
   return resolveInstallPath(custom);
 }
 
 // ── Backup / restore ─────────────────────────────
 
-const BACKUP_GLOBS = [".env", ".env.local", "bot-data.sqlite", "config.json", "settings.json"];
+const BACKUP_GLOBS = [
+  ".env",
+  ".env.local",
+  "bot-data.sqlite",
+  "config.json",
+  "settings.json",
+];
 
 function backup(installPath: string): string {
-  const tmpDir = join(IS_WINDOWS ? (process.env.TEMP ?? "C:\\Temp") : "/tmp", `manao-backup-${Date.now()}`);
+  const tmpDir = join(
+    IS_WINDOWS ? (process.env.TEMP ?? "C:\\Temp") : "/tmp",
+    `manao-backup-${Date.now()}`,
+  );
   mkdirSync(tmpDir, { recursive: true });
   for (const name of BACKUP_GLOBS) {
     const src = join(installPath, name);
@@ -160,7 +199,9 @@ function backup(installPath: string): string {
         print.info(`  Backed up ${f}`);
       }
     }
-  } catch { /* ignore */ }
+  } catch {
+    /* ignore */
+  }
   return tmpDir;
 }
 
@@ -179,16 +220,31 @@ const spawnEnv = () => ({ ...process.env });
 
 const hasCommand = (cmd: string) => {
   try {
-    return Bun.spawnSync([cmd, "--version"], { stdout: "pipe", stderr: "pipe", env: spawnEnv() }).exitCode === 0;
+    return (
+      Bun.spawnSync([cmd, "--version"], {
+        stdout: "pipe",
+        stderr: "pipe",
+        env: spawnEnv(),
+      }).exitCode === 0
+    );
   } catch {
     return false; // executable not found in PATH
   }
 };
 
 const run = (cmd: string[]) =>
-  Bun.spawnSync(cmd, { stdin: "inherit", stdout: "inherit", stderr: "inherit", env: spawnEnv() }).exitCode === 0;
+  Bun.spawnSync(cmd, {
+    stdin: "inherit",
+    stdout: "inherit",
+    stderr: "inherit",
+    env: spawnEnv(),
+  }).exitCode === 0;
 
-async function ensureDependency(name: string, cmd: string, installer: () => void | Promise<void>) {
+async function ensureDependency(
+  name: string,
+  cmd: string,
+  installer: () => void | Promise<void>,
+) {
   if (hasCommand(cmd)) {
     print.success(`${name} found.`);
     return;
@@ -200,12 +256,22 @@ async function ensureDependency(name: string, cmd: string, installer: () => void
 async function ensureGit() {
   await ensureDependency("Git", "git", () => {
     if (IS_WINDOWS) {
-      run(["winget", "install", "-e", "--id", "Git.Git",
-        "--accept-package-agreements", "--accept-source-agreements", "--silent"]);
+      run([
+        "winget",
+        "install",
+        "-e",
+        "--id",
+        "Git.Git",
+        "--accept-package-agreements",
+        "--accept-source-agreements",
+        "--silent",
+      ]);
     } else if (IS_MAC) {
       run(["brew", "install", "git"]);
     } else {
-      print.error("Please install Git manually: sudo apt install git  OR  sudo yum install git");
+      print.error(
+        "Please install Git manually: sudo apt install git  OR  sudo yum install git",
+      );
       process.exit(1);
     }
   });
@@ -236,18 +302,34 @@ async function ensureBun() {
   print.warn("Bun not found. Installing…");
   if (IS_WINDOWS) {
     const script = join(process.env.TEMP ?? "C:\\Temp", "install-bun.ps1");
-    await Bun.write(script, await (await fetch("https://bun.sh/install.ps1")).text());
-    Bun.spawnSync(["powershell", "-ExecutionPolicy", "Bypass", "-File", script],
-      { stdin: "inherit", stdout: "inherit", stderr: "inherit", env: spawnEnv() });
+    await Bun.write(
+      script,
+      await (await fetch("https://bun.sh/install.ps1")).text(),
+    );
+    Bun.spawnSync(
+      ["powershell", "-ExecutionPolicy", "Bypass", "-File", script],
+      {
+        stdin: "inherit",
+        stdout: "inherit",
+        stderr: "inherit",
+        env: spawnEnv(),
+      },
+    );
     Bun.spawnSync(["del", script], { env: spawnEnv() });
   } else {
-    Bun.spawnSync(["sh", "-c", "curl -fsSL https://bun.sh/install | bash"],
-      { stdin: "inherit", stdout: "inherit", stderr: "inherit", env: spawnEnv() });
+    Bun.spawnSync(["sh", "-c", "curl -fsSL https://bun.sh/install | bash"], {
+      stdin: "inherit",
+      stdout: "inherit",
+      stderr: "inherit",
+      env: spawnEnv(),
+    });
   }
 
   // Re-check after install attempt.
   if (!existsSync(BUN_BIN) && !hasCommand("bun")) {
-    print.error("Bun installation failed. Please install manually: https://bun.sh");
+    print.error(
+      "Bun installation failed. Please install manually: https://bun.sh",
+    );
     process.exit(1);
   }
   print.success("Bun installed.");
@@ -256,10 +338,20 @@ async function ensureBun() {
 async function ensureTwitchCLI() {
   await ensureDependency("Twitch CLI", "twitch", () => {
     if (IS_WINDOWS) {
-      run(["winget", "install", "-e", "--id", "Twitch.TwitchCLI",
-        "--accept-package-agreements", "--accept-source-agreements", "--silent"]);
+      run([
+        "winget",
+        "install",
+        "-e",
+        "--id",
+        "Twitch.TwitchCLI",
+        "--accept-package-agreements",
+        "--accept-source-agreements",
+        "--silent",
+      ]);
     } else {
-      print.warn("Please install Twitch CLI manually: https://github.com/twitchdev/twitch-cli");
+      print.warn(
+        "Please install Twitch CLI manually: https://github.com/twitchdev/twitch-cli",
+      );
     }
   });
 }
@@ -294,9 +386,13 @@ function gitUpdate(version: string, dest: string) {
 
 function getInstalledVersion(installPath: string): string {
   try {
-    const pkg = JSON.parse(Bun.file(join(installPath, "package.json")).toString());
+    const pkg = JSON.parse(
+      Bun.file(join(installPath, "package.json")).toString(),
+    );
     return pkg.version ?? "unknown";
-  } catch { return "unknown"; }
+  } catch {
+    return "unknown";
+  }
 }
 
 // ── Mode detection ───────────────────────────────
@@ -304,7 +400,9 @@ function getInstalledVersion(installPath: string): string {
 type Mode = "install" | "update" | "uninstall";
 
 function detectMode(argv: string[]): { mode: Mode; manaoPaths: string[] } {
-  const flagIndex = argv.findIndex(a => ["--update", "--uninstall"].includes(a));
+  const flagIndex = argv.findIndex((a) =>
+    ["--update", "--uninstall"].includes(a),
+  );
   const flag = argv[flagIndex];
 
   // Collect all candidate paths: CLI args (non-flag) + MANAO_PATH env
@@ -318,7 +416,7 @@ function detectMode(argv: string[]): { mode: Mode; manaoPaths: string[] } {
   }
 
   if (flag === "--uninstall") return { mode: "uninstall", manaoPaths };
-  if (flag === "--update")    return { mode: "update",    manaoPaths };
+  if (flag === "--update") return { mode: "update", manaoPaths };
 
   // Auto-detect: if MANAO_PATH is set and the directory exists, offer menu
   return { mode: "install", manaoPaths };
@@ -391,7 +489,9 @@ async function runUpdate(installPath: string) {
 
   console.log();
   print.line();
-  print.success(`ManaoBot updated  (${current} → ${getInstalledVersion(installPath)})`);
+  print.success(
+    `ManaoBot updated  (${current} → ${getInstalledVersion(installPath)})`,
+  );
   print.success(`Path: ${installPath}`);
   print.line();
   console.log(`\nStart the bot with:  ${c.bold}bun run start${c.reset}\n`);
@@ -435,7 +535,9 @@ async function runUninstall(installPath: string) {
           print.info(`  Saved ${f} → ${saveTo}`);
         }
       }
-    } catch { /* ignore */ }
+    } catch {
+      /* ignore */
+    }
 
     savedBackupDir = saveTo;
     print.success(`Config files saved to: ${saveTo}`);
@@ -449,7 +551,9 @@ async function runUninstall(installPath: string) {
   }
 
   // Double-confirm for safety
-  const typed = readLine(`${c.red}?${c.reset} Type "uninstall" to confirm:`).trim();
+  const typed = readLine(
+    `${c.red}?${c.reset} Type "uninstall" to confirm:`,
+  ).trim();
   if (typed !== "uninstall") {
     print.warn("Confirmation did not match. Uninstall cancelled.");
     process.exit(0);
@@ -467,11 +571,22 @@ async function runUninstall(installPath: string) {
   // Clean up MANAO_PATH env var on Windows
   if (IS_WINDOWS) {
     print.info("Removing MANAO_PATH environment variable…");
-    Bun.spawnSync(["reg", "delete", "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment",
-      "/v", "MANAO_PATH", "/f"], { stdout: "pipe", stderr: "pipe" });
+    Bun.spawnSync(
+      [
+        "reg",
+        "delete",
+        "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment",
+        "/v",
+        "MANAO_PATH",
+        "/f",
+      ],
+      { stdout: "pipe", stderr: "pipe" },
+    );
     print.success("MANAO_PATH removed (machine scope).");
   } else {
-    print.warn(`Remember to remove from your shell profile:  export MANAO_PATH="${installPath}"`);
+    print.warn(
+      `Remember to remove from your shell profile:  export MANAO_PATH="${installPath}"`,
+    );
   }
 
   console.log();
@@ -484,7 +599,9 @@ async function runUninstall(installPath: string) {
 
 // ── Mode selection menu ───────────────────────────
 
-async function pickMode(detectedPath: string | undefined): Promise<{ mode: Mode; path: string }> {
+async function pickMode(
+  detectedPath: string | undefined,
+): Promise<{ mode: Mode; path: string }> {
   print.line();
   print.header("   ManaoBot – Manager");
   print.line();
@@ -496,18 +613,28 @@ async function pickMode(detectedPath: string | undefined): Promise<{ mode: Mode;
   console.log();
 
   const options = [
-    { label: "Install  – set up ManaoBot fresh",       mode: "install"   as Mode },
-    { label: "Update   – update an existing install",  mode: "update"    as Mode },
-    { label: "Uninstall – remove ManaoBot",            mode: "uninstall" as Mode },
+    { label: "Install  – set up ManaoBot fresh", mode: "install" as Mode },
+    { label: "Update   – update an existing install", mode: "update" as Mode },
+    { label: "Uninstall – remove ManaoBot", mode: "uninstall" as Mode },
   ];
 
-  const picked = pickFromList(options, "What would you like to do?", detectedPath ? 1 : 0);
+  const picked = pickFromList(
+    options,
+    "What would you like to do?",
+    detectedPath ? 1 : 0,
+  );
 
   let targetPath = detectedPath ?? DEFAULT_INSTALL_DIR;
 
   // If the user picked update/uninstall but we don't have a path yet, ask
-  if ((picked.mode === "update" || picked.mode === "uninstall") && !detectedPath) {
-    const raw = ask("Path to existing ManaoBot installation", DEFAULT_INSTALL_DIR);
+  if (
+    (picked.mode === "update" || picked.mode === "uninstall") &&
+    !detectedPath
+  ) {
+    const raw = ask(
+      "Path to existing ManaoBot installation",
+      DEFAULT_INSTALL_DIR,
+    );
     targetPath = raw.replace(/^~/, HOME);
   }
 
@@ -522,11 +649,17 @@ async function main() {
   if (!IS_WINDOWS && process.getuid?.() === 0) {
     if (SUDO_USER) {
       print.warn(`Running as sudo (real user: ${SUDO_USER}, home: ${HOME})`);
-      print.warn("Only needed for system-wide installs (e.g. /opt). For ~/ManaoBot, run without sudo.");
+      print.warn(
+        "Only needed for system-wide installs (e.g. /opt). For ~/ManaoBot, run without sudo.",
+      );
       console.log();
     } else {
-      print.warn("Running as root. Bun and config paths may not resolve correctly.");
-      print.warn("Consider running without sudo unless installing to a system directory.");
+      print.warn(
+        "Running as root. Bun and config paths may not resolve correctly.",
+      );
+      print.warn(
+        "Consider running without sudo unless installing to a system directory.",
+      );
       console.log();
     }
   }
@@ -535,13 +668,12 @@ async function main() {
   const { mode: cliMode, manaoPaths } = detectMode(argv);
 
   // Resolve best known install path (prefer MANAO_PATH env, then CLI arg)
-  const envPath = process.env.MANAO_PATH
-    ? process.env.MANAO_PATH
-    : undefined;
-  const detectedPath = manaoPaths.find(p => existsSync(p)) ?? envPath;
+  const envPath = process.env.MANAO_PATH ? process.env.MANAO_PATH : undefined;
+  const detectedPath = manaoPaths.find((p) => existsSync(p)) ?? envPath;
 
   // If explicit flags were passed, skip the menu
-  const hasExplicitFlag = argv.includes("--update") || argv.includes("--uninstall");
+  const hasExplicitFlag =
+    argv.includes("--update") || argv.includes("--uninstall");
 
   let mode: Mode = cliMode;
   let installPath = detectedPath ?? DEFAULT_INSTALL_DIR;
@@ -612,7 +744,11 @@ async function main() {
   console.log(`\n${c.cyan}Installation path:${c.reset} ${finalInstallPath}\n`);
 
   let backupDir: string | undefined;
-  if (!isUpdate && existsSync(finalInstallPath) && readdirSync(finalInstallPath).length > 0) {
+  if (
+    !isUpdate &&
+    existsSync(finalInstallPath) &&
+    readdirSync(finalInstallPath).length > 0
+  ) {
     print.warn(`${finalInstallPath} already exists and is not empty.`);
     if (!confirm("Overwrite?")) {
       print.warn("Cancelled.");
@@ -627,8 +763,14 @@ async function main() {
 
   await ensureGit();
 
-  print.info(isUpdate ? `Updating to ${selectedVersion}…` : `Cloning ${selectedVersion}…`);
-  isUpdate ? gitUpdate(selectedVersion, finalInstallPath) : gitClone(selectedVersion, finalInstallPath);
+  print.info(
+    isUpdate
+      ? `Updating to ${selectedVersion}…`
+      : `Cloning ${selectedVersion}…`,
+  );
+  isUpdate
+    ? gitUpdate(selectedVersion, finalInstallPath)
+    : gitClone(selectedVersion, finalInstallPath);
   print.success("Repository ready.");
   process.chdir(finalInstallPath);
 
@@ -647,16 +789,23 @@ async function main() {
   }
 
   if (IS_WINDOWS) {
-    Bun.spawnSync(["setx", "MANAO_PATH", finalInstallPath, "/M"], { stdout: "inherit", stderr: "inherit" });
+    Bun.spawnSync(["setx", "MANAO_PATH", finalInstallPath, "/M"], {
+      stdout: "inherit",
+      stderr: "inherit",
+    });
   } else {
-    print.info(`Add to your shell profile: export MANAO_PATH="${finalInstallPath}"`);
+    print.info(
+      `Add to your shell profile: export MANAO_PATH="${finalInstallPath}"`,
+    );
   }
 
   if (confirm("\nRun the setup script now?")) run(["bun", "setup"]);
 
   console.log();
   print.line();
-  print.success(`ManaoBot ${isUpdate ? "updated" : "installed"}  (${getInstalledVersion(finalInstallPath)})`);
+  print.success(
+    `ManaoBot ${isUpdate ? "updated" : "installed"}  (${getInstalledVersion(finalInstallPath)})`,
+  );
   print.success(`Path: ${finalInstallPath}`);
   print.line();
   console.log(`\nStart the bot with:  ${c.bold}bun run start${c.reset}\n`);

@@ -10,7 +10,7 @@ import type { ApiClient } from "@twurple/api";
 import type { ChatClient } from "@twurple/chat";
 import { EventSubWsListener } from "@twurple/eventsub-ws";
 import { TWITCH } from "@/config.ts";
-import { io } from "@/server";
+import { io } from "@/server/services/socket.io";
 import type { FeedEvent } from "@/types";
 
 export async function initializeEventSub(

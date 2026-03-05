@@ -1,12 +1,10 @@
-import { run } from "@/client/discord";
-import { startServer } from "./server";
 import { DISCORD, KICK, TWITCH } from "@/config.ts";
-import { startKickBot } from "@/client/kick";
 import {
   customCommands,
   fetchCustomCommands,
   initDatabase,
 } from "@helpers/database.ts";
+import { startServer } from "@/server";
 
 initDatabase();
 
@@ -19,11 +17,13 @@ if (TWITCH.ENABLED) {
 }
 
 if (DISCORD.ENABLED) {
+  const { run } = await import("@/client/discord");
   await run();
 }
 
-startServer();
-
 if (KICK.ENABLED) {
+  const { startKickBot } = await import("@/client/kick");
   await startKickBot();
 }
+
+startServer();

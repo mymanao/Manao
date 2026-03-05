@@ -1,6 +1,6 @@
 import { t } from "@helpers/i18n";
 import { songQueue } from "@twitch/services/chat";
-import { io } from "@/server";
+import { io } from "@/server/services/socket.io";
 import type { KickItContext } from "@manaobot/kickit/types";
 import type { CommandMeta } from "@/types";
 

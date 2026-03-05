@@ -1,2 +1,0 @@
-#!/bin/bash
-bun start

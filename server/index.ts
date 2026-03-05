@@ -8,14 +8,12 @@ import { registerRewardsAPI } from "@server/api/rewards.ts";
 import { registerSoundboardAPI } from "@server/api/soundboard.ts";
 import { registerOverlayRoutes } from "@server/routes/overlay.ts";
 import { registerPageRoutes } from "@server/routes/page.ts";
-import { initializeSocketServer } from "@server/services/socket.io.ts";
 import { Elysia } from "elysia";
 import { DIR, PORT } from "@/config";
+import { io } from "@server/services/socket.io.ts";
 import { registerLinkAPI } from "@server/api/link.ts";
 
 const app = new Elysia();
-
-const io = initializeSocketServer();
 
 app.use(html());
 app.use(

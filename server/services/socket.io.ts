@@ -44,4 +44,4 @@ function handleOnSocketConnection(socket: Socket) {
   });
 }
 
-export { initializeSocketServer };
+export const io = initializeSocketServer();

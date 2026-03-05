@@ -8,7 +8,7 @@ import { t } from "@helpers/i18n";
 import { getCurrency, getLang } from "@helpers/preferences";
 import type { KickItContext } from "@manaobot/kickit/types";
 import type { CommandMeta } from "@/types";
-import { io } from "@/server";
+import { io } from "@/server/services/socket.io";
 
 export default {
   name: { en: "gamble", th: "พนัน" },

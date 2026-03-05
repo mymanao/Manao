@@ -12,7 +12,7 @@ import {
   type CommandInteraction,
 } from "discord.js";
 import { Discord, Slash, SlashOption } from "discordx";
-import { io } from "@/server";
+import { io } from "@/server/services/socket.io";
 
 @Discord()
 @Category("Economy")

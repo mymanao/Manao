@@ -6,7 +6,7 @@ import {
   type ChatMessage,
   parseEmotePositions,
 } from "@twurple/chat";
-import { io } from "@/server";
+import { io } from "@/server/services/socket.io";
 import type { Command, MessageData, UserBadge } from "@/types";
 import { handleCommand } from "./commandHandler";
 import {
