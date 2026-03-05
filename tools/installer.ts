@@ -7,8 +7,30 @@ import * as process from "node:process";
 
 const IS_WINDOWS = process.platform === "win32";
 const IS_MAC     = process.platform === "darwin";
-const HOME       = process.env.HOME ?? process.env.USERPROFILE ?? "";
-const LOCAL_APP  = process.env.LOCALAPPDATA ?? join(HOME, ".local", "share");
+
+// When run as `sudo`, HOME becomes /root and SUDO_USER holds the real username.
+// Resolve the real user's home so bun/config paths point to the right place.
+const SUDO_USER = process.env.SUDO_USER;
+
+function resolveRealHome(): string {
+  if (SUDO_USER && !IS_WINDOWS) {
+    try {
+      // `getent passwd <user>` returns colon-delimited passwd entry; field 6 is home dir
+      const result = Bun.spawnSync(["getent", "passwd", SUDO_USER], { stdout: "pipe", stderr: "pipe" });
+      const line = result.stdout.toString().trim();
+      if (line) {
+        const home = line.split(":")[5];
+        if (home) return home;
+      }
+    } catch { /* fall through */ }
+    // Fallback: most Linux distros put homes at /home/<user>
+    return `/home/${SUDO_USER}`;
+  }
+  return process.env.HOME ?? process.env.USERPROFILE ?? "";
+}
+
+const HOME      = resolveRealHome();
+const LOCAL_APP = process.env.LOCALAPPDATA ?? join(HOME, ".local", "share");
 
 const DEFAULT_INSTALL_DIR = IS_WINDOWS
   ? join(LOCAL_APP, "ManaoBot")
@@ -152,11 +174,19 @@ function restore(tmpDir: string, installPath: string) {
 
 // ── Dependency checks ────────────────────────────
 
-const hasCommand = (cmd: string) =>
-  Bun.spawnSync([cmd, "--version"], { stdout: "pipe", stderr: "pipe" }).exitCode === 0;
+// Always pass the current env so mutated PATH is inherited by child processes.
+const spawnEnv = () => ({ ...process.env });
+
+const hasCommand = (cmd: string) => {
+  try {
+    return Bun.spawnSync([cmd, "--version"], { stdout: "pipe", stderr: "pipe", env: spawnEnv() }).exitCode === 0;
+  } catch {
+    return false; // executable not found in PATH
+  }
+};
 
 const run = (cmd: string[]) =>
-  Bun.spawnSync(cmd, { stdin: "inherit", stdout: "inherit", stderr: "inherit" }).exitCode === 0;
+  Bun.spawnSync(cmd, { stdin: "inherit", stdout: "inherit", stderr: "inherit", env: spawnEnv() }).exitCode === 0;
 
 async function ensureDependency(name: string, cmd: string, installer: () => void | Promise<void>) {
   if (hasCommand(cmd)) {
@@ -181,18 +211,46 @@ async function ensureGit() {
   });
 }
 
+// Known bun binary locations per platform.
+const BUN_BIN = IS_WINDOWS
+  ? join(HOME, ".bun", "bin", "bun.exe")
+  : join(HOME, ".bun", "bin", "bun");
+
 async function ensureBun() {
-  process.env.PATH = `${join(HOME, ".bun", "bin")}${IS_WINDOWS ? ";" : ":"}${process.env.PATH}`;
-  await ensureDependency("Bun", "bun", async () => {
-    if (IS_WINDOWS) {
-      const script = join(process.env.TEMP ?? "C:\\Temp", "install-bun.ps1");
-      await Bun.write(script, await (await fetch("https://bun.sh/install.ps1")).text());
-      run(["powershell", "-ExecutionPolicy", "Bypass", "-File", script]);
-      Bun.spawnSync(["del", script]);
-    } else {
-      run(["sh", "-c", "curl -fsSL https://bun.sh/install | bash"]);
-    }
-  });
+  // Prepend bun's bin dir so subsequent hasCommand / run calls find it.
+  const bunBinDir = join(HOME, ".bun", "bin");
+  const sep = IS_WINDOWS ? ";" : ":";
+  if (!process.env.PATH?.includes(bunBinDir)) {
+    process.env.PATH = `${bunBinDir}${sep}${process.env.PATH ?? ""}`;
+  }
+
+  // Check by direct path first (works even when PATH hasn't propagated),
+  // then fall back to the PATH-based lookup.
+  const bunPresent = existsSync(BUN_BIN) || hasCommand("bun");
+
+  if (bunPresent) {
+    print.success("Bun found.");
+    return;
+  }
+
+  print.warn("Bun not found. Installing…");
+  if (IS_WINDOWS) {
+    const script = join(process.env.TEMP ?? "C:\\Temp", "install-bun.ps1");
+    await Bun.write(script, await (await fetch("https://bun.sh/install.ps1")).text());
+    Bun.spawnSync(["powershell", "-ExecutionPolicy", "Bypass", "-File", script],
+      { stdin: "inherit", stdout: "inherit", stderr: "inherit", env: spawnEnv() });
+    Bun.spawnSync(["del", script], { env: spawnEnv() });
+  } else {
+    Bun.spawnSync(["sh", "-c", "curl -fsSL https://bun.sh/install | bash"],
+      { stdin: "inherit", stdout: "inherit", stderr: "inherit", env: spawnEnv() });
+  }
+
+  // Re-check after install attempt.
+  if (!existsSync(BUN_BIN) && !hasCommand("bun")) {
+    print.error("Bun installation failed. Please install manually: https://bun.sh");
+    process.exit(1);
+  }
+  print.success("Bun installed.");
 }
 
 async function ensureTwitchCLI() {
@@ -459,6 +517,20 @@ async function pickMode(detectedPath: string | undefined): Promise<{ mode: Mode;
 // ── Main ─────────────────────────────────────────
 
 async function main() {
+  // Warn if running as root — sudo is only needed for system-wide installs like /opt.
+  // For user-local installs it causes HOME/PATH confusion and bun won't be found.
+  if (!IS_WINDOWS && process.getuid?.() === 0) {
+    if (SUDO_USER) {
+      print.warn(`Running as sudo (real user: ${SUDO_USER}, home: ${HOME})`);
+      print.warn("Only needed for system-wide installs (e.g. /opt). For ~/ManaoBot, run without sudo.");
+      console.log();
+    } else {
+      print.warn("Running as root. Bun and config paths may not resolve correctly.");
+      print.warn("Consider running without sudo unless installing to a system directory.");
+      console.log();
+    }
+  }
+
   const argv = process.argv.slice(2);
   const { mode: cliMode, manaoPaths } = detectMode(argv);
 
