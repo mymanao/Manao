@@ -300,7 +300,7 @@ applyAllCSS();
 document.getElementById("template-container").innerHTML = `
 <script id="chatlist_item" type="text/template">
   <div data-from="{from}" data-id="{messageId}">
-    <div class="chatbox-container {role} align-{align}" id="{messageId}-container">
+    <div class="chatbox-container {role} align-{align}" id="{messageId}-container" data-role="{role}">
       <div class="meta" style="color: {color}">
         <span class="badges"></span>
         <span class="username" id="{messageId}-author">{from}</span>
@@ -350,6 +350,7 @@ socket.on("message", (data) => {
 
   const chatEl = chatWrapper.firstElementChild;
   const container = chatEl.querySelector(".chatbox-container");
+  container.style.borderColor = data.color;
 
   container.classList.add(getAnimationClass());
 

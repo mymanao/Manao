@@ -26,6 +26,7 @@ body {
   position: relative;
   word-wrap: break-word;
   overflow-wrap: break-word;
+  background: linear-gradient(135deg, #4e4e4880, #38342b80);
 
   padding: var(--chat-padding, 0.75em);
   border-radius: var(--chat-border-radius, 16px);
